@@ -13,6 +13,12 @@ const page = async () => {
   return (
     <>
       <main>
+        <header>
+          <h1></h1>
+        </header>
+        <section>
+
+        </section>
         <form action={handleLogout}>
           <button>Logout</button>
         </form>
