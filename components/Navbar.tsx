@@ -10,7 +10,7 @@ const Navbar = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 1024px)" });
 
   return (
-    <nav className={clsx(" p-1 w-screen grid ", "fixed bottom-0")}>
+    <nav className={clsx(" p-1 w-screen grid ", "fixed bottom-0 z-1")}>
       <ul className="flex p-1 shadow-lg shadow-accent/40  bg-white border border-secondary/30  rounded-xl justify-around items-center">
         {navLinks.map((link) => {
           return (

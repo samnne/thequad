@@ -31,3 +31,6 @@ export async function verifyPassword(password: string, hash: string) {
 
   return await bcrypt.compareSync(password, hash);
 }
+
+
+export const BASEURL = process.env.BASE_URL

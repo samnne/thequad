@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { getCldOgImageUrl } from "next-cloudinary";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -15,6 +16,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "MarketQuad",
   description: "A Student Marketplace built for trust and reliability.",
+  openGraph: {
+    images: getCldOgImageUrl({
+      src: "a1264fb7b535c514aab9012f1ecfc4",
+    }),
+  },
 };
 
 export default function RootLayout({
@@ -24,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body 
+      <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased  h-screen`}
       >
         {children}

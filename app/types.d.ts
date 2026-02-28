@@ -24,7 +24,7 @@ interface listingFormData {
   longitude?:number;
   description: string;
   price: number;
-  imageUrls: string[];
+  imageUrls: File[] | string[];
   sellerId: string;
   views?: number;
 

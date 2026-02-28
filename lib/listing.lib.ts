@@ -1,23 +1,30 @@
-'use server';
+"use server";
 
+import { BASEURL } from "@/app/server-utils/utils";
+import { uploadImages } from "@/cloudinary/cloudinary";
 import { type Listing } from "@/src/generated/prisma/client";
 
-
 export const getClientListings = async () => {
-    const response = await fetch("http://localhost:3000/api/listings/", {
-        cache: "no-store"
-    })
+  const response = await fetch(`${BASEURL}/api/listings/`, {
+    cache: "no-store",
+  });
 
-    console.log(response)
-    return response.json();
-}
-export const newListingAction = async (newListing: listingFormData) => {
-    const response = await fetch("http://localhost:3000/api/listings/", {
-        cache: "no-store",
-        method: "post",
-        body: JSON.stringify(newListing)
-    })
+  return response.json();
+};
+export const newListingAction = async (
+  newListing: listingFormData,
+  sellerId: string,
+) => {
+  const uploadedUrls = await uploadImages(newListing.imageUrls);
+  const uploadObj: listingFormData = {
+    ...newListing,
+    imageUrls: uploadedUrls,
+  };
+  const response = await fetch(`${BASEURL}/api/listings/`, {
+    cache: "no-store",
+    method: "post",
+    body: JSON.stringify({ ...uploadObj, sellerId }),
+  });
 
-    console.log(response)
-    return response.json();
-}
+  return response.json();
+};
