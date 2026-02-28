@@ -27,6 +27,7 @@ export async function GET(
     return NextResponse.json({
       message: "Successfully found Listing",
       listing,
+      success: true
     });
   } catch (error) {
     console.log(error);

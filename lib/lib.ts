@@ -2,10 +2,12 @@
 import { cookies } from "next/headers";
 import { jwtVerify, SignJWT } from "jose";
 import { NextRequest, NextResponse } from "next/server";
+import { BASEURL } from "@/app/server-utils/utils";
+
 
 const key = new TextEncoder().encode(process.env.JWT_SECRET);
 
-const SECONDS = (5 * 60);
+const SECONDS = (60 * 60);
 
 export async function decrypt(input: string): Promise<any> {
   const { payload } = await jwtVerify(input, key, {
@@ -22,6 +24,7 @@ export async function getSession() {
 
   } catch (error){
     console.log("Expired Token", error);
+    await logout()
     return
   }
 }
@@ -43,7 +46,7 @@ export async function createSession(user: SafeUser) {
 
 export async function login(formData: FormData) {
   try {
-    const response = await fetch("http://localhost:3000/api/auth/login", {
+    const response = await fetch(`${BASEURL}/api/auth/login`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -79,7 +82,7 @@ export async function signup(formData: FormData) {
     }
    
     
-    const response = await fetch("http://localhost:3000/api/auth/register", {
+    const response = await fetch(`${BASEURL}/api/auth/register`, {
       method: "post",
       headers: {
         "Content-Type": "application/json",

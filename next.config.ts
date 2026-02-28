@@ -7,11 +7,25 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "picsum.photos",
-        port: '',
-        pathname: "/**"
-      }
-    ]
-  }
+        port: "",
+        pathname: "/**",
+      },
+
+      {
+        protocol: "https",
+        hostname: "example.com",
+      },
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
+  },
+  experimental: {
+    serverActions: {
+      allowedOrigins: [ "localhost:3000"],
+    },
+  },
 };
 
 export default nextConfig;

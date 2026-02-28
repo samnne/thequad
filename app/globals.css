@@ -7,7 +7,7 @@
 :root {
   /* --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0); */
-  --radius: 0.625rem;
+
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -49,6 +49,13 @@
   --color-primary: #17f3b5;
   --color-secondary: #d282f9;
   --color-accent: #f544bd;
+
+  /* --color-text: #f0f4f4;
+  --color-background: #060909;
+  --color-primary: #acc5c3;
+  --color-secondary: #474360;
+  --color-accent: #9a82a8; */
+
   --color-text-dark: #e1fef7;
   --color-background-dark: #01130d;
   --color-primary-dark: #0ce9aa;
@@ -81,13 +88,7 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
   --color-foreground: var(--foreground);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+
 }
 
 @layer components {
@@ -157,6 +158,6 @@ body {
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white ;
   }
 }

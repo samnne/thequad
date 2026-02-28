@@ -1,6 +1,7 @@
 
 import { NextRequest, NextResponse } from "next/server.js";
 import { createNewListing, getListings } from "@/db/listings.db";
+import { uploadImages } from "@/cloudinary/cloudinary";
 
 
 
@@ -11,24 +12,28 @@ export async function GET(req: NextRequest){
 
     return NextResponse.json({
       listings,
+      success: true
     });
   } catch (error) {
     console.log(error);
-    return NextResponse.json({message:"Failed to Fetch Listings",status: 500})
+    return NextResponse.json({message:"Failed to Fetch Listings",status: 500, success: false})
   }
 };
 export async function POST(req: NextRequest) {
-  const listingFormData: listingFormData = req.body;
+  const listingFormData: listingFormData = await req.json();
+ 
   try {
+
     const createdListing = await createNewListing(listingFormData);
 
     return NextResponse.json({
       message: "Successfully Created Listing",
       listing: createdListing,
+      success: true
     });
   } catch (error) {
     console.log(error);
-    return NextResponse.json({message:"Failed to Create Listing",status: 500})
+    return NextResponse.json({message:"Failed to Create Listing",status: 500, success: false})
   }
 };
 

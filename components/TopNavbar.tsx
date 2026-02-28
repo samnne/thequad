@@ -26,7 +26,9 @@ const TopNavbar = () => {
             <button className='flex text-xl justify-center items-center'><FaBars/></button>
             <div className='capitalize text-2xl font-bold text-primary-dark'>{path}</div>
             </div>
-            <button className=' flex justify-center items-center'><FaMagnifyingGlass/></button>
+            <button onClick={()=> {
+              console.log("search listings")
+            }} className=' flex justify-center items-center'><FaMagnifyingGlass/></button>
         </section>
     </nav>
   )
