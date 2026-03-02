@@ -2,7 +2,7 @@ import {FaHome, FaShoppingBag, FaPlus, FaInbox, FaUser} from "react-icons/fa"
 export const navLinks =[
       {
         name: "Home",
-        href: "/dashboard",
+        href: "/home",
         icon: FaHome
     },
     {
