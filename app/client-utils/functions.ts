@@ -18,6 +18,14 @@ export function cleanUP(listingStore: ListingStore, userStore: UserState, convoS
   convoStore.reset()
 }
 
+export function matchUVIC(email: string){
+ const testerEmail = process.env.NEXT_PUBLIC_EMAIL_TESTER
+  if (email === testerEmail){
+    return true
+  }
+  return email.includes('@uvic') 
+}
+
 export async function fetchConvos({ setter }: { setter: Function }) {
   const { data, error } = await supabase.auth.getUser();
   if (!data.user) {

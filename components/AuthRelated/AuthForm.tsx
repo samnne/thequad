@@ -19,6 +19,8 @@ import {
 } from "../ui/input-otp";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 import { setVerifiedUser } from "@/db/user.db";
+import { motion } from "motion/react";
+import { matchUVIC } from "@/app/client-utils/functions";
 
 interface LoginUserForm {
   email: string;
@@ -45,11 +47,9 @@ const AuthForm = ({ type }: { type: FormType }) => {
     password: "",
     name: "",
   });
-
   const mountSession = async () => {
     const { data, error } = await supabase.auth.getUser();
     if (error) {
-     
       return;
     }
     setUser(data.user);
@@ -71,7 +71,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         return prev - 1;
       });
     }, 1000);
-
+   
     return () => clearInterval(interval);
   }, []);
   // HANDLE LOGIN
@@ -79,8 +79,8 @@ const AuthForm = ({ type }: { type: FormType }) => {
     setLoadingLogin(true);
     try {
       const email = formData.get("email");
-      if (!email) {
-        console.error("Email is required");
+      if (!email || !matchUVIC(email as string)) {
+        console.error("UVic Email is required");
         setError(true);
         setLoadingLogin(false);
         return;
@@ -154,7 +154,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
       if (user?.id) {
         setSuccess(true);
-        setUser({...user});
+        setUser({ ...user });
         veriUser = user;
       } else {
         console.log("No user returned after OTP verification");
@@ -170,11 +170,23 @@ const AuthForm = ({ type }: { type: FormType }) => {
     if (!res.success) {
       setError(true);
     } else {
-      
-      setUser({...veriUser})
+      setUser({ ...veriUser });
       redirect("/profile");
     }
   };
+
+  async function handleForgotPassword(){
+    const {data, error} = await supabase.auth.resetPasswordForEmail(formData.email as string, {
+      redirectTo: "http://localhost:3000/update-password"
+    })
+    if (error){
+      setError(true)
+      console.log(error)
+      return 
+    }
+
+    console.log(data)
+  }
 
   // HANDLES SIGN UP
   const handleSignUp = async (formData: FormData) => {
@@ -230,7 +242,6 @@ const AuthForm = ({ type }: { type: FormType }) => {
         break;
     }
   };
-
 
   return (
     <>
@@ -302,7 +313,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
             </button>
           </div>
           <div className="self-center gap-2 flex  justify-center items-center ">
-            <button
+            <motion.button
+              whileTap={{
+                scale: 0.8,
+              }}
               disabled={loadingLogin || loadingSignup}
               className="bg-primary text-sm  px-4 py-2 hover:bg-secondary hover:text-white transition-all duration-150 cursor-pointer hover:scale-105 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
@@ -333,7 +347,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
               ) : (
                 <span>{type === "sign-in" ? "Sign In" : "Sign Up"}</span>
               )}
-            </button>
+            </motion.button>
 
             <Link
               href={type === "sign-in" ? "/sign-up" : "/sign-in"}
@@ -349,7 +363,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
             </Link>
           </div>
           <div className="w-full flex flex-col justify-center items-center">
-            <a href="#">
+            <a onClick={()=> handleForgotPassword()}>
               <span className="text-secondary-dark text-sm border-b border-b-secondary-dark">
                 Forgot Password
               </span>
@@ -358,11 +372,14 @@ const AuthForm = ({ type }: { type: FormType }) => {
         </form>
       ) : (
         <form action={handleOTP} className="flex flex-col items-center  gap-2">
-          <div className="flex gap-2 relative text-black flex-col">
-            <label className="font-bold  text-4xl  p-2" htmlFor="otp">
-              OTP
+          <div className="flex gap-2 relative items-start text-black flex-col">
+            <label className="font-bold  text-4xl  " htmlFor="otp">
+              Verification Code
             </label>
-            <div className="overflow-hidden">
+            <span className="text-sm text-gray-400 font-light ">
+              We have sent you a verification code to your UVic address
+            </span>
+            <div className="overflow-hidden flex w-full space-y-8 justify-center">
               <InputOTP
                 id="digits-only"
                 className=""
@@ -404,9 +421,13 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 </InputOTPGroup>
               </InputOTP>
             </div>
-            <button
+
+            <motion.button
               disabled={loadingOtp}
-              className="confirm w-fit self-end font-bold mr-2  disabled:opacity-70 disabled:cursor-not-allowed"
+              whileTap={{
+                scale: 0.8
+              }}
+              className="confirm bg-primary py-4 px-2 rounded-4xl text-white w-full self-end font-bold  disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loadingOtp ? (
                 <span className="flex items-center gap-2">
@@ -435,22 +456,29 @@ const AuthForm = ({ type }: { type: FormType }) => {
               ) : (
                 "Confirm"
               )}
-            </button>
+            </motion.button>
           </div>
-          <div className="flex relative mt-4 gap-2 text-black flex-col">
-            <label className="font-bold " htmlFor="otp">
+          <div className="flex relative mt-4 gap-2 text-black justify-center items-center">
+            <label className="font-light text-gray-400  " htmlFor="otp">
               Send another OTP
             </label>
             <button
               type="button"
-              className="flex gap-2 bg-primary w-fit px-2 py-1 rounded-lg text-white font-bold"
+              className="flex gap-2 bg-accent/50 w-fit px-2 py-1 rounded-lg text-white font-bold"
               onClick={() => {
                 setCounter(60);
               }}
             >
-              Resend <div>{counter ? counter : ''}</div>
+              
+              Resend<div>{counter ? ` ${counter}` : ""}</div>
             </button>
           </div>
+
+          <motion.button whileTap={{
+            scale: [0.8,1]
+          } } transition={{
+            type: "spring"
+          }} type="button" onClick={()=>changeType('sign-in')} className="text-sm bg-gray-400/50 mt-4 p-2 text-white  rounded-4xl drop-shadow-lg drop-shadow-black/25 ">Go back to Login</motion.button>
         </form>
       )}
     </>

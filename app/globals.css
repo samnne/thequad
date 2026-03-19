@@ -104,6 +104,10 @@
       @apply px-2 text-secondary-dark;
     }
   }
+  .confirm{
+    @apply drop-shadow-lg  drop-shadow-black/25;
+  }  
+  
 }
 /* 
 @media (prefers-color-scheme: dark) {
@@ -157,9 +161,7 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
-  html{
-    overflow: hidden;
-  }
+
   
   body {
     @apply bg-white max-h-screen flex flex-col justify-between overflow-auto ;
