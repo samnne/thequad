@@ -10,7 +10,7 @@ interface NewMessageProps {
 }
 
 export async function sendMessage(newMessage: NewMessageProps, user: User) {
- 
+  
   if (!newMessage.conversationId) throw new Error("conversationId is required");
   if (user) {
     const message = await prisma.message.create({
@@ -28,7 +28,7 @@ export async function sendMessage(newMessage: NewMessageProps, user: User) {
 
     if (!message) {
       console.error("Error sending message:");
-      return { error: "Failed to send message", new_message: null };
+      return { error: "Failed to send message", success: false,  new_message: null, message_text: newMessage.text};
     }
 
    

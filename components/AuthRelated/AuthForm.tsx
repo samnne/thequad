@@ -49,7 +49,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
   const mountSession = async () => {
     const { data, error } = await supabase.auth.getUser();
     if (error) {
-      setError(true);
+     
       return;
     }
     setUser(data.user);
@@ -94,7 +94,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       });
 
       if (error) {
-        console.error("Login error:", error);
+        console.log("Login error:", error);
         setError(true);
         setLoadingLogin(false);
         return;
@@ -108,7 +108,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
       setLoadingLogin(false);
     }
   };
-  console.log(otp);
+
   const hanldeOTPChange = (newVal: string) => {
     setOTP((prev) => {
       return newVal;
@@ -154,7 +154,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
       if (user?.id) {
         setSuccess(true);
-        setUser(user);
+        setUser({...user});
         veriUser = user;
       } else {
         console.log("No user returned after OTP verification");
@@ -170,7 +170,8 @@ const AuthForm = ({ type }: { type: FormType }) => {
     if (!res.success) {
       setError(true);
     } else {
-      setUser(veriUser)
+      
+      setUser({...veriUser})
       redirect("/profile");
     }
   };
@@ -229,27 +230,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         break;
     }
   };
-  function getDigitsMathematically(num: number) {
-    const digits: Number[] = [];
-    let currentNum = Math.abs(num);
 
-    while (currentNum > 0) {
-      const lastDigit = currentNum % 10; // Get the last digit (remainder)
-
-      digits.unshift(lastDigit); // Add to the beginning of the array to maintain order
-      currentNum = Math.floor(currentNum / 10); // Remove the last digit (integer division)
-    }
-
-    if (num === 0) {
-      return [0];
-    }
-    let stringDigits: string = "";
-    for (let i = 0; i < digits.length; i++) {
-      stringDigits += digits[i].toString();
-    }
-
-    return stringDigits;
-  }
 
   return (
     <>
@@ -381,7 +362,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
             <label className="font-bold  text-4xl  p-2" htmlFor="otp">
               OTP
             </label>
-            <div className="">
+            <div className="overflow-hidden">
               <InputOTP
                 id="digits-only"
                 className=""
@@ -467,7 +448,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
                 setCounter(60);
               }}
             >
-              Resend <div>{counter}</div>
+              Resend <div>{counter ? counter : ''}</div>
             </button>
           </div>
         </form>

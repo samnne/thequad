@@ -95,7 +95,7 @@
   .form {
     input,
     textarea {
-      @apply p-4 focus:outline-1 focus:outline-secondary w-full rounded-2xl ;
+      @apply p-4 focus:outline-1 focus:outline-secondary w-full outline outline-black/50 rounded-2xl ;
     }
     div {
       @apply flex flex-col gap-2;
@@ -157,11 +157,15 @@ body {
   * {
     @apply border-border outline-ring/50;
   }
+  html{
+    overflow: hidden;
+  }
+  
   body {
-    @apply bg-white min-h-screen flex flex-col justify-between ;
+    @apply bg-white max-h-screen flex flex-col justify-between overflow-auto ;
   }
   main {
-    @apply grow  overflow-auto;
+    @apply grow  ;
   }
   section.home {
     @apply w-full max-h-1/2 h-1/2  p-4 rounded-4xl;  

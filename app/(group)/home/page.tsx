@@ -11,32 +11,35 @@ import { useEffect, useState } from "react";
 const Home = () => {
   const { listings, setListings, setSelectedListing } = useListings();
   const [loading, setLoading] = useState(false);
-  const {setConvos} = useConvos()
+
   const [scope, animate] = useAnimate();
-  const {convos} = useConvos();
+  const { convos, setConvos } = useConvos();
   const { setError } = useMessage();
 
   useEffect(() => {
     const loadData = async () => {
-      try {
-
-        setLoading(true);
-        if (listings.length === 0) {
-          await fetchListings({ setter: setListings });
-        }
-        await fetchConvos({setter: setConvos})
-      } catch (err) {
-        console.error('Error fetching listings:', err);
-        setError(true);
-      } finally {
-        setLoading(false);
+      if (listings.length && convos?.length) {
+        setLoading(false)
+        return
       }
+        try {
+          setLoading(true);
+
+          await fetchListings({ setter: setListings });
+
+          await fetchConvos({ setter: setConvos });
+        } catch (err) {
+          console.error("Error fetching listings:", err);
+          setError(true);
+        } finally {
+          setLoading(false);
+        }
     };
 
     loadData();
 
     if (!scope.current) return;
-    
+
     try {
       animate(
         "main section",
@@ -47,13 +50,13 @@ const Home = () => {
         {
           type: "keyframes",
           stiffness: 300,
-        
+
           duration: 0.4,
           delay: stagger(0.2),
         },
       );
     } catch (err) {
-      console.error('Animation error:', err);
+      console.error("Animation error:", err);
     }
   }, []);
 
@@ -64,14 +67,16 @@ const Home = () => {
   };
 
   return (
-    <motion.main ref={scope} className="flex flex-col justify-between  gap-4 p-2">
-     
+    <motion.main
+      ref={scope}
+      className="flex flex-col justify-between  gap-4 p-2"
+    >
       <motion.section
         variants={initial}
         className="home flex flex-col gap-2  overflow-y-hidden justify-between"
         initial={"init"}
       >
-        <SectionHeader  type="listings" title="Today's Listings" />
+        <SectionHeader type="listings" title="Today's Listings" />
         <DataCard dataList={listings} href="listings" />
       </motion.section>
       <motion.section

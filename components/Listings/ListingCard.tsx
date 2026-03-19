@@ -5,8 +5,8 @@ import { redirect } from "next/navigation";
 
 const ListingCard = ({ listing, setSelectedListing }: { listing: Listing, setSelectedListing: Function }) => {
   function openListingModal(listing: Listing) {
-    redirect(`/listings/${listing?.lid}`);
-    // setSelectedListing(listing)
+    setSelectedListing(listing)
+    redirect(`/listings/`);
   }
 
   return (

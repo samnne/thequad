@@ -13,29 +13,28 @@ import * as z from "zod";
 
 import { MdAddToPhotos } from "react-icons/md";
 import { useListings, useMessage, useUser } from "@/app/store/zustand";
-import { getSession } from "@/lib/lib";
+
 import { redirect } from "next/navigation";
 import Image from "next/image";
 
 import { IoClose } from "react-icons/io5";
-import { cleanUP } from "@/app/client-utils/functions";
 
 import { motion, stagger, useAnimate } from "motion/react";
 import { uploadImages } from "@/app/client-utils/functions";
 import { deleteImages } from "@/cloudinary/cloudinary";
 import { supabase } from "@/supabase/authHelper";
 import LocationInput from "../Inputs/LocationInput";
+import { Listing } from "@/src/generated/prisma/client";
 
 const ListingForm = z.object({
-  title: z.string().min(1, "Title Too Short"),
-  price: z.number().min(0),
+  title: z.string().min(4, "Title Too Short"),
+  price: z.number().min(0).max(1000000),
   description: z.string().min(0),
-  // location: z.object({
-  //   lng: z.number(),
-  //   lat: z.number(),
-  // }),
+  location: z.object({
+    lng: z.number(),
+    lat: z.number(),
+  }),
 
-  location: z.number(),
   condition: z.string().min(3, "Please Choose a Condition"),
 });
 
@@ -45,8 +44,9 @@ type ImageEntry = {
 };
 
 const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
-  const { user, setUser, reset: userReset } = useUser();
+  const { user, setUser, reset: userReset, setUserListings } = useUser();
   const [rows, setInputRows] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     selectedListing,
     setSelectedListing,
@@ -54,16 +54,14 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
   } = useListings();
   const { setError, setSuccess } = useMessage();
   const [scope, animate] = useAnimate();
-  const [selectedFiles, setSelectedFiles] = useState<ImageEntry[]>([]);
-  // Listing form data inferred by ZOD
 
-  const [listingFormData, setListingFormData] = useState<
-    z.infer<typeof ListingForm>
-  >({
+  const [selectedFiles, setSelectedFiles] = useState<ImageEntry[]>([]);
+  const [disabled, setDisabled] = useState(true);
+  const [latLong, setLatLong] = useState<number[] | null[]>([0, 0]);
+  const [listingFormData, setListingFormData] = useState({
     title: "",
     price: 0,
     description: "",
-    location: 0,
     condition: "",
   });
 
@@ -100,12 +98,13 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
       },
     );
   }, [scope]);
+
   useEffect(() => {
     mountUser();
-    if (type === "edit" && selectedListing.imageUrls) {
+    if (type === "edit" && selectedListing && selectedListing.imageUrls) {
       const { title, price, description, condition, imageUrls } =
         selectedListing;
-      console.log(selectedListing);
+
       setListingFormData((prev) => ({
         ...prev,
         title,
@@ -114,7 +113,7 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
         condition,
         imageUrls,
       }));
-
+      setLatLong([selectedListing.latitude, selectedListing.longitude]);
       const files = imageUrls;
       const entries = files.map((url) => ({
         file: null,
@@ -131,10 +130,32 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    setListingFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    setListingFormData((prev) => {
+      const { title, price, condition, description } = listingFormData;
+      const newPrice = Number.parseInt(price);
+
+      const parseListingForm = ListingForm.safeParse({
+        ...prev,
+        price: Number.parseInt(prev.price),
+        [e.target.name]:
+          e.target.name === "price"
+            ? Number.parseInt(e.target.value)
+            : e.target.value,
+        location: { lng: latLong[1], lat: latLong[0] },
+      });
+
+      if (!parseListingForm.success) {
+        console.warn("Validation error:", parseListingForm.error);
+        setDisabled(true);
+      } else {
+        setDisabled(false);
+      }
+
+      return {
+        ...prev,
+        [e.target.name]: e.target.value,
+      };
+    });
   };
   const handleEnter = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter") {
@@ -155,16 +176,15 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
     e.stopPropagation();
     e.preventDefault();
 
-    const { title, price, location, condition, description } = listingFormData;
+    const { title, price, condition, description } = listingFormData;
     const newPrice = Number.parseInt(price);
-    const newLocation = Number.parseInt(location);
 
     const parseListingForm = ListingForm.safeParse({
       title,
       price: newPrice,
       description,
       condition,
-      location: newLocation,
+      location: { lng: latLong[1], lat: latLong[0] },
     });
 
     if (!parseListingForm.success) {
@@ -183,7 +203,7 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
       if (!img.file) return img.preview;
       return img.file;
     });
-
+    setIsLoading(true);
     const {
       title: formTitle,
       price: formPrice,
@@ -199,8 +219,8 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
           price: formPrice,
           description: formDesc,
           condition: formCond,
-          latitude: 0,
-          longitude: 0,
+          latitude: latLong[0],
+          longitude: latLong[1],
           imageUrls: uploadedUrls,
           sellerId: user.id,
         },
@@ -208,9 +228,13 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
       );
       if (newListing.success) {
         setSuccess(true);
-        redirect(`/listings/${newListing.listing.lid}`);
+        setSelectedListing(newListing.listing);
+        setIsLoading(false);
+        setUserListings((prev: Listing[]) => [...prev, newListing.listing]);
+        redirect(`/listings/`);
       } else {
         console.log("Failed to create listing:", newListing);
+        setIsLoading(false);
         setError(true);
       }
     } else if (type === "edit") {
@@ -233,8 +257,8 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
           description: formDesc,
           condition: formCond,
           lid: selectedListing.lid,
-          latitude: 0,
-          longitude: 0,
+          latitude: latLong[0],
+          longitude: latLong[1],
           imageUrls: uploadedUrls,
           sellerId: user.id,
         },
@@ -243,9 +267,13 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
 
       if (editListing?.success) {
         setSuccess(true);
+        setSelectedListing(editListing.listing);
+        setUserListings((prev: Listing[]) => [...prev, editListing.listing]);
+        setIsLoading(false);
         redirect(`/listings/`);
       } else {
         console.log("Failed to edit listing:", editListing);
+        setIsLoading(false);
         setError(true);
       }
     }
@@ -281,7 +309,7 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
         delay: 0.1,
       }}
       ref={scope}
-      className="overflow-auto h-[85vh]"
+      className=""
     >
       {/* <div className="px-2 flex relative justify-end ">
       <button className="bg-primary  rounded-xl cursor-pointer text-white mt-4 font-bold px-4 py-2">
@@ -327,6 +355,7 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
             type="file"
             name="file"
             id="file"
+            accept="image/*,video/*"
             multiple
             onChange={handleFileChange}
             className="hidden absolute w-full h-full"
@@ -364,6 +393,8 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
               className=""
               name="price"
               id="price"
+              min={0}
+              max={1000000}
               onChange={handleChange}
               value={listingFormData.price}
               placeholder="Price"
@@ -405,17 +436,22 @@ const ListingFormPage = ({ type }: { type: "new" | "edit" }) => {
             />
           </div>
           <div className="">
-            <label>Location</label>
-            <LocationInput />
+            <label>Postal Code</label>
+            <LocationInput llSetter={setLatLong} ll={latLong} />
           </div>
           <motion.button
             whileTap={{
               scale: 0.8,
             }}
             type="submit"
-            className="bg-primary rounded-xl cursor-pointer text-white mt-4 font-bold w-full h-12"
+            disabled={isLoading || disabled}
+            className="bg-primary rounded-xl cursor-pointer disabled:bg-gray-400 text-white mt-4 font-bold w-full h-12 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {type === "edit" ? "Edit" : "Post"} Listing
+            {isLoading ? (
+              <span className="inline-block animate-spin">Loading</span>
+            ) : (
+              `${type === "edit" ? "Edit" : "Post"} Listing`
+            )}
           </motion.button>
         </form>
       </section>

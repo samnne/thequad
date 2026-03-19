@@ -44,7 +44,7 @@ const DeleteModal = ({
       await supabase.auth.admin.deleteUser(session?.uid)
     }
     cleanUP({ reset: lisReset }, { reset: userReset });
-    await logout();
+    
     await animate(
       scope.current,
       {

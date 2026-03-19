@@ -1,11 +1,11 @@
 "use client";
-import clsx from "clsx";
+
 import { useMediaQuery } from "react-responsive";
 import { navLinks } from "../../app/client-utils/constants";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { motion, useAnimate } from "motion/react";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -16,7 +16,7 @@ const Navbar = () => {
   // Reset cursor to active link on route change
   useEffect(() => {
     const activeIndex = navLinks.findIndex((link) =>
-      pathname.includes(link.href)
+      pathname.includes(link.href),
     );
     const activeEl = refs.current[activeIndex];
     if (!activeEl) return;
@@ -29,12 +29,12 @@ const Navbar = () => {
   }, [pathname]);
 
   return (
-    <nav className={"w-screen self-end"}>
+    <nav className={"w-screen self-end p-2"}>
       <ul
         onMouseLeave={() => {
           // Return to active link instead of hiding
           const activeIndex = navLinks.findIndex((link) =>
-            pathname.includes(link.href)
+            pathname.includes(link.href),
           );
           const activeEl = refs.current[activeIndex];
           if (!activeEl) return;
@@ -48,6 +48,7 @@ const Navbar = () => {
         className="flex p-1 relative shadow-lg shadow-accent/40 bg-white border border-secondary/30 rounded-xl justify-around items-center"
       >
         {navLinks.map((link, i) => (
+
           <Tab
             key={link.href}
             ref={(el) => (refs.current[i] = el)}
@@ -57,9 +58,12 @@ const Navbar = () => {
               className={`${pathname.includes(link.href) && "text-accent border border-primary"} hover:bg-background-dark/10 grow cursor-pointer flex-col  rounded-2xl w-12 h-12 flex justify-center items-center`}
               href={link.href}
             >
+
               {link.icon()}
-              <span className="text-xs font-bold">{link.name}</span>
+              {link.name !== 'New' && <span className="text-xs font-bold">{link.name}</span>}
+              
             </Link>
+
           </Tab>
         ))}
         <Cursor position={position} />
@@ -68,29 +72,49 @@ const Navbar = () => {
   );
 };
 
-const Tab = forwardRef<HTMLLIElement, { children: React.ReactNode; setPosition: any }>(
-  ({ children, setPosition }, ref) => {
-    const internalRef = useRef<HTMLLIElement | null>(null);
-    const resolvedRef = (ref as React.RefObject<HTMLLIElement>) ?? internalRef;
+const Tab = forwardRef<
+  HTMLLIElement,
+  { children: React.ReactNode; setPosition: any }
+>(({ children, setPosition }, ref) => {
+  const internalRef = useRef<HTMLLIElement | null>(null);
+  const [scope, animate] = useAnimate();
+  const resolvedRef = (ref as React.RefObject<HTMLLIElement>) ?? internalRef;
 
-    const moveCursor = () => {
-      if (!resolvedRef.current) return;
-      const { width } = resolvedRef.current.getBoundingClientRect();
-      setPosition({ width, opacity: 1, left: resolvedRef.current.offsetLeft });
-    };
-
-    return (
-      <li
-        ref={resolvedRef}
-        onMouseEnter={moveCursor}
-        onClick={moveCursor}
-        className="relative grow justify-center z-10 text-black cursor-pointer  flex"
-      >
-        {children}
-      </li>
+  const moveCursor = async () => {
+    if (!resolvedRef.current) return;
+    await animate(
+      resolvedRef.current,
+      {
+        scale: [0.9, 1],
+      },
+      {
+        type: "spring",
+        stiffness: 800,
+      },
     );
-  }
-);
+
+    const { width } = resolvedRef.current.getBoundingClientRect();
+    setPosition({ width, opacity: 1, left: resolvedRef.current.offsetLeft });
+  };
+
+  return (
+    <motion.li
+      ref={resolvedRef}
+      whileTap={{
+        scale: [0.9, 1],
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 500,
+      }}
+      onMouseEnter={moveCursor}
+      onClick={moveCursor}
+      className="relative grow justify-center z-10 text-black cursor-pointer  flex"
+    >
+      {children}
+    </motion.li>
+  );
+});
 
 const Cursor = ({ position }) => {
   return (

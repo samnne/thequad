@@ -35,3 +35,4 @@ export const condition = [
     "Used - New",
     "Broken"
 ]
+export const BASEURL = process.env.BASE_URL ?? "http://localhost:3000";

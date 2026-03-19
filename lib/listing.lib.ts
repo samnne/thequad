@@ -1,8 +1,8 @@
 "use server";
 
-import { BASEURL } from "@/app/server-utils/utils";
+import { BASEURL } from "@/app/client-utils/constants";
 import { listingFormData } from "@/app/types";
-const safeJson = async (response: Response) => {
+export const safeJson = async (response: Response) => {
   if (!response.ok) {
     throw new Error(`HTTP error: ${response.status} ${response.statusText}`);
   }

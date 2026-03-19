@@ -4,9 +4,8 @@ import { Listing } from "@/src/generated/prisma/client";
 import { ListingInclude } from "@/src/generated/prisma/models";
 
 import { ErrorMessage } from "@/app/server-utils/utils";
-import { getSession } from "@/lib/lib";
+
 import { deleteImages } from "@/cloudinary/cloudinary";
-import { cookies } from "next/headers";
 
 export async function GET(
   req: NextRequest,
@@ -52,7 +51,7 @@ export async function PUT(
   }
 
   const { lid } = await params;
-  const listingFormData: listingFormData = await req.json();
+  const listingFormData = await req.json();
   try {
     if (!lid) {
       return NextResponse.json(ErrorMessage("ID not provided error", 500), {

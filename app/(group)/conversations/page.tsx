@@ -14,7 +14,10 @@ const Conversations = () => {
   const [loading, setLoading] = useState(true);
 
   async function mountConvos() {
-  
+    if (convos?.length > 0) {
+      setLoading(false)
+      return
+    }
       setLoading(true);
       const { data, error } = await supabase.auth.getUser();
       if (error) {

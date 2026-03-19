@@ -101,5 +101,5 @@ export async function getUserSupabase() {
     return false;
   }
 
-  return { user: data.user };
+  return { ...data.user };
 }

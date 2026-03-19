@@ -11,9 +11,11 @@ import { useSearchParams } from "next/navigation";
 
 import ListingCard from "@/components/Listings/ListingCard";
 import { motion } from "motion/react";
+import ListingModal from "@/components/Listings/ListingByID";
 
 const ListingPage = () => {
-  const { listings, setListings } = useListings();
+  const { listings, setListings, selectedListing, setSelectedListing } =
+    useListings();
   const [loading, setLoading] = useState(true);
   const [searchResults, setSearchResults] = useState<Listing[]>([]);
   const { setError } = useMessage();
@@ -24,6 +26,10 @@ const ListingPage = () => {
     searchQuery && searchResults !== null ? searchResults : listings;
   useEffect(() => {
     const loadListings = async () => {
+      if (listings?.length > 0) {
+        setLoading(false)
+        return
+      }
       try {
         setLoading(true);
 
@@ -42,7 +48,6 @@ const ListingPage = () => {
             setError(true);
           }
         } else {
-      
           setSearchResults(null);
           if (listings.length === 0) {
             await fetchListings({ setter: setListings });
@@ -60,7 +65,7 @@ const ListingPage = () => {
   }, [searchQuery]);
 
   return (
-    <main className=" h-[85vh]  overflow-auto">
+    <main className="">
       <header className="px-2">
         <h1 className="text-lg font-semibold">
           {searchQuery
@@ -71,7 +76,13 @@ const ListingPage = () => {
       <motion.section className="flex flex-col p-12 gap-5">
         {!loading && displayListings && displayListings.length > 0 ? (
           displayListings.map((listing: Listing) => {
-            return <ListingCard key={listing.lid} listing={listing} />;
+            return (
+              <ListingCard
+                setSelectedListing={setSelectedListing}
+                key={listing.lid}
+                listing={listing}
+              />
+            );
           })
         ) : !loading ? (
           <div className="text-center text-gray-400">
@@ -80,6 +91,10 @@ const ListingPage = () => {
               : "No listings available"}
           </div>
         ) : null}
+        <ListingModal
+          listing={selectedListing}
+         
+        />
         {loading && (
           <>
             <section className="">

@@ -8,13 +8,15 @@ import ErrorMessage from "@/components/Modals/ErrorMessage";
 const layout = ({ children }: { children: React.ReactNode }) => {
   const {error, success, setSuccess, setError} = useMessage()
 
+  
   return (
-    <main className="flex flex-col justify-between w-screen h-screen overflow-x-hidden ">
+    <main className="flex flex-col justify-between w-screen max-h-screen overflow-x-hidden ">
       {success && <SuccessMessage setter={setSuccess} />}
       {error && <ErrorMessage setter={setError} />}
       <TopNavbar />
-      <section className="grow">{children}</section>
+      <section className="grow  overflow-y-scroll no-scrollbar">{children}</section>
       <Navbar />
+
     </main>
   );
 };

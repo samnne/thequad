@@ -43,9 +43,10 @@ const Profile = () => {
       redirect("/sign-in");
     
     }
-    setUser(tempUser);
+    setUser({...tempUser});
   }
   async function mountUserListings() {
+    if (userListings.length > 0) return
     try {
       if (!user?.id) {
         console.warn("No user ID available");

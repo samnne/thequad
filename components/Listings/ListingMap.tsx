@@ -2,27 +2,61 @@ import { useRef, useEffect, useState } from "react";
 import * as maptilersdk from "@maptiler/sdk";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import "dotenv/config";
-const ListingMap = () => {
+import { useListings } from "@/app/store/zustand";
+const UVIC_LNG_LAT: number[] & maptilersdk.LngLatLike = [
+  -123.312603, 48.463816,
+];
+const ListingMap = (props: {ll: number[]}) => {
   const mapContainer = useRef(null);
   const map = useRef<maptilersdk.Map>(null);
-  useEffect(() => {
+  const {selectedListing} = useListings()
+ 
+  useEffect(() => { 
     if (map.current) return;
     const apiKey = process.env.NEXT_PUBLIC_MAPTILER_API_KEY;
-
+    const finalArr = selectedListing ? [selectedListing.longitude, selectedListing.latitude] : UVIC_LNG_LAT
+  
     if (mapContainer.current && apiKey) {
       maptilersdk.config.apiKey = apiKey;
       map.current = new maptilersdk.Map({
         container: mapContainer.current,
         style: maptilersdk.MapStyle.BASE_V4,
-        center: [-123.312603, 48.463816],
-        zoom: 12,
+        center: [finalArr[0], finalArr[1]],
+        zoom: 10,
       });
-   
+      map.current.on("load", () => {
+       
+        map.current?.addSource("circle-source", {
+          type: "geojson",
+          data: {
+            type: "Point",
+            coordinates: finalArr
+          },
+        });
+
+    
+        map.current?.addLayer({
+          id: "circle-layer",
+          type: "circle",
+          source: "circle-source",
+
+          paint: {
+            "circle-radius": 60,
+            "circle-color": "#17f3b5",
+            "circle-opacity": 0.5,
+            "circle-stroke-width": 2,
+            "circle-stroke-color": "#ffffff",
+
+          },
+        });
+      });
     }
+    
+
     return () => {
       map.current?.remove();
       map.current = null;
-    }
+    };
   }, []);
   return (
     <div className="relative w-full  h-30">

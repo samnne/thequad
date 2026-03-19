@@ -68,7 +68,7 @@ const UserListings = ({
             left: -600,
             opacity: 0,
           }}
-          className="absolute p-8 pt-20 flex gap-5 flex-col  text-white z-10 h-fit min-h-screen w-screen bg-white top-0 right-0"
+          className="absolute p-8 pt-20 flex gap-5 flex-col  text-white z-50 h-fit min-h-screen w-screen bg-white top-0 right-0"
         >
           {userListings.length > 0 ? (
             userListings.map((listing) => {

@@ -12,6 +12,7 @@
   "dependencies": {
     "@maptiler/sdk": "^3.11.1",
     "@placekit/autocomplete-react": "^2.2.2",
+    "@placekit/client-js": "^2.3.0",
     "@prisma/adapter-pg": "^7.4.1",
     "@prisma/client": "^7.4.1",
     "@supabase/ssr": "^0.9.0",

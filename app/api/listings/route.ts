@@ -1,8 +1,6 @@
 
 import { NextRequest, NextResponse } from "next/server.js";
 import { createNewListing, getListings, getOthersListings } from "@/db/listings.db";
-import { uploadImages } from "@/cloudinary/cloudinary";
-
 
 
 export async function GET(req: NextRequest){
@@ -29,7 +27,7 @@ export async function GET(req: NextRequest){
   }
 };
 export async function POST(req: NextRequest) {
-  const listingFormData: listingFormData = await req.json();
+  const listingFormData = await req.json();
  
   try {
 

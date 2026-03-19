@@ -1,7 +1,8 @@
-import { Conversation, Listing, User } from "@/src/generated/prisma/client";
+import { Conversation, Listing } from "@/src/generated/prisma/client";
 import { create, StoreApi, UseBoundStore } from "zustand";
-import { SafeUser } from "../types";
+import { FormType, SafeUser } from "../types";
 import { ConversationInclude } from "@/src/generated/prisma/models";
+import { User, UserResponse } from "@supabase/supabase-js";
 interface Store {
   type: FormType;
   changeType: Function;
@@ -17,7 +18,7 @@ export const useType = create((set) => {
 type ListingStore = {
   listings: Listing[];
   setListings: Function;
-  selectedListing: Listing | object;
+  selectedListing?: Listing | null;
   setSelectedListing: Function;
   reset: Function;
 };
@@ -27,16 +28,16 @@ export const useListings: UseBoundStore<StoreApi<ListingStore>> = create(
     return {
       listings: [],
       setListings: (listings: Listing[]) => set({ listings: listings }),
-      selectedListing: {},
+      selectedListing: null,
       setSelectedListing: (listing: Listing) =>
         set({ selectedListing: listing }),
-      reset: () => set({ listings: [], selectedListing: {} }),
+      reset: () => set({ listings: [], selectedListing: null }),
     };
   },
 );
 
 type UserState = {
-  user: SafeUser | object;
+  user: User | null;
   setUser: Function;
   userListings: Listing[];
   setUserListings: Function;
@@ -44,19 +45,11 @@ type UserState = {
 };
 export const useUser: UseBoundStore<StoreApi<UserState>> = create((set) => {
   return {
-    user: {
-      name: "",
-      createdAt: "",
-      email: "",
-      isVerified: false,
-      session: "",
-      profileURL: "",
-      uid: "",
-    },
-    setUser: (user: SafeUser) => set({ user: user }),
+    user: null,
+    setUser: (user: User) => set({ user: user }),
     userListings: [],
     setUserListings: (listings: Listing[]) => set({ userListings: listings }),
-    reset: () => set({ user: {}, userListings: [] }),
+    reset: () => set({ user: null, userListings: [] }),
   };
 });
 
@@ -79,18 +72,19 @@ export const useMessage: UseBoundStore<StoreApi<MessagePopUp>> = create(
 );
 
 type ConvosState = {
-  convos: (Conversation & ConversationInclude)[];
+  convos: (Conversation & ConversationInclude)[] | null;
   setConvos: Function;
-  selectedConvo: Conversation,
-  setSelectedConvo: Function,
+  selectedConvo: Conversation | null;
+  setSelectedConvo: Function;
   reset: Function;
 };
 export const useConvos: UseBoundStore<StoreApi<ConvosState>> = create((set) => {
   return {
-    convos: [],
-    selectedConvo: {},
+    convos: null,
+    selectedConvo: null,
     setSelectedConvo: (convo: Conversation) => set({ selectedConvo: convo }),
-    setConvos: (convos: Conversation[]) => set({ convos: convos }),
-    reset: () => set({ convos: [] }),
+    setConvos: (convos: (Conversation & ConversationInclude)[]) =>
+      set({ convos: convos }),
+    reset: () => set({ convos: null, selectedConvo: null }),
   };
 });

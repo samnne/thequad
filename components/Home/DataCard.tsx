@@ -38,7 +38,7 @@ const DataCard = ({ dataList, href }: DataCardProps) => {
       className="flex  gap-2 w-full py-2 overflow-x-auto overflow-y-hidden no-scrollbar h-full"
     >
 
-      {dataList.map((data, i) => {
+      {dataList?.map((data, i) => {
         return (
           <motion.div
             initial={{
@@ -63,7 +63,7 @@ const DataCard = ({ dataList, href }: DataCardProps) => {
                   : i
             }
             onClick={() => {
-              redirect(`${href}/${data?.lid || data.conversationId}`);
+              redirect(`${href}/${data?.lid || data.cid}`);
             }}
             id="card"
             className="flex  flex-col border shadow shadow-black/40   rounded-xl  max-h-fit min-w-60 h-full"

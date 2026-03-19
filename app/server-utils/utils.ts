@@ -1,3 +1,4 @@
+'use client'
 import { UserInclude } from "@/src/generated/prisma/models";
 import { type User } from "../../src/generated/prisma/client";
 
@@ -25,14 +26,13 @@ export function ErrorMessage(message:string, status: number, ...args: Array<stri
 }
 
 
-export async function hashPassword(password: string): Promise<string> {
-  const saltRounds = 8;
-  return await bcrypt.hashSync(password, saltRounds);
-}
-export async function verifyPassword(password: string, hash: string) {
+// export async function hashPassword(password: string): Promise<string> {
+//   const saltRounds = 8;
+//   return await bcrypt.hashSync(password, saltRounds);
+// }
+// export async function verifyPassword(password: string, hash: string) {
 
-  return await bcrypt.compareSync(password, hash);
-}
+//   return await bcrypt.compareSync(password, hash);
+// }
 
 
-export const BASEURL = process.env.BASE_URL ?? "http://localhost:3000";
