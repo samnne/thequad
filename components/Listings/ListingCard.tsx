@@ -2,6 +2,7 @@ import { useListings } from "@/app/store/zustand";
 import { Listing } from "@/src/generated/prisma/client";
 import { motion } from "motion/react";
 import Image from "next/image";
+import { MdOutlineShoppingCart } from "react-icons/md";
 
 const ListingCard = ({ listing }: { listing: Listing }) => {
   const { setSelectedListing } = useListings();
@@ -20,7 +21,7 @@ const ListingCard = ({ listing }: { listing: Listing }) => {
     >
       <motion.div className="h-48 relative ">
         <Image
-          className=" rounded-t-4xl w-full h-full object-cover bg-primary/25 z-0"
+          className=" rounded-t-4xl relative  w-full h-full object-cover bg-primary/25 z-100"
           width={250}
           loading="eager"
           height={250}
@@ -33,8 +34,13 @@ const ListingCard = ({ listing }: { listing: Listing }) => {
                 : "/"
               : "/"
           }
-          alt="listing photo"
+          alt=""
+         
         />
+        <div className="absolute flex justify-center items-center inset-0 rounded-t-4xl w-full h-full object-cover  z-0">
+          <div className=" w-20 h-20 rounded-full text-4xl text-black flex justify-center items-center"><MdOutlineShoppingCart /></div>
+        </div>
+
 
         {/* <motion.span
           initial={{
