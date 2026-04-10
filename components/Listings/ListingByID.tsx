@@ -16,7 +16,7 @@ import { deleteListingAction } from "@/lib/listing.lib";
 import Carousel from "../Carousel";
 
 import { createConvo } from "@/lib/conversations.lib";
-import { getUserSupabase } from "@/app/client-utils/functions";
+import { getUserSupabase, mapToUserSession } from "@/app/client-utils/functions";
 import { ConvoWithRelations, ListingWithIncludes } from "@/app/types";
 
 const getRandomFirstMessage = (): string => {

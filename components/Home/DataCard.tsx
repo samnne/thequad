@@ -38,7 +38,7 @@ const DataCard = ({ dataList, href }: DataCardProps) => {
       ref={scope}
       className="flex  gap-2 w-full py-2 overflow-x-auto overflow-y-hidden no-scrollbar h-full"
     >
-      {dataList.map((data: Listing | Conversation) => {
+      {dataList?.map((data: Listing | Conversation) => {
         if (href === "listings" ) {
           return <ListingCard key={(data as Listing)?.lid} listing={data as ListingWithIncludes} />
         }

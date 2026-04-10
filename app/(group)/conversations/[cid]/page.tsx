@@ -1,7 +1,7 @@
 "use client";
 
 import { BASEURL } from "@/app/client-utils/constants";
-import { getUserSupabase } from "@/app/client-utils/functions";
+import { getUserSupabase, mapToUserSession } from "@/app/client-utils/functions";
 import { socket } from "@/app/socket";
 import {
   useConvos,

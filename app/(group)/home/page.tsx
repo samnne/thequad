@@ -7,7 +7,7 @@ import { useConvos, useListings, useMessage } from "@/app/store/zustand";
 import DataCard from "@/components/Home/DataCard";
 import SectionHeader from "@/components/Home/SectionHeader";
 import { motion, stagger, useAnimate } from "motion/react";
-import { redirect } from "next/navigation";
+
 
 import { SubmitEvent, useEffect, useState } from "react";
 import { ConvoWithRelations, ListingWithRelations } from "@/app/types";
@@ -20,6 +20,7 @@ const MarketQuadHome = () => {
   const [loading, setLoading] = useState(false);
   const [scope, animate] = useAnimate();
   const [searchQuery, setSearchQuery] = useState("");
+  
   useEffect(() => {
     if (!scope.current) return;
     try {
@@ -136,7 +137,7 @@ const MarketQuadHome = () => {
         transition={{ duration: 0.35, delay: 0.07, ease: [0.22, 1, 0.36, 1] }}
         className="flex gap-2 overflow-x-auto no-scrollbar"
       >
-        {categories.map((cat, i) => (
+        {categories?.map((cat, i) => (
           <button
             key={cat}
             onClick={() => handleSearchByCat(cat)}
@@ -205,7 +206,7 @@ const MarketQuadHome = () => {
           </p>
         </div>
         <button
-          onClick={() => redirect("/new")}
+          onClick={() => router.push("/new")}
           className="relative z-10 shrink-0 bg-primary text-text rounded-xl px-4 py-2.5 text-[13px] font-bold active:scale-95 transition-transform"
         >
           + Sell

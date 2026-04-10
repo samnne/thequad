@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "bun run server.ts",
-    "build": "next build && bun build server.ts --outdir . --target node",
-    "start": "NODE_ENV=production node server.js",
+    "build": "next build",
+    "start": "NODE_ENV=production bun server.ts",
     "lint": "eslint"
   },
   "dependencies": {

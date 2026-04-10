@@ -12,7 +12,7 @@ type Props = {
 const ConversationCards = ({ convos }: Props) => {
   return (
     <div className="flex gap-2 w-full py-2 overflow-x-auto no-scrollbar">
-      {convos.map((convo, i) => {
+      {convos?.map((convo, i) => {
         const listing = convo.listing;
 
         return (
