@@ -195,7 +195,17 @@ exports.Prisma.WaitlistTableScalarFieldEnum = {
   created_at: 'created_at',
   full_name: 'full_name',
   uvic_email: 'uvic_email',
-  intent: 'intent'
+  intent: 'intent',
+  referral_code: 'referral_code',
+  referred_by: 'referred_by'
+};
+
+exports.Prisma.PushTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  platform: 'platform',
+  updatedAt: 'updatedAt',
+  userId: 'userId'
 };
 
 exports.Prisma.ReportScalarFieldEnum = {
@@ -256,6 +266,7 @@ exports.Prisma.ModelName = {
   Conversation: 'Conversation',
   Message: 'Message',
   WaitlistTable: 'WaitlistTable',
+  PushToken: 'PushToken',
   Report: 'Report'
 };
 

@@ -49,6 +49,11 @@ export type Message = $Result.DefaultSelection<Prisma.$MessagePayload>
  */
 export type WaitlistTable = $Result.DefaultSelection<Prisma.$WaitlistTablePayload>
 /**
+ * Model PushToken
+ * 
+ */
+export type PushToken = $Result.DefaultSelection<Prisma.$PushTokenPayload>
+/**
  * Model Report
  * 
  */
@@ -287,6 +292,16 @@ export class PrismaClient<
     * ```
     */
   get waitlistTable(): Prisma.WaitlistTableDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.pushToken`: Exposes CRUD operations for the **PushToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PushTokens
+    * const pushTokens = await prisma.pushToken.findMany()
+    * ```
+    */
+  get pushToken(): Prisma.PushTokenDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.report`: Exposes CRUD operations for the **Report** model.
@@ -738,6 +753,7 @@ export namespace Prisma {
     Conversation: 'Conversation',
     Message: 'Message',
     WaitlistTable: 'WaitlistTable',
+    PushToken: 'PushToken',
     Report: 'Report'
   };
 
@@ -754,7 +770,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "listing" | "userPreferences" | "review" | "user" | "conversation" | "message" | "waitlistTable" | "report"
+      modelProps: "listing" | "userPreferences" | "review" | "user" | "conversation" | "message" | "waitlistTable" | "pushToken" | "report"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1276,6 +1292,80 @@ export namespace Prisma {
           }
         }
       }
+      PushToken: {
+        payload: Prisma.$PushTokenPayload<ExtArgs>
+        fields: Prisma.PushTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PushTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PushTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.PushTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PushTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          findMany: {
+            args: Prisma.PushTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>[]
+          }
+          create: {
+            args: Prisma.PushTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          createMany: {
+            args: Prisma.PushTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PushTokenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>[]
+          }
+          delete: {
+            args: Prisma.PushTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          update: {
+            args: Prisma.PushTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.PushTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PushTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PushTokenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>[]
+          }
+          upsert: {
+            args: Prisma.PushTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PushTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.PushTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePushToken>
+          }
+          groupBy: {
+            args: Prisma.PushTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PushTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PushTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<PushTokenCountAggregateOutputType> | number
+          }
+        }
+      }
       Report: {
         payload: Prisma.$ReportPayload<ExtArgs>
         fields: Prisma.ReportFieldRefs
@@ -1465,6 +1555,7 @@ export namespace Prisma {
     conversation?: ConversationOmit
     message?: MessageOmit
     waitlistTable?: WaitlistTableOmit
+    pushToken?: PushTokenOmit
     report?: ReportOmit
   }
 
@@ -5453,6 +5544,7 @@ export namespace Prisma {
     reviewsReceived?: boolean | User$reviewsReceivedArgs<ExtArgs>
     reviewsGiven?: boolean | User$reviewsGivenArgs<ExtArgs>
     preferences?: boolean | User$preferencesArgs<ExtArgs>
+    pushToken?: boolean | User$pushTokenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -5500,6 +5592,7 @@ export namespace Prisma {
     reviewsReceived?: boolean | User$reviewsReceivedArgs<ExtArgs>
     reviewsGiven?: boolean | User$reviewsGivenArgs<ExtArgs>
     preferences?: boolean | User$preferencesArgs<ExtArgs>
+    pushToken?: boolean | User$pushTokenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -5517,6 +5610,7 @@ export namespace Prisma {
       reviewsReceived: Prisma.$ReviewPayload<ExtArgs>[]
       reviewsGiven: Prisma.$ReviewPayload<ExtArgs>[]
       preferences: Prisma.$UserPreferencesPayload<ExtArgs> | null
+      pushToken: Prisma.$PushTokenPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       uid: string
@@ -5930,6 +6024,7 @@ export namespace Prisma {
     reviewsReceived<T extends User$reviewsReceivedArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     reviewsGiven<T extends User$reviewsGivenArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     preferences<T extends User$preferencesArgs<ExtArgs> = {}>(args?: Subset<T, User$preferencesArgs<ExtArgs>>): Prisma__UserPreferencesClient<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    pushToken<T extends User$pushTokenArgs<ExtArgs> = {}>(args?: Subset<T, User$pushTokenArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6563,6 +6658,25 @@ export namespace Prisma {
      */
     include?: UserPreferencesInclude<ExtArgs> | null
     where?: UserPreferencesWhereInput
+  }
+
+  /**
+   * User.pushToken
+   */
+  export type User$pushTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    where?: PushTokenWhereInput
   }
 
   /**
@@ -8870,6 +8984,8 @@ export namespace Prisma {
     full_name: string | null
     uvic_email: string | null
     intent: string | null
+    referral_code: string | null
+    referred_by: string | null
   }
 
   export type WaitlistTableMaxAggregateOutputType = {
@@ -8878,6 +8994,8 @@ export namespace Prisma {
     full_name: string | null
     uvic_email: string | null
     intent: string | null
+    referral_code: string | null
+    referred_by: string | null
   }
 
   export type WaitlistTableCountAggregateOutputType = {
@@ -8886,6 +9004,8 @@ export namespace Prisma {
     full_name: number
     uvic_email: number
     intent: number
+    referral_code: number
+    referred_by: number
     _all: number
   }
 
@@ -8904,6 +9024,8 @@ export namespace Prisma {
     full_name?: true
     uvic_email?: true
     intent?: true
+    referral_code?: true
+    referred_by?: true
   }
 
   export type WaitlistTableMaxAggregateInputType = {
@@ -8912,6 +9034,8 @@ export namespace Prisma {
     full_name?: true
     uvic_email?: true
     intent?: true
+    referral_code?: true
+    referred_by?: true
   }
 
   export type WaitlistTableCountAggregateInputType = {
@@ -8920,6 +9044,8 @@ export namespace Prisma {
     full_name?: true
     uvic_email?: true
     intent?: true
+    referral_code?: true
+    referred_by?: true
     _all?: true
   }
 
@@ -9015,6 +9141,8 @@ export namespace Prisma {
     full_name: string
     uvic_email: string
     intent: string
+    referral_code: string | null
+    referred_by: string | null
     _count: WaitlistTableCountAggregateOutputType | null
     _avg: WaitlistTableAvgAggregateOutputType | null
     _sum: WaitlistTableSumAggregateOutputType | null
@@ -9042,6 +9170,8 @@ export namespace Prisma {
     full_name?: boolean
     uvic_email?: boolean
     intent?: boolean
+    referral_code?: boolean
+    referred_by?: boolean
   }, ExtArgs["result"]["waitlistTable"]>
 
   export type WaitlistTableSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9050,6 +9180,8 @@ export namespace Prisma {
     full_name?: boolean
     uvic_email?: boolean
     intent?: boolean
+    referral_code?: boolean
+    referred_by?: boolean
   }, ExtArgs["result"]["waitlistTable"]>
 
   export type WaitlistTableSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -9058,6 +9190,8 @@ export namespace Prisma {
     full_name?: boolean
     uvic_email?: boolean
     intent?: boolean
+    referral_code?: boolean
+    referred_by?: boolean
   }, ExtArgs["result"]["waitlistTable"]>
 
   export type WaitlistTableSelectScalar = {
@@ -9066,9 +9200,11 @@ export namespace Prisma {
     full_name?: boolean
     uvic_email?: boolean
     intent?: boolean
+    referral_code?: boolean
+    referred_by?: boolean
   }
 
-  export type WaitlistTableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "created_at" | "full_name" | "uvic_email" | "intent", ExtArgs["result"]["waitlistTable"]>
+  export type WaitlistTableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "created_at" | "full_name" | "uvic_email" | "intent" | "referral_code" | "referred_by", ExtArgs["result"]["waitlistTable"]>
 
   export type $WaitlistTablePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "WaitlistTable"
@@ -9079,6 +9215,8 @@ export namespace Prisma {
       full_name: string
       uvic_email: string
       intent: string
+      referral_code: string | null
+      referred_by: string | null
     }, ExtArgs["result"]["waitlistTable"]>
     composites: {}
   }
@@ -9507,6 +9645,8 @@ export namespace Prisma {
     readonly full_name: FieldRef<"WaitlistTable", 'String'>
     readonly uvic_email: FieldRef<"WaitlistTable", 'String'>
     readonly intent: FieldRef<"WaitlistTable", 'String'>
+    readonly referral_code: FieldRef<"WaitlistTable", 'String'>
+    readonly referred_by: FieldRef<"WaitlistTable", 'String'>
   }
     
 
@@ -9870,6 +10010,1064 @@ export namespace Prisma {
      * Omit specific fields from the WaitlistTable
      */
     omit?: WaitlistTableOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PushToken
+   */
+
+  export type AggregatePushToken = {
+    _count: PushTokenCountAggregateOutputType | null
+    _min: PushTokenMinAggregateOutputType | null
+    _max: PushTokenMaxAggregateOutputType | null
+  }
+
+  export type PushTokenMinAggregateOutputType = {
+    id: string | null
+    token: string | null
+    platform: string | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type PushTokenMaxAggregateOutputType = {
+    id: string | null
+    token: string | null
+    platform: string | null
+    updatedAt: Date | null
+    userId: string | null
+  }
+
+  export type PushTokenCountAggregateOutputType = {
+    id: number
+    token: number
+    platform: number
+    updatedAt: number
+    userId: number
+    _all: number
+  }
+
+
+  export type PushTokenMinAggregateInputType = {
+    id?: true
+    token?: true
+    platform?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type PushTokenMaxAggregateInputType = {
+    id?: true
+    token?: true
+    platform?: true
+    updatedAt?: true
+    userId?: true
+  }
+
+  export type PushTokenCountAggregateInputType = {
+    id?: true
+    token?: true
+    platform?: true
+    updatedAt?: true
+    userId?: true
+    _all?: true
+  }
+
+  export type PushTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PushToken to aggregate.
+     */
+    where?: PushTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushTokens to fetch.
+     */
+    orderBy?: PushTokenOrderByWithRelationInput | PushTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PushTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PushTokens
+    **/
+    _count?: true | PushTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PushTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PushTokenMaxAggregateInputType
+  }
+
+  export type GetPushTokenAggregateType<T extends PushTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregatePushToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePushToken[P]>
+      : GetScalarType<T[P], AggregatePushToken[P]>
+  }
+
+
+
+
+  export type PushTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PushTokenWhereInput
+    orderBy?: PushTokenOrderByWithAggregationInput | PushTokenOrderByWithAggregationInput[]
+    by: PushTokenScalarFieldEnum[] | PushTokenScalarFieldEnum
+    having?: PushTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PushTokenCountAggregateInputType | true
+    _min?: PushTokenMinAggregateInputType
+    _max?: PushTokenMaxAggregateInputType
+  }
+
+  export type PushTokenGroupByOutputType = {
+    id: string
+    token: string
+    platform: string | null
+    updatedAt: Date
+    userId: string
+    _count: PushTokenCountAggregateOutputType | null
+    _min: PushTokenMinAggregateOutputType | null
+    _max: PushTokenMaxAggregateOutputType | null
+  }
+
+  type GetPushTokenGroupByPayload<T extends PushTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PushTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PushTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PushTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], PushTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PushTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    platform?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pushToken"]>
+
+  export type PushTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    platform?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pushToken"]>
+
+  export type PushTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    platform?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["pushToken"]>
+
+  export type PushTokenSelectScalar = {
+    id?: boolean
+    token?: boolean
+    platform?: boolean
+    updatedAt?: boolean
+    userId?: boolean
+  }
+
+  export type PushTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "token" | "platform" | "updatedAt" | "userId", ExtArgs["result"]["pushToken"]>
+  export type PushTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PushTokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PushTokenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PushTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PushToken"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      token: string
+      platform: string | null
+      updatedAt: Date
+      userId: string
+    }, ExtArgs["result"]["pushToken"]>
+    composites: {}
+  }
+
+  type PushTokenGetPayload<S extends boolean | null | undefined | PushTokenDefaultArgs> = $Result.GetResult<Prisma.$PushTokenPayload, S>
+
+  type PushTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PushTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PushTokenCountAggregateInputType | true
+    }
+
+  export interface PushTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PushToken'], meta: { name: 'PushToken' } }
+    /**
+     * Find zero or one PushToken that matches the filter.
+     * @param {PushTokenFindUniqueArgs} args - Arguments to find a PushToken
+     * @example
+     * // Get one PushToken
+     * const pushToken = await prisma.pushToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PushTokenFindUniqueArgs>(args: SelectSubset<T, PushTokenFindUniqueArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PushToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PushTokenFindUniqueOrThrowArgs} args - Arguments to find a PushToken
+     * @example
+     * // Get one PushToken
+     * const pushToken = await prisma.pushToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PushTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, PushTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PushToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenFindFirstArgs} args - Arguments to find a PushToken
+     * @example
+     * // Get one PushToken
+     * const pushToken = await prisma.pushToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PushTokenFindFirstArgs>(args?: SelectSubset<T, PushTokenFindFirstArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PushToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenFindFirstOrThrowArgs} args - Arguments to find a PushToken
+     * @example
+     * // Get one PushToken
+     * const pushToken = await prisma.pushToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PushTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, PushTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PushTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PushTokens
+     * const pushTokens = await prisma.pushToken.findMany()
+     * 
+     * // Get first 10 PushTokens
+     * const pushTokens = await prisma.pushToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const pushTokenWithIdOnly = await prisma.pushToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PushTokenFindManyArgs>(args?: SelectSubset<T, PushTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PushToken.
+     * @param {PushTokenCreateArgs} args - Arguments to create a PushToken.
+     * @example
+     * // Create one PushToken
+     * const PushToken = await prisma.pushToken.create({
+     *   data: {
+     *     // ... data to create a PushToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends PushTokenCreateArgs>(args: SelectSubset<T, PushTokenCreateArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PushTokens.
+     * @param {PushTokenCreateManyArgs} args - Arguments to create many PushTokens.
+     * @example
+     * // Create many PushTokens
+     * const pushToken = await prisma.pushToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PushTokenCreateManyArgs>(args?: SelectSubset<T, PushTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PushTokens and returns the data saved in the database.
+     * @param {PushTokenCreateManyAndReturnArgs} args - Arguments to create many PushTokens.
+     * @example
+     * // Create many PushTokens
+     * const pushToken = await prisma.pushToken.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PushTokens and only return the `id`
+     * const pushTokenWithIdOnly = await prisma.pushToken.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PushTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, PushTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PushToken.
+     * @param {PushTokenDeleteArgs} args - Arguments to delete one PushToken.
+     * @example
+     * // Delete one PushToken
+     * const PushToken = await prisma.pushToken.delete({
+     *   where: {
+     *     // ... filter to delete one PushToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PushTokenDeleteArgs>(args: SelectSubset<T, PushTokenDeleteArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PushToken.
+     * @param {PushTokenUpdateArgs} args - Arguments to update one PushToken.
+     * @example
+     * // Update one PushToken
+     * const pushToken = await prisma.pushToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PushTokenUpdateArgs>(args: SelectSubset<T, PushTokenUpdateArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PushTokens.
+     * @param {PushTokenDeleteManyArgs} args - Arguments to filter PushTokens to delete.
+     * @example
+     * // Delete a few PushTokens
+     * const { count } = await prisma.pushToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PushTokenDeleteManyArgs>(args?: SelectSubset<T, PushTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PushTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PushTokens
+     * const pushToken = await prisma.pushToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PushTokenUpdateManyArgs>(args: SelectSubset<T, PushTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PushTokens and returns the data updated in the database.
+     * @param {PushTokenUpdateManyAndReturnArgs} args - Arguments to update many PushTokens.
+     * @example
+     * // Update many PushTokens
+     * const pushToken = await prisma.pushToken.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PushTokens and only return the `id`
+     * const pushTokenWithIdOnly = await prisma.pushToken.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PushTokenUpdateManyAndReturnArgs>(args: SelectSubset<T, PushTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PushToken.
+     * @param {PushTokenUpsertArgs} args - Arguments to update or create a PushToken.
+     * @example
+     * // Update or create a PushToken
+     * const pushToken = await prisma.pushToken.upsert({
+     *   create: {
+     *     // ... data to create a PushToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PushToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PushTokenUpsertArgs>(args: SelectSubset<T, PushTokenUpsertArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PushTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenCountArgs} args - Arguments to filter PushTokens to count.
+     * @example
+     * // Count the number of PushTokens
+     * const count = await prisma.pushToken.count({
+     *   where: {
+     *     // ... the filter for the PushTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends PushTokenCountArgs>(
+      args?: Subset<T, PushTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PushTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PushToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PushTokenAggregateArgs>(args: Subset<T, PushTokenAggregateArgs>): Prisma.PrismaPromise<GetPushTokenAggregateType<T>>
+
+    /**
+     * Group by PushToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PushTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PushTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PushTokenGroupByArgs['orderBy'] }
+        : { orderBy?: PushTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PushTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPushTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PushToken model
+   */
+  readonly fields: PushTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PushToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PushTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PushToken model
+   */
+  interface PushTokenFieldRefs {
+    readonly id: FieldRef<"PushToken", 'String'>
+    readonly token: FieldRef<"PushToken", 'String'>
+    readonly platform: FieldRef<"PushToken", 'String'>
+    readonly updatedAt: FieldRef<"PushToken", 'DateTime'>
+    readonly userId: FieldRef<"PushToken", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PushToken findUnique
+   */
+  export type PushTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PushToken to fetch.
+     */
+    where: PushTokenWhereUniqueInput
+  }
+
+  /**
+   * PushToken findUniqueOrThrow
+   */
+  export type PushTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PushToken to fetch.
+     */
+    where: PushTokenWhereUniqueInput
+  }
+
+  /**
+   * PushToken findFirst
+   */
+  export type PushTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PushToken to fetch.
+     */
+    where?: PushTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushTokens to fetch.
+     */
+    orderBy?: PushTokenOrderByWithRelationInput | PushTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PushTokens.
+     */
+    cursor?: PushTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PushTokens.
+     */
+    distinct?: PushTokenScalarFieldEnum | PushTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PushToken findFirstOrThrow
+   */
+  export type PushTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PushToken to fetch.
+     */
+    where?: PushTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushTokens to fetch.
+     */
+    orderBy?: PushTokenOrderByWithRelationInput | PushTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PushTokens.
+     */
+    cursor?: PushTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PushTokens.
+     */
+    distinct?: PushTokenScalarFieldEnum | PushTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PushToken findMany
+   */
+  export type PushTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PushTokens to fetch.
+     */
+    where?: PushTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PushTokens to fetch.
+     */
+    orderBy?: PushTokenOrderByWithRelationInput | PushTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PushTokens.
+     */
+    cursor?: PushTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PushTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PushTokens.
+     */
+    skip?: number
+    distinct?: PushTokenScalarFieldEnum | PushTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PushToken create
+   */
+  export type PushTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PushToken.
+     */
+    data: XOR<PushTokenCreateInput, PushTokenUncheckedCreateInput>
+  }
+
+  /**
+   * PushToken createMany
+   */
+  export type PushTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PushTokens.
+     */
+    data: PushTokenCreateManyInput | PushTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PushToken createManyAndReturn
+   */
+  export type PushTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * The data used to create many PushTokens.
+     */
+    data: PushTokenCreateManyInput | PushTokenCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PushToken update
+   */
+  export type PushTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PushToken.
+     */
+    data: XOR<PushTokenUpdateInput, PushTokenUncheckedUpdateInput>
+    /**
+     * Choose, which PushToken to update.
+     */
+    where: PushTokenWhereUniqueInput
+  }
+
+  /**
+   * PushToken updateMany
+   */
+  export type PushTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PushTokens.
+     */
+    data: XOR<PushTokenUpdateManyMutationInput, PushTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which PushTokens to update
+     */
+    where?: PushTokenWhereInput
+    /**
+     * Limit how many PushTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PushToken updateManyAndReturn
+   */
+  export type PushTokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * The data used to update PushTokens.
+     */
+    data: XOR<PushTokenUpdateManyMutationInput, PushTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which PushTokens to update
+     */
+    where?: PushTokenWhereInput
+    /**
+     * Limit how many PushTokens to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PushToken upsert
+   */
+  export type PushTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PushToken to update in case it exists.
+     */
+    where: PushTokenWhereUniqueInput
+    /**
+     * In case the PushToken found by the `where` argument doesn't exist, create a new PushToken with this data.
+     */
+    create: XOR<PushTokenCreateInput, PushTokenUncheckedCreateInput>
+    /**
+     * In case the PushToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PushTokenUpdateInput, PushTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * PushToken delete
+   */
+  export type PushTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
+    /**
+     * Filter which PushToken to delete.
+     */
+    where: PushTokenWhereUniqueInput
+  }
+
+  /**
+   * PushToken deleteMany
+   */
+  export type PushTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PushTokens to delete
+     */
+    where?: PushTokenWhereInput
+    /**
+     * Limit how many PushTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PushToken without action
+   */
+  export type PushTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PushToken
+     */
+    select?: PushTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PushToken
+     */
+    omit?: PushTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PushTokenInclude<ExtArgs> | null
   }
 
 
@@ -11137,10 +12335,23 @@ export namespace Prisma {
     created_at: 'created_at',
     full_name: 'full_name',
     uvic_email: 'uvic_email',
-    intent: 'intent'
+    intent: 'intent',
+    referral_code: 'referral_code',
+    referred_by: 'referred_by'
   };
 
   export type WaitlistTableScalarFieldEnum = (typeof WaitlistTableScalarFieldEnum)[keyof typeof WaitlistTableScalarFieldEnum]
+
+
+  export const PushTokenScalarFieldEnum: {
+    id: 'id',
+    token: 'token',
+    platform: 'platform',
+    updatedAt: 'updatedAt',
+    userId: 'userId'
+  };
+
+  export type PushTokenScalarFieldEnum = (typeof PushTokenScalarFieldEnum)[keyof typeof PushTokenScalarFieldEnum]
 
 
   export const ReportScalarFieldEnum: {
@@ -11586,6 +12797,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewListRelationFilter
     reviewsGiven?: ReviewListRelationFilter
     preferences?: XOR<UserPreferencesNullableScalarRelationFilter, UserPreferencesWhereInput> | null
+    pushToken?: XOR<PushTokenNullableScalarRelationFilter, PushTokenWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11606,6 +12818,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewOrderByRelationAggregateInput
     reviewsGiven?: ReviewOrderByRelationAggregateInput
     preferences?: UserPreferencesOrderByWithRelationInput
+    pushToken?: PushTokenOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11629,6 +12842,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewListRelationFilter
     reviewsGiven?: ReviewListRelationFilter
     preferences?: XOR<UserPreferencesNullableScalarRelationFilter, UserPreferencesWhereInput> | null
+    pushToken?: XOR<PushTokenNullableScalarRelationFilter, PushTokenWhereInput> | null
   }, "uid" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11813,6 +13027,8 @@ export namespace Prisma {
     full_name?: StringFilter<"WaitlistTable"> | string
     uvic_email?: StringFilter<"WaitlistTable"> | string
     intent?: StringFilter<"WaitlistTable"> | string
+    referral_code?: StringNullableFilter<"WaitlistTable"> | string | null
+    referred_by?: StringNullableFilter<"WaitlistTable"> | string | null
   }
 
   export type WaitlistTableOrderByWithRelationInput = {
@@ -11821,6 +13037,8 @@ export namespace Prisma {
     full_name?: SortOrder
     uvic_email?: SortOrder
     intent?: SortOrder
+    referral_code?: SortOrderInput | SortOrder
+    referred_by?: SortOrderInput | SortOrder
   }
 
   export type WaitlistTableWhereUniqueInput = Prisma.AtLeast<{
@@ -11832,6 +13050,8 @@ export namespace Prisma {
     full_name?: StringFilter<"WaitlistTable"> | string
     uvic_email?: StringFilter<"WaitlistTable"> | string
     intent?: StringFilter<"WaitlistTable"> | string
+    referral_code?: StringNullableFilter<"WaitlistTable"> | string | null
+    referred_by?: StringNullableFilter<"WaitlistTable"> | string | null
   }, "id">
 
   export type WaitlistTableOrderByWithAggregationInput = {
@@ -11840,6 +13060,8 @@ export namespace Prisma {
     full_name?: SortOrder
     uvic_email?: SortOrder
     intent?: SortOrder
+    referral_code?: SortOrderInput | SortOrder
+    referred_by?: SortOrderInput | SortOrder
     _count?: WaitlistTableCountOrderByAggregateInput
     _avg?: WaitlistTableAvgOrderByAggregateInput
     _max?: WaitlistTableMaxOrderByAggregateInput
@@ -11856,6 +13078,63 @@ export namespace Prisma {
     full_name?: StringWithAggregatesFilter<"WaitlistTable"> | string
     uvic_email?: StringWithAggregatesFilter<"WaitlistTable"> | string
     intent?: StringWithAggregatesFilter<"WaitlistTable"> | string
+    referral_code?: StringNullableWithAggregatesFilter<"WaitlistTable"> | string | null
+    referred_by?: StringNullableWithAggregatesFilter<"WaitlistTable"> | string | null
+  }
+
+  export type PushTokenWhereInput = {
+    AND?: PushTokenWhereInput | PushTokenWhereInput[]
+    OR?: PushTokenWhereInput[]
+    NOT?: PushTokenWhereInput | PushTokenWhereInput[]
+    id?: StringFilter<"PushToken"> | string
+    token?: StringFilter<"PushToken"> | string
+    platform?: StringNullableFilter<"PushToken"> | string | null
+    updatedAt?: DateTimeFilter<"PushToken"> | Date | string
+    userId?: UuidFilter<"PushToken"> | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PushTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    token?: SortOrder
+    platform?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PushTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: PushTokenWhereInput | PushTokenWhereInput[]
+    OR?: PushTokenWhereInput[]
+    NOT?: PushTokenWhereInput | PushTokenWhereInput[]
+    token?: StringFilter<"PushToken"> | string
+    platform?: StringNullableFilter<"PushToken"> | string | null
+    updatedAt?: DateTimeFilter<"PushToken"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type PushTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    token?: SortOrder
+    platform?: SortOrderInput | SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+    _count?: PushTokenCountOrderByAggregateInput
+    _max?: PushTokenMaxOrderByAggregateInput
+    _min?: PushTokenMinOrderByAggregateInput
+  }
+
+  export type PushTokenScalarWhereWithAggregatesInput = {
+    AND?: PushTokenScalarWhereWithAggregatesInput | PushTokenScalarWhereWithAggregatesInput[]
+    OR?: PushTokenScalarWhereWithAggregatesInput[]
+    NOT?: PushTokenScalarWhereWithAggregatesInput | PushTokenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PushToken"> | string
+    token?: StringWithAggregatesFilter<"PushToken"> | string
+    platform?: StringNullableWithAggregatesFilter<"PushToken"> | string | null
+    updatedAt?: DateTimeWithAggregatesFilter<"PushToken"> | Date | string
+    userId?: UuidWithAggregatesFilter<"PushToken"> | string
   }
 
   export type ReportWhereInput = {
@@ -12242,6 +13521,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12262,6 +13542,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12282,6 +13563,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12302,6 +13584,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12482,6 +13765,8 @@ export namespace Prisma {
     full_name: string
     uvic_email: string
     intent: string
+    referral_code?: string | null
+    referred_by?: string | null
   }
 
   export type WaitlistTableUncheckedCreateInput = {
@@ -12490,6 +13775,8 @@ export namespace Prisma {
     full_name: string
     uvic_email: string
     intent: string
+    referral_code?: string | null
+    referred_by?: string | null
   }
 
   export type WaitlistTableUpdateInput = {
@@ -12498,6 +13785,8 @@ export namespace Prisma {
     full_name?: StringFieldUpdateOperationsInput | string
     uvic_email?: StringFieldUpdateOperationsInput | string
     intent?: StringFieldUpdateOperationsInput | string
+    referral_code?: NullableStringFieldUpdateOperationsInput | string | null
+    referred_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WaitlistTableUncheckedUpdateInput = {
@@ -12506,6 +13795,8 @@ export namespace Prisma {
     full_name?: StringFieldUpdateOperationsInput | string
     uvic_email?: StringFieldUpdateOperationsInput | string
     intent?: StringFieldUpdateOperationsInput | string
+    referral_code?: NullableStringFieldUpdateOperationsInput | string | null
+    referred_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WaitlistTableCreateManyInput = {
@@ -12514,6 +13805,8 @@ export namespace Prisma {
     full_name: string
     uvic_email: string
     intent: string
+    referral_code?: string | null
+    referred_by?: string | null
   }
 
   export type WaitlistTableUpdateManyMutationInput = {
@@ -12522,6 +13815,8 @@ export namespace Prisma {
     full_name?: StringFieldUpdateOperationsInput | string
     uvic_email?: StringFieldUpdateOperationsInput | string
     intent?: StringFieldUpdateOperationsInput | string
+    referral_code?: NullableStringFieldUpdateOperationsInput | string | null
+    referred_by?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type WaitlistTableUncheckedUpdateManyInput = {
@@ -12530,6 +13825,63 @@ export namespace Prisma {
     full_name?: StringFieldUpdateOperationsInput | string
     uvic_email?: StringFieldUpdateOperationsInput | string
     intent?: StringFieldUpdateOperationsInput | string
+    referral_code?: NullableStringFieldUpdateOperationsInput | string | null
+    referred_by?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type PushTokenCreateInput = {
+    id?: string
+    token: string
+    platform?: string | null
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPushTokenInput
+  }
+
+  export type PushTokenUncheckedCreateInput = {
+    id?: string
+    token: string
+    platform?: string | null
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type PushTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPushTokenNestedInput
+  }
+
+  export type PushTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PushTokenCreateManyInput = {
+    id?: string
+    token: string
+    platform?: string | null
+    updatedAt?: Date | string
+    userId: string
+  }
+
+  export type PushTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PushTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type ReportCreateInput = {
@@ -13058,6 +14410,11 @@ export namespace Prisma {
     isNot?: UserPreferencesWhereInput | null
   }
 
+  export type PushTokenNullableScalarRelationFilter = {
+    is?: PushTokenWhereInput | null
+    isNot?: PushTokenWhereInput | null
+  }
+
   export type ListingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -13280,6 +14637,8 @@ export namespace Prisma {
     full_name?: SortOrder
     uvic_email?: SortOrder
     intent?: SortOrder
+    referral_code?: SortOrder
+    referred_by?: SortOrder
   }
 
   export type WaitlistTableAvgOrderByAggregateInput = {
@@ -13292,6 +14651,8 @@ export namespace Prisma {
     full_name?: SortOrder
     uvic_email?: SortOrder
     intent?: SortOrder
+    referral_code?: SortOrder
+    referred_by?: SortOrder
   }
 
   export type WaitlistTableMinOrderByAggregateInput = {
@@ -13300,6 +14661,8 @@ export namespace Prisma {
     full_name?: SortOrder
     uvic_email?: SortOrder
     intent?: SortOrder
+    referral_code?: SortOrder
+    referred_by?: SortOrder
   }
 
   export type WaitlistTableSumOrderByAggregateInput = {
@@ -13320,6 +14683,30 @@ export namespace Prisma {
     _sum?: NestedBigIntFilter<$PrismaModel>
     _min?: NestedBigIntFilter<$PrismaModel>
     _max?: NestedBigIntFilter<$PrismaModel>
+  }
+
+  export type PushTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    platform?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type PushTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    platform?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type PushTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    platform?: SortOrder
+    updatedAt?: SortOrder
+    userId?: SortOrder
   }
 
   export type EnumReportReasonFilter<$PrismaModel = never> = {
@@ -13606,6 +14993,12 @@ export namespace Prisma {
     connect?: UserPreferencesWhereUniqueInput
   }
 
+  export type PushTokenCreateNestedOneWithoutUserInput = {
+    create?: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PushTokenCreateOrConnectWithoutUserInput
+    connect?: PushTokenWhereUniqueInput
+  }
+
   export type ConversationUncheckedCreateNestedManyWithoutBuyerInput = {
     create?: XOR<ConversationCreateWithoutBuyerInput, ConversationUncheckedCreateWithoutBuyerInput> | ConversationCreateWithoutBuyerInput[] | ConversationUncheckedCreateWithoutBuyerInput[]
     connectOrCreate?: ConversationCreateOrConnectWithoutBuyerInput | ConversationCreateOrConnectWithoutBuyerInput[]
@@ -13666,6 +15059,12 @@ export namespace Prisma {
     create?: XOR<UserPreferencesCreateWithoutUserInput, UserPreferencesUncheckedCreateWithoutUserInput>
     connectOrCreate?: UserPreferencesCreateOrConnectWithoutUserInput
     connect?: UserPreferencesWhereUniqueInput
+  }
+
+  export type PushTokenUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PushTokenCreateOrConnectWithoutUserInput
+    connect?: PushTokenWhereUniqueInput
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -13798,6 +15197,16 @@ export namespace Prisma {
     update?: XOR<XOR<UserPreferencesUpdateToOneWithWhereWithoutUserInput, UserPreferencesUpdateWithoutUserInput>, UserPreferencesUncheckedUpdateWithoutUserInput>
   }
 
+  export type PushTokenUpdateOneWithoutUserNestedInput = {
+    create?: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PushTokenCreateOrConnectWithoutUserInput
+    upsert?: PushTokenUpsertWithoutUserInput
+    disconnect?: PushTokenWhereInput | boolean
+    delete?: PushTokenWhereInput | boolean
+    connect?: PushTokenWhereUniqueInput
+    update?: XOR<XOR<PushTokenUpdateToOneWithWhereWithoutUserInput, PushTokenUpdateWithoutUserInput>, PushTokenUncheckedUpdateWithoutUserInput>
+  }
+
   export type ConversationUncheckedUpdateManyWithoutBuyerNestedInput = {
     create?: XOR<ConversationCreateWithoutBuyerInput, ConversationUncheckedCreateWithoutBuyerInput> | ConversationCreateWithoutBuyerInput[] | ConversationUncheckedCreateWithoutBuyerInput[]
     connectOrCreate?: ConversationCreateOrConnectWithoutBuyerInput | ConversationCreateOrConnectWithoutBuyerInput[]
@@ -13918,6 +15327,16 @@ export namespace Prisma {
     delete?: UserPreferencesWhereInput | boolean
     connect?: UserPreferencesWhereUniqueInput
     update?: XOR<XOR<UserPreferencesUpdateToOneWithWhereWithoutUserInput, UserPreferencesUpdateWithoutUserInput>, UserPreferencesUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PushTokenUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PushTokenCreateOrConnectWithoutUserInput
+    upsert?: PushTokenUpsertWithoutUserInput
+    disconnect?: PushTokenWhereInput | boolean
+    delete?: PushTokenWhereInput | boolean
+    connect?: PushTokenWhereUniqueInput
+    update?: XOR<XOR<PushTokenUpdateToOneWithWhereWithoutUserInput, PushTokenUpdateWithoutUserInput>, PushTokenUncheckedUpdateWithoutUserInput>
   }
 
   export type UserCreateNestedOneWithoutBuyerConversationsInput = {
@@ -14046,6 +15465,20 @@ export namespace Prisma {
     decrement?: bigint | number
     multiply?: bigint | number
     divide?: bigint | number
+  }
+
+  export type UserCreateNestedOneWithoutPushTokenInput = {
+    create?: XOR<UserCreateWithoutPushTokenInput, UserUncheckedCreateWithoutPushTokenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPushTokenInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPushTokenNestedInput = {
+    create?: XOR<UserCreateWithoutPushTokenInput, UserUncheckedCreateWithoutPushTokenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPushTokenInput
+    upsert?: UserUpsertWithoutPushTokenInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPushTokenInput, UserUpdateWithoutPushTokenInput>, UserUncheckedUpdateWithoutPushTokenInput>
   }
 
   export type UserCreateNestedOneWithoutReportsFiledInput = {
@@ -14474,6 +15907,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutListingsInput = {
@@ -14493,6 +15927,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutListingsInput = {
@@ -14556,6 +15991,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutListingsInput = {
@@ -14575,6 +16011,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPreferencesInput = {
@@ -14594,6 +16031,7 @@ export namespace Prisma {
     reportsReceived?: ReportCreateNestedManyWithoutTargetUserInput
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPreferencesInput = {
@@ -14613,6 +16051,7 @@ export namespace Prisma {
     reportsReceived?: ReportUncheckedCreateNestedManyWithoutTargetUserInput
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPreferencesInput = {
@@ -14648,6 +16087,7 @@ export namespace Prisma {
     reportsReceived?: ReportUpdateManyWithoutTargetUserNestedInput
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPreferencesInput = {
@@ -14667,6 +16107,7 @@ export namespace Prisma {
     reportsReceived?: ReportUncheckedUpdateManyWithoutTargetUserNestedInput
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutReviewsReceivedInput = {
@@ -14686,6 +16127,7 @@ export namespace Prisma {
     reportsReceived?: ReportCreateNestedManyWithoutTargetUserInput
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewsReceivedInput = {
@@ -14705,6 +16147,7 @@ export namespace Prisma {
     reportsReceived?: ReportUncheckedCreateNestedManyWithoutTargetUserInput
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewsReceivedInput = {
@@ -14729,6 +16172,7 @@ export namespace Prisma {
     reportsReceived?: ReportCreateNestedManyWithoutTargetUserInput
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReviewsGivenInput = {
@@ -14748,6 +16192,7 @@ export namespace Prisma {
     reportsReceived?: ReportUncheckedCreateNestedManyWithoutTargetUserInput
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReviewsGivenInput = {
@@ -14783,6 +16228,7 @@ export namespace Prisma {
     reportsReceived?: ReportUpdateManyWithoutTargetUserNestedInput
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
@@ -14802,6 +16248,7 @@ export namespace Prisma {
     reportsReceived?: ReportUncheckedUpdateManyWithoutTargetUserNestedInput
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReviewsGivenInput = {
@@ -14832,6 +16279,7 @@ export namespace Prisma {
     reportsReceived?: ReportUpdateManyWithoutTargetUserNestedInput
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsGivenInput = {
@@ -14851,6 +16299,7 @@ export namespace Prisma {
     reportsReceived?: ReportUncheckedUpdateManyWithoutTargetUserNestedInput
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type ConversationCreateWithoutBuyerInput = {
@@ -15142,6 +16591,25 @@ export namespace Prisma {
     create: XOR<UserPreferencesCreateWithoutUserInput, UserPreferencesUncheckedCreateWithoutUserInput>
   }
 
+  export type PushTokenCreateWithoutUserInput = {
+    id?: string
+    token: string
+    platform?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type PushTokenUncheckedCreateWithoutUserInput = {
+    id?: string
+    token: string
+    platform?: string | null
+    updatedAt?: Date | string
+  }
+
+  export type PushTokenCreateOrConnectWithoutUserInput = {
+    where: PushTokenWhereUniqueInput
+    create: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput>
+  }
+
   export type ConversationUpsertWithWhereUniqueWithoutBuyerInput = {
     where: ConversationWhereUniqueInput
     update: XOR<ConversationUpdateWithoutBuyerInput, ConversationUncheckedUpdateWithoutBuyerInput>
@@ -15368,6 +16836,31 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PushTokenUpsertWithoutUserInput = {
+    update: XOR<PushTokenUpdateWithoutUserInput, PushTokenUncheckedUpdateWithoutUserInput>
+    create: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput>
+    where?: PushTokenWhereInput
+  }
+
+  export type PushTokenUpdateToOneWithWhereWithoutUserInput = {
+    where?: PushTokenWhereInput
+    data: XOR<PushTokenUpdateWithoutUserInput, PushTokenUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PushTokenUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PushTokenUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    platform?: NullableStringFieldUpdateOperationsInput | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateWithoutBuyerConversationsInput = {
     uid: string
     email: string
@@ -15385,6 +16878,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutBuyerConversationsInput = {
@@ -15404,6 +16898,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutBuyerConversationsInput = {
@@ -15467,6 +16962,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSellerConversationsInput = {
@@ -15486,6 +16982,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSellerConversationsInput = {
@@ -15551,6 +17048,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBuyerConversationsInput = {
@@ -15570,6 +17068,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type ListingUpsertWithoutConversationsInput = {
@@ -15645,6 +17144,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSellerConversationsInput = {
@@ -15664,6 +17164,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -15722,6 +17223,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -15741,6 +17243,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -15805,6 +17308,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -15819,6 +17323,103 @@ export namespace Prisma {
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
+    reportsFiled?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reportsReceived?: ReportUncheckedUpdateManyWithoutTargetUserNestedInput
+    reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPushTokenInput = {
+    uid: string
+    email: string
+    name: string
+    profileURL: string
+    isVerified?: boolean
+    createdAt?: Date | string
+    rating?: number
+    hidden?: boolean
+    buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
+    sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
+    listings?: ListingCreateNestedManyWithoutSellerInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    reportsFiled?: ReportCreateNestedManyWithoutReporterInput
+    reportsReceived?: ReportCreateNestedManyWithoutTargetUserInput
+    reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutPushTokenInput = {
+    uid: string
+    email: string
+    name: string
+    profileURL: string
+    isVerified?: boolean
+    createdAt?: Date | string
+    rating?: number
+    hidden?: boolean
+    buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
+    sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
+    listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    reportsFiled?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reportsReceived?: ReportUncheckedCreateNestedManyWithoutTargetUserInput
+    reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutPushTokenInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPushTokenInput, UserUncheckedCreateWithoutPushTokenInput>
+  }
+
+  export type UserUpsertWithoutPushTokenInput = {
+    update: XOR<UserUpdateWithoutPushTokenInput, UserUncheckedUpdateWithoutPushTokenInput>
+    create: XOR<UserCreateWithoutPushTokenInput, UserUncheckedCreateWithoutPushTokenInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPushTokenInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPushTokenInput, UserUncheckedUpdateWithoutPushTokenInput>
+  }
+
+  export type UserUpdateWithoutPushTokenInput = {
+    uid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    profileURL?: StringFieldUpdateOperationsInput | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
+    buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
+    sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
+    listings?: ListingUpdateManyWithoutSellerNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    reportsFiled?: ReportUpdateManyWithoutReporterNestedInput
+    reportsReceived?: ReportUpdateManyWithoutTargetUserNestedInput
+    reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPushTokenInput = {
+    uid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    profileURL?: StringFieldUpdateOperationsInput | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
+    buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
     reportsFiled?: ReportUncheckedUpdateManyWithoutReporterNestedInput
     reportsReceived?: ReportUncheckedUpdateManyWithoutTargetUserNestedInput
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
@@ -15843,6 +17444,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReportsFiledInput = {
@@ -15862,6 +17464,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReportsFiledInput = {
@@ -15886,6 +17489,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutReportsReceivedInput = {
@@ -15905,6 +17509,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutReportsReceivedInput = {
@@ -15940,6 +17545,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReportsFiledInput = {
@@ -15959,6 +17565,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutReportsReceivedInput = {
@@ -15989,6 +17596,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReportsReceivedInput = {
@@ -16008,6 +17616,7 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type ConversationCreateManyListingInput = {

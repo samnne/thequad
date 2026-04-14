@@ -72,6 +72,7 @@ model User {
   reviewsReceived     Review[]         @relation("ReviewsReceived")
   reviewsGiven        Review[]         @relation("ReviewsGiven")
   preferences         UserPreferences?
+  pushToken           PushToken?
 }
 
 model Conversation {
@@ -104,32 +105,24 @@ model Message {
 
 /// This model contains row level security and requires additional setup for migrations. Visit https://pris.ly/d/row-level-security for more info.
 model WaitlistTable {
-  id         BigInt   @id @default(autoincrement())
-  created_at DateTime @default(now()) @db.Timestamptz(6)
-  full_name  String
-  uvic_email String
-  intent     String
+  id            BigInt   @id @default(autoincrement())
+  created_at    DateTime @default(now()) @db.Timestamptz(6)
+  full_name     String
+  uvic_email    String
+  intent        String
+  referral_code String?
+  referred_by   String?
 }
 
-enum ReportStatus {
-  PENDING
-  UNDER_REVIEW
-  RESOLVED
-  DISMISSED
-}
+model PushToken {
+  id        String   @id @default(cuid())
+  token     String
+  platform  String?
+  updatedAt DateTime @updatedAt
+  userId    String   @unique @db.Uuid
+  user      User     @relation(fields: [userId], references: [uid], onDelete: Cascade)
 
-enum ReportReason {
-  SPAM
-  FAKE_LISTING
-  HARASSMENT
-  SCAM
-  INAPPROPRIATE_CONTENT
-  OTHER
-}
-
-enum ReviewRole {
-  BUYER
-  SELLER
+  @@map("push_tokens")
 }
 
 model Report {
@@ -151,4 +144,25 @@ model Report {
   @@index([targetUserId])
   @@index([reporterId])
   @@index([status])
+}
+
+enum ReportStatus {
+  PENDING
+  UNDER_REVIEW
+  RESOLVED
+  DISMISSED
+}
+
+enum ReportReason {
+  SPAM
+  FAKE_LISTING
+  HARASSMENT
+  SCAM
+  INAPPROPRIATE_CONTENT
+  OTHER
+}
+
+enum ReviewRole {
+  BUYER
+  SELLER
 }
