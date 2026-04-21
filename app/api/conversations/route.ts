@@ -2,6 +2,7 @@ import { prisma } from "@/db/db";
 import { getConvos } from "@/lib/conversations.lib";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth";
+import { convoSchema, parseBody } from "@/lib/sanatize.lib";
 
 export async function GET(req: NextRequest) {
   const auth = await requireAuth(req);
@@ -29,13 +30,17 @@ export async function POST(req: NextRequest) {
     return auth.response;
   }
 
-  const body = await req.json();
+  const body = await parseBody(req, convoSchema)
+  
+  if ("error" in body){
+    return body.error
+  }
 
   if (
-    !body.sellerId ||
-    !body.buyerId ||
-    !body.listingId ||
-    !body.initialMessage
+    !body.data.sellerId ||
+    !body.data.buyerId ||
+    !body.data.listingId ||
+    !body.data.initialMessage
   ) {
     return NextResponse.json(
       { message: "Missing required fields", success: false, convo: null },
@@ -45,8 +50,8 @@ export async function POST(req: NextRequest) {
   try {
     const existing = await prisma.conversation.findFirst({
       where: {
-        listingId: body.listingId,
-        sellerId: body.sellerId,
+        listingId: body.data.listingId,
+        sellerId: body.data.sellerId,
       },
       include: { messages: true },
     });
@@ -55,7 +60,7 @@ export async function POST(req: NextRequest) {
       if (!existing.buyerId || !existing.sellerId) {
         const updated = await prisma.conversation.update({
           where: { cid: existing.cid },
-          data: { buyerId: body.buyerId, sellerId: body.sellerId },
+          data: { buyerId: body.data.buyerId, sellerId: body.data.sellerId },
           include: { messages: true },
         });
         return NextResponse.json(
@@ -72,11 +77,11 @@ export async function POST(req: NextRequest) {
 
     const convo = await prisma.conversation.create({
       data: {
-        listingId: body.listingId,
-        buyerId: body.buyerId,
-        sellerId: body.sellerId,
+        listingId: body.data.listingId,
+        buyerId: body.data.buyerId,
+        sellerId: body.data.sellerId,
         messages: {
-          create: { text: body.initialMessage, senderId: body.buyerId },
+          create: { text: body.data.initialMessage!, senderId: body.data.buyerId },
         },
       },
       include: { messages: true },

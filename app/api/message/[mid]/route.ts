@@ -1,6 +1,8 @@
 import { sendMessage } from "@/lib/messages.lib";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth";
+import { messageSchema, parseBody } from "@/lib/sanatize.lib";
+import { User } from "@/src/generated/prisma";
 
 export async function POST(
   req: NextRequest,
@@ -11,7 +13,10 @@ export async function POST(
     return auth.response;
   }
   const session = auth.user.uid
-  const body = await req.json();
+  const result = await parseBody(req, messageSchema);
+  if ("error" in result) return result.error;
+  const body = result.data;
+  
   const { mid } = await params;
  
   if (!session || !mid) {
@@ -22,7 +27,7 @@ export async function POST(
       convo: null,
     });
   }
-
+  const user: User | null = body.user 
   try {
     const response = await sendMessage(
       {
@@ -30,7 +35,7 @@ export async function POST(
         senderId: body.senderId as string,
         text: body.text as string,
       },
-      body.user,
+      user!,
     );
 
     return NextResponse.json({

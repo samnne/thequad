@@ -1,19 +1,24 @@
-'use server';
+"use server";
 import { prisma } from "./db";
 
-export async function setVerifiedUser(uid: string | undefined) {
-    if (!uid) return { user: null, success: false}
-  const user = await prisma.user.update({
-    data: {
-      isVerified: true,
+export async function setVerifiedUser(
+  uid: string | undefined,
+  email?: string,
+  name?: string,
+) {
+  if (!uid) return { user: null, success: false };
 
-    },
-    where: {
-      uid,
+  const user = await prisma.user.upsert({
+    where: { uid },
+    update: { isVerified: true, email: email },
+    create: {
+      uid: uid,
+      email: email ?? "",
+      name: name ?? "",
+      profileURL: "",
+      isVerified: true,
     },
   });
-  if (!user) {
-    return { success: false, user: null };
-  }
-  return { user, success: true };
+
+  return user ? { user, success: true } : { user: null, success: false };
 }

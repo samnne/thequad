@@ -11,7 +11,7 @@ export async function PUT(
     return auth.response;
   }
   const role = auth.user;
-  if (role.name !== "ADMIN") {
+  if (role.name !== process.env.ADMIN_ROLE) {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
   const {id} = await params

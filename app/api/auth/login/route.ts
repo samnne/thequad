@@ -1,29 +1,20 @@
 import { setVerifiedUser } from "@/db/user.db";
-import { supabase } from "@/supabase/authHelper";
+import { loginSchema, parseBody } from "@/lib/sanatize.lib";
 
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const user = await supabase.auth.signInWithPassword({
-    email: body.email,
-    password: body.password,
-  });
-  if (!user) {
-    return NextResponse.json({
-      message: "User does not exist",
-      status: 404,
-    });
+
+export async function PUT(req: NextRequest) {
+  const body = await parseBody(req, loginSchema)
+  console.log(body)
+  if ("error" in body){
+    return body.error
   }
 
-  return NextResponse.json({
-    message: "Successful Login",
-    status: 200,
-    success: true,
-  });
-}
-export async function PUT(req: NextRequest) {
-  const {uid} = await req.json();
+  const uid = body?.data.uid
+  const email = body?.data.email
+  const name = body?.data.name
+
   if (!uid) {
     return NextResponse.json({
       message: "User does not exist",
@@ -31,7 +22,8 @@ export async function PUT(req: NextRequest) {
     });
   }
 
-  const user = await setVerifiedUser(uid);
+
+  const { user } = await setVerifiedUser(uid, email, name);
   if (!user) {
     return NextResponse.json({
       message: "User does not exist",

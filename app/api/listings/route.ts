@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server.js"
+import { NextRequest, NextResponse } from "next/server.js";
 import { getUserId, requireAuth } from "@/lib/auth";
 import {
   createNewListing,
@@ -9,9 +9,10 @@ import {
 
 import { Listing } from "@/src/generated/prisma/client";
 import { ListingWithIncludes } from "@/app/types";
+import { listingSchema, parseBody } from "@/lib/sanatize.lib";
 
 export async function GET(req: NextRequest) {
-  const userId = await getUserId(req)
+  const userId = await getUserId(req);
 
   try {
     if (userId) {
@@ -36,8 +37,13 @@ export async function GET(req: NextRequest) {
   }
 }
 export async function POST(req: NextRequest) {
-  const listingFormData = await req.json();
+  const body = await parseBody(req, listingSchema);
 
+  if ("error" in body) {
+    return body.error;
+  }
+
+  const listingFormData = body.data;
   try {
     const createdListing = await createNewListing(listingFormData);
 
@@ -76,7 +82,10 @@ export async function PUT(req: NextRequest) {
   }
 
   try {
-    const listing: Listing & ListingWithIncludes = await req.json();
+    const result = await parseBody(req, listingSchema);
+    if ("error" in result) return result.error;
+    const listing = result.data;
+
     if (!listing) {
       return NextResponse.json({
         success: false,

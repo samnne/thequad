@@ -2,6 +2,7 @@ import { prisma } from "@/db/db";
 import { updateReviewCount } from "@/db/reviews.db";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth";
+import { parseBody, reviewSchema } from "@/lib/sanatize.lib";
 
 export async function GET(req: NextRequest) {
   const auth = await requireAuth(req);
@@ -39,7 +40,12 @@ export async function POST(req: NextRequest) {
       success: false,
     });
   }
-  const newReview = await req.json();
+  const result = await parseBody(req, reviewSchema);
+  if ("error" in result) {
+    return result.error;
+  }
+
+  const newReview = result.data;
 
   const review = await prisma.review.upsert({
     where: {

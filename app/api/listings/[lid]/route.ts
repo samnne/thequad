@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth";
 import { deleteListing, getListingByID, updateListing } from "@/db/listings.db";
 
-
 import { deleteImages } from "@/cloudinary/cloudinary";
+import { listingSchema, parseBody } from "@/lib/sanatize.lib";
 
 function ErrorMessage(message: string, code: number) {
   return { message, code, success: false };
@@ -21,9 +21,9 @@ export async function GET(
       });
     }
     let listing = await getListingByID(lid);
-    
+
     if (!listing) {
-      console.log(listing)
+      console.log(listing);
       return NextResponse.json(ErrorMessage("Failed to Fetch Listing", 500), {
         status: 500,
       });
@@ -62,7 +62,10 @@ export async function PUT(
   }
 
   const { lid } = await params;
-  const listingFormData = await req.json();
+  const result = await parseBody(req, listingSchema);
+  if ("error" in result) return result.error;
+  const listingFormData = result.data;
+
   try {
     if (!lid) {
       return NextResponse.json(ErrorMessage("ID not provided error", 500), {
