@@ -225,7 +225,7 @@ const CID = () => {
           senderId: appUser.uid,
           text: messageText,
         },
-        appUser,
+        appUser?.uid,
       );
       if (!response.new_message) {
         setMessageError(response);

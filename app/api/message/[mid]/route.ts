@@ -2,7 +2,6 @@ import { sendMessage } from "@/lib/messages.lib";
 import { NextRequest, NextResponse } from "next/server";
 import { requireAuth } from "@/lib/auth";
 import { messageSchema, parseBody } from "@/lib/sanatize.lib";
-import { User } from "@/src/generated/prisma";
 
 export async function POST(
   req: NextRequest,

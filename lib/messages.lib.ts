@@ -1,6 +1,5 @@
 "use server";
 import { prisma } from "../db/db";
-import { User } from "../src/generated/prisma/client";
 
 interface NewMessageProps {
   conversationId: string;
