@@ -32,7 +32,7 @@ export async function PUT(
   // Admin can manually un-hide a user when dismissing
   if (unhideUser && status === "DISMISSED") {
     await prisma.user.update({
-      where: { uid: report.targetUserId },
+      where: { uid: report.targetUserId! },
       data: { hidden: false },
     });
   }
