@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
         success: true,
       });
     }
-    const listings = await getListings();
+    const listings = await getListings({});
 
     return NextResponse.json({
       listings,

@@ -22,6 +22,12 @@ async function sendPushNotification(
     select: {
       buyerId: true,
       sellerId: true,
+      listing: {
+        select: {
+          title: true,
+          price: true
+        }
+      },
       buyer: {
         select: { name: true, pushToken: { select: { token: true } } },
       },
@@ -43,7 +49,8 @@ async function sendPushNotification(
   const message: ExpoPushMessage = {
     to: pushToken,
     sound: "default",
-    title: `You got a Message! from ${senderName}`,
+    title: `You got a message from ${senderName}.`,
+    subtitle: `${convo?.listing?.title} | ${convo?.listing?.price}`,
 
     body: text.length > 80 ? text.slice(0, 77) + "…" : text,
     data: { screen: "convos", conversationId: cid },

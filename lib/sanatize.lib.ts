@@ -1,4 +1,3 @@
-
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -54,7 +53,7 @@ export const listingSchema = z.object({
   sold: z.boolean().default(false).optional(),
   views: z.number().int().min(0).default(0).optional(),
   createdAt: z.string().optional(),
-  lid: z.string().uuid().optional()
+  lid: z.string().uuid().optional(),
 });
 
 export const accountSchema = z.object({
@@ -62,17 +61,18 @@ export const accountSchema = z.object({
 });
 
 export const onBoardingSchema = z.object({
-    username: z.string().optional(),
-    bio: z.string().optional(),
-    faculty: z.string().optional(),
-    year: z.number().optional(),
-    intent: z.string().optional(),
-    categories: z.string().array().optional(),
-    notifications: z.boolean().optional(),
-    name: z.string().optional()
-
-})
-
+  username: z.string().optional(),
+  bio: z.string().optional(),
+  faculty: z.string().optional(),
+  year: z.number().optional(),
+  intent: z.string().optional(),
+  categories: z.string().array().optional(),
+  notif_messages: z.boolean().optional(),
+  notif_listings: z.boolean().optional(),
+  notif_sales: z.boolean().optional(),
+  name: z.string().optional(),
+  profileURL: z.string().optional(),
+});
 
 export const reviewSchema = z.object({
   rating: z.number().int().min(1).max(5),
@@ -92,7 +92,6 @@ export const messageSchema = z.object({
   conversationId: z.string().uuid(),
   text: z.string().min(1).max(2000).trim(),
   senderId: z.string().uuid(),
-  
 });
 
 export const editMessageSchema = z.object({
@@ -108,16 +107,16 @@ export const parseBody = async <T>(
 ): Promise<{ data: T } | { error: NextResponse }> => {
   try {
     const raw = await req.json();
-   
+
     const sanitized = sanitizeBody(raw as Record<string, unknown>);
     const parsed = schema.safeParse(sanitized);
 
     if (!parsed.success) {
-        console.log( parsed.error.flatten())
+      console.log(parsed.error.flatten());
       return {
         error: NextResponse.json(
           { error: "Validation failed", details: parsed.error.flatten() },
-          { status: 400 }
+          { status: 400 },
         ),
       };
     }

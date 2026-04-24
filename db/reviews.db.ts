@@ -3,7 +3,7 @@ import { prisma } from "./db";
 export async function updateReviewCount(userID: string) {
   const reviews_for_user = await prisma.review.findMany({
     where: {
-      OR: [{ revieweeId: userID }, { reviewerId: userID }],
+      OR: [{ revieweeId: userID }],
     },
   });
 

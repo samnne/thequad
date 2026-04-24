@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  await updateReviewCount(newReview.revieweeId);
+  await updateReviewCount(review.revieweeId!);
 
   return NextResponse.json({
     message: "Successfully retrieved reviews",

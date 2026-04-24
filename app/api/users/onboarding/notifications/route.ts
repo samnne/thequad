@@ -5,12 +5,14 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(req: NextRequest) {
   const auth = await requireAuth(req);
+  
   if (!auth.ok) return auth.response;
   const uid = auth.user.uid;
   const result = await parseBody(req, onBoardingSchema);
+
   if ("error" in result) return result.error;
   const body = result.data;
-  if (!body.notifications) {
+  if (!body.notif_listings || !body.notif_messages || !body.notif_sales) {
     return NextResponse.json({
       message: "no notifications",
       success: false,
@@ -22,7 +24,8 @@ export async function PATCH(req: NextRequest) {
         uid: uid,
       },
       data: {
-        enabled_notifications: body.notifications
+        enabled_notifications:
+          body.notif_messages || body.notif_listings || body.notif_sales,
       },
     });
     return NextResponse.json({

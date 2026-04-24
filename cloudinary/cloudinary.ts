@@ -8,19 +8,18 @@ cloudinary.config({
 });
 
 function getPublicId(url: string): string {
-  const parts = url.split('/')
-  const uploadIndex = parts.indexOf('upload')
+  const parts = url.split("/");
+  const uploadIndex = parts.indexOf("upload");
   // skip 'upload' and the version segment (vXXXXXX)
-  const relevantParts = parts.slice(uploadIndex + 2)
-  const withExtension = relevantParts.join('/')
-  return withExtension.replace(/\.[^/.]+$/, '') // strip file extension
+  const relevantParts = parts.slice(uploadIndex + 2);
+  const withExtension = relevantParts.join("/");
+  return withExtension.replace(/\.[^/.]+$/, ""); // strip file extension
 }
 
 export async function deleteImages(images: string[]) {
   for (const image of images) {
-    
-    const publicID = getPublicId(image)
-    console.log(publicID)
+    const publicID = getPublicId(image);
+    console.log(publicID);
     await cloudinary.uploader
       .destroy(publicID, { invalidate: true, resource_type: "image" })
       .then((res) => console.log(res))
@@ -28,11 +27,11 @@ export async function deleteImages(images: string[]) {
   }
 }
 
-export async function getCloudinarySignature() {
+export async function getCloudinarySignature(folder: string) {
   const timestamp = Math.round(Date.now() / 1000);
 
   const signature = cloudinary.utils.api_sign_request(
-    { timestamp, folder: "listings" },
+    { timestamp, folder: folder },
     process.env.CLOUDINARY_API_SECRET!,
   );
 

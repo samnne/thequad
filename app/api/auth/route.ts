@@ -60,6 +60,7 @@ export async function DELETE(req: NextRequest) {
     for (const listing of listings) {
       await deleteImages(listing.imageUrls);
     }
+    await deleteImages([user.profileURL])
 
     return NextResponse.json({
       success: true,

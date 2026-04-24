@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const userId = auth.user.uid;
   if (!userId) {
     return NextResponse.json({
-      message: "Failed to Fetch Listings, no UID",
+      message: "Failed to Fetch Prefs, no UID",
       status: 500,
       success: false,
     });

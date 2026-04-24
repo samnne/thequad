@@ -131,6 +131,30 @@ export async function uploadImages(
   return Promise.all(imagesToUpload);
 }
 
+
+async function uploadPFP(file: File) {
+  // 1. Get signature from your server
+  const { timestamp, signature, cloudName, apiKey } =
+    await getCloudinarySignature();
+
+  // 2. Upload directly to Cloudinary
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("timestamp", String(timestamp));
+  formData.append("signature", signature);
+  formData.append("api_key", apiKey!);
+  formData.append("folder", "pfp");
+
+  const res = await fetch(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    { method: "POST", body: formData },
+  );
+
+  const data = await res.json();
+  return data.secure_url;
+}
+
+
 async function uploadImage(file: File) {
   // 1. Get signature from your server
   const { timestamp, signature, cloudName, apiKey } =

@@ -3,13 +3,63 @@ import { prisma } from "./db";
 
 import { ListingWithIncludes } from "@/app/types";
 
-export async function getListings(): Promise<ListingWithIncludes[]> {
-  return prisma.listing.findMany({
-    orderBy: { createdAt: "asc" },
-    take: 10,
-    where: { archived: false },
+
+function scoreListings(listings: ListingWithIncludes[], userId?: string) {
+  const now = Date.now();
+
+  return listings
+    .map((l) => {
+      const ageHours = (now - new Date(l.createdAt).getTime()) / 36e5;
+      const likeCount = l.likes?.length ?? 0;
+      const messageCount = l._count?.conversations ?? 0;
+      const hasImage = (l.imageUrls?.length ?? 0) > 0 ? 1 : 0;
+
+  
+      const score =
+        likeCount * 3 +
+        messageCount * 2 +
+        hasImage * 5 -
+        ageHours * 0.5; 
+
+      return { ...l, _score: score };
+    })
+    .sort((a, b) => b._score - a._score);
+}
+export async function getListings({
+  cursor,
+  userId,
+  userCategories = [],
+  seenIds = [],
+}: {
+  cursor?: string;
+  userId?: string;
+  userCategories?: string[];
+  seenIds?: string[];
+}): Promise<{ listings: ListingWithIncludes[]; nextCursor: string | null }> {
+  const take = 50;
+
+  const raw = await prisma.listing.findMany({
+    take: take + 1,
+    ...(cursor && { cursor: { lid: cursor }, skip: 1 }),
+    where: {
+      archived: false,
+      sold: false,
+      ...(userId && { sellerId: { not: userId } }),
+      ...(seenIds.length && { lid: { notIn: seenIds } }),
+    },
+    orderBy: [
+      
+      { likes: { _count: "desc" } },
+      { createdAt: "desc" },
+    ],
     include: { seller: true, conversations: true, _count: true, likes: true },
   });
+
+  const hasMore = raw.length > take;
+  const page = scoreListings(hasMore ? raw.slice(0, take) : raw, userId);
+  const nextCursor = hasMore ? page[page.length - 1].lid : null;
+
+  return { listings: page, nextCursor };
 }
 
 export async function getOthersListings(
@@ -17,7 +67,7 @@ export async function getOthersListings(
 ): Promise<ListingWithIncludes[]> {
   return prisma.listing.findMany({
     orderBy: { createdAt: "asc" },
-    take: 10,
+    take: 50,
     where: { sellerId: { not: uid }, archived: false },
     include: { seller: true, conversations: true, _count: true, likes: true },
   });
@@ -28,7 +78,7 @@ export async function getUserListings(
 ): Promise<ListingWithIncludes[]> {
   return prisma.listing.findMany({
     orderBy: { createdAt: "asc" },
-    take: 10,
+    take: 20,
     where: { sellerId: uid },
     include: { seller: true, conversations: true, _count: true, likes: true },
   });

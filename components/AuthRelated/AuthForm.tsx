@@ -6,7 +6,7 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 
 import { BsEye, BsEyeSlash } from "react-icons/bs";
 import { CiMail } from "react-icons/ci";
-import { useMessage, useType, useUser } from "../../app/store/zustand";
+import { useListings, useMessage, useType, useUser } from "../../app/store/zustand";
 
 import { signUpUser } from "@/supabase/supabase";
 import { supabase } from "@/supabase/authHelper";
@@ -35,6 +35,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [counter, setCounter] = useState(0);
+  
   const { setError, setSuccess, setMessage } = useMessage();
   const { setUser } = useUser();
 
@@ -98,7 +99,7 @@ const AuthForm = ({ type }: { type: FormType }) => {
         if (error) {
           setError(true);
           setMessage("Email or Password is incorrect");
-          console.log(error);
+          console.error(error);
           return;
         }
         return router.push("/profile");

@@ -37,7 +37,7 @@ export async function GET(
         reviewsReceived: true,
       },
     });
-
+    console.log("hey")
     return NextResponse.json({
       data: user,
       success: true,
