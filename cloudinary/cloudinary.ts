@@ -30,8 +30,14 @@ export async function deleteImages(images: string[]) {
 export async function getCloudinarySignature(folder: string) {
   const timestamp = Math.round(Date.now() / 1000);
 
+  const params =
+    folder === "pfp"
+      ? { timestamp, folder, moderation: "aws_rek" }
+      : { timestamp, folder };
+
+
   const signature = cloudinary.utils.api_sign_request(
-    { timestamp, folder: folder },
+    params,
     process.env.CLOUDINARY_API_SECRET!,
   );
 

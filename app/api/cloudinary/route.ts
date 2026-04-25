@@ -5,7 +5,7 @@ import { requireAuth } from "@/lib/auth";
 export async function GET(req: NextRequest) {
   const folder = req.headers.get("x-cloud-folder");
   const auth = await requireAuth(req);
-  console.log(folder);
+
   if (!auth.ok) return auth.response;
   if (!folder || !auth.user.uid) {
     return NextResponse.json({
@@ -34,7 +34,7 @@ export async function DELETE(req: NextRequest) {
   }
   const userId = auth.user.uid;
   const images = await req.json();
-  console.log(images);
+
   if (!userId) {
     return NextResponse.json({
       message: "No User ID",

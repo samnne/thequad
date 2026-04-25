@@ -13,7 +13,7 @@ import { User as SupabaseUser } from "@supabase/supabase-js";
 import { User as PrismaUser } from "@/src/generated/prisma/client";
 
 import { ImageLoaderProps } from "next/image";
-import {  Listing } from "@/src/generated/prisma/client";
+import { Listing } from "@/src/generated/prisma/client";
 import { ConvoWithRelations } from "../types";
 import { UserSession } from "../store/zustand";
 
@@ -24,22 +24,16 @@ export const cloudinaryLoader = ({ src, width, quality }: ImageLoaderProps) => {
 
 export const mapToUserSession = (
   user: SupabaseUser,
-  app_user?: PrismaUser
+  app_user?: PrismaUser,
 ): UserSession => {
   return {
     uid: user.id,
     id: app_user?.uid, // optional
     email: user.email ?? "",
 
-    name:
-      app_user?.name ||
-      user.user_metadata?.name ||
-      "",
+    name: app_user?.name || user.user_metadata?.name || "",
 
-    profileURL:
-      app_user?.profileURL ||
-      user.user_metadata?.avatar_url ||
-      "",
+    profileURL: app_user?.profileURL || user.user_metadata?.avatar_url || "",
 
     isVerified: app_user?.isVerified ?? false,
     rating: app_user?.rating ?? 0,
@@ -51,9 +45,9 @@ export const mapToUserSession = (
 };
 
 export function cleanUP(
-  listingStore: {reset: ()=>void},
-  userStore: {reset: ()=>void},
-  convoStore: {reset: ()=>void},
+  listingStore: { reset: () => void },
+  userStore: { reset: () => void },
+  convoStore: { reset: () => void },
 ) {
   userStore.reset();
   listingStore.reset();
@@ -131,7 +125,6 @@ export async function uploadImages(
   return Promise.all(imagesToUpload);
 }
 
-
 async function uploadPFP(file: File) {
   // 1. Get signature from your server
   const { timestamp, signature, cloudName, apiKey } =
@@ -144,7 +137,7 @@ async function uploadPFP(file: File) {
   formData.append("signature", signature);
   formData.append("api_key", apiKey!);
   formData.append("folder", "pfp");
-
+  formData.append("moderation", "aws_rek");
   const res = await fetch(
     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
     { method: "POST", body: formData },
@@ -153,7 +146,6 @@ async function uploadPFP(file: File) {
   const data = await res.json();
   return data.secure_url;
 }
-
 
 async function uploadImage(file: File) {
   // 1. Get signature from your server
@@ -167,6 +159,7 @@ async function uploadImage(file: File) {
   formData.append("signature", signature);
   formData.append("api_key", apiKey!);
   formData.append("folder", "listings");
+   formData.append("moderation", "aws_rek"); 
 
   const res = await fetch(
     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
