@@ -137,7 +137,7 @@ async function uploadPFP(file: File) {
   formData.append("signature", signature);
   formData.append("api_key", apiKey!);
   formData.append("folder", "pfp");
-  formData.append("moderation", "aws_rek");
+
   const res = await fetch(
     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
     { method: "POST", body: formData },
@@ -159,8 +159,7 @@ async function uploadImage(file: File) {
   formData.append("signature", signature);
   formData.append("api_key", apiKey!);
   formData.append("folder", "listings");
-   formData.append("moderation", "aws_rek"); 
-
+  
   const res = await fetch(
     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
     { method: "POST", body: formData },

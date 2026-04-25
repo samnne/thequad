@@ -32,7 +32,7 @@ export async function getCloudinarySignature(folder: string) {
 
   const params =
     folder === "pfp"
-      ? { timestamp, folder, moderation: "aws_rek" }
+      ? { timestamp, folder }
       : { timestamp, folder };
 
 
