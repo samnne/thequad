@@ -28,7 +28,7 @@ const ListingCard = ({ listing }: { listing: Listing }) => {
       }}
       onClick={() => openListingModal(listing)}
       className=" bg-pill  drop-shadow-xl text-white  relative flex flex-col gap-2 rounded-4xl"
-      key={listing.lid}
+      key={`ewopfmisvdn${listing.lid}ivdjfvniovna`}
     >
       <div className="h-48 relative ">
         <Image

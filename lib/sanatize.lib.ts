@@ -71,6 +71,7 @@ export const onBoardingSchema = z.object({
   notif_listings: z.boolean().optional(),
   notif_sales: z.boolean().optional(),
   name: z.string().optional(),
+  onboarding_completed: z.boolean().optional(),
   profileURL: z.string().optional(),
 });
 

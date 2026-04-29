@@ -263,7 +263,7 @@ const ListingPage = () => {
           >
             {displayListings.map((listing: Listing, i) => (
               <motion.div
-                key={listing.lid}
+                key={`${listing.lid}`}
                 whileInView={{ y: [20, 0], opacity: [0, 1] }}
                 transition={{ delay: 0.05 * i, type: "keyframes" }}
                 className=""

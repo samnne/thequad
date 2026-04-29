@@ -18,7 +18,8 @@ export async function PATCH(req: NextRequest) {
   }
   const dataObj = {...(body?.bio && {bio: body.bio}), username: body.username
     , ...(body.name && {name: body.name}),
-    ...(body?.profileURL && {profileURL: body.profileURL})
+    ...(body?.profileURL && {profileURL: body.profileURL}),
+    ...(body?.onboarding_completed && {onboarding_completed: body?.onboarding_completed})
 
   }
  

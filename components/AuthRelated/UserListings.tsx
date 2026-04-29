@@ -133,7 +133,7 @@ const UserListings = ({
               {displayedListings.length > 0 ? (
                 displayedListings.map((listing, i) => (
                   <motion.div
-                    key={listing.lid}
+                    key={`${listing.lid}`}
                     animate={{ opacity: [0, 1], y: [10, 0] }}
                     transition={{ delay: Math.min(i * 0.04, 0.3) }}
                   >
