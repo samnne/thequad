@@ -9,22 +9,22 @@ datasource db {
 }
 
 model Listing {
-  lid         String   @id @default(uuid()) @db.Uuid
-  title       String
-  description String
-  price       Int
-  hidden      Boolean  @default(false)
-  imageUrls   String[]
-  sellerId    String?  @db.Uuid
-  createdAt   DateTime @default(now())
-  archived    Boolean  @default(false)
-  sold        Boolean  @default(false)
-  latitude    Float?
-  longitude   Float?
-  views       Int      @default(0)
-  condition   String?
-  category    String?
-
+  lid           String         @id @default(uuid()) @db.Uuid
+  title         String
+  description   String
+  price         Int
+  hidden        Boolean        @default(false)
+  imageUrls     String[]
+  sellerId      String?        @db.Uuid
+  createdAt     DateTime       @default(now())
+  archived      Boolean        @default(false)
+  sold          Boolean        @default(false)
+  latitude      Float?
+  longitude     Float?
+  views         Int            @default(0)
+  condition     String?
+  category      String?
+  reports       Report[]       @relation("ListingReports")
   likes         Like[]
   conversations Conversation[]
   seller        User?          @relation(fields: [sellerId], references: [uid], onDelete: SetNull)
@@ -182,10 +182,12 @@ model Report {
 
   resolvedById String? @db.Uuid
 
-  reporterId   String? @db.Uuid // ← make nullable
-  targetUserId String? @db.Uuid // ← make nullable
-  reporter     User?   @relation("ReportsFiled", fields: [reporterId], references: [uid], onDelete: SetNull)
-  targetUser   User?   @relation("ReportsReceived", fields: [targetUserId], references: [uid], onDelete: SetNull)
+  reporterId   String?  @db.Uuid // ← make nullable
+  targetUserId String?  @db.Uuid // ← make nullable
+  reporter     User?    @relation("ReportsFiled", fields: [reporterId], references: [uid], onDelete: SetNull)
+  targetUser   User?    @relation("ReportsReceived", fields: [targetUserId], references: [uid], onDelete: SetNull)
+  listing      Listing? @relation("ListingReports", fields: [listingLid], references: [lid], onDelete: SetNull)
+  listingLid   String?  @db.Uuid
 
   @@index([targetUserId])
   @@index([reporterId])

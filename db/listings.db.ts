@@ -49,6 +49,11 @@ export async function getListings({
           },
         },
       },
+      reports: {
+        none: {
+          reporterId: userId,
+        },
+      },
 
       ...(userId && { sellerId: { not: userId } }),
       ...(seenIds.length && { lid: { notIn: seenIds } }),
@@ -58,7 +63,7 @@ export async function getListings({
       seller: {
         include: {
           reportsFiled: true,
-          Blocked: true
+          Blocked: true,
         },
       },
       conversations: true,
@@ -66,7 +71,7 @@ export async function getListings({
       likes: true,
     },
   });
-  
+
   const hasMore = raw.length > take;
   const page = scoreListings(hasMore ? raw.slice(0, take) : raw, userId);
   const nextCursor = hasMore ? page[page.length - 1].lid : null;

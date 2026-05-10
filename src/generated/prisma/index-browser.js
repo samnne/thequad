@@ -248,7 +248,8 @@ exports.Prisma.ReportScalarFieldEnum = {
   itemReportedId: 'itemReportedId',
   resolvedById: 'resolvedById',
   reporterId: 'reporterId',
-  targetUserId: 'targetUserId'
+  targetUserId: 'targetUserId',
+  listingLid: 'listingLid'
 };
 
 exports.Prisma.SortOrder = {

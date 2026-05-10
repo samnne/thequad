@@ -3,7 +3,6 @@ import { getUserId, requireAuth } from "@/lib/auth";
 import {
   createNewListing,
   getListings,
-  getOthersListings,
   updateListing,
 } from "@/db/listings.db";
 
