@@ -67,6 +67,7 @@ export async function POST(req: NextRequest) {
       },
       data: {
         hidden: true,
+        
       },
       
     });

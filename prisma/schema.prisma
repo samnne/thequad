@@ -24,7 +24,7 @@ model Listing {
   views         Int            @default(0)
   condition     String?
   category      String?
-  reports       Report[]       @relation("ListingReports")
+ 
   likes         Like[]
   conversations Conversation[]
   seller        User?          @relation(fields: [sellerId], references: [uid], onDelete: SetNull)
@@ -186,8 +186,7 @@ model Report {
   targetUserId String?  @db.Uuid // ← make nullable
   reporter     User?    @relation("ReportsFiled", fields: [reporterId], references: [uid], onDelete: SetNull)
   targetUser   User?    @relation("ReportsReceived", fields: [targetUserId], references: [uid], onDelete: SetNull)
-  listing      Listing? @relation("ListingReports", fields: [listingLid], references: [lid], onDelete: SetNull)
-  listingLid   String?  @db.Uuid
+ 
 
   @@index([targetUserId])
   @@index([reporterId])

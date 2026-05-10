@@ -49,11 +49,6 @@ export async function getListings({
           },
         },
       },
-      reports: {
-        none: {
-          reporterId: userId,
-        },
-      },
 
       ...(userId && { sellerId: { not: userId } }),
       ...(seenIds.length && { lid: { notIn: seenIds } }),
@@ -94,13 +89,6 @@ export async function getOthersListings(
               none: {
                 blockerId: uid,
               },
-            },
-          },
-        },
-        {
-          reports: {
-            none: {
-              reporterId: uid,
             },
           },
         },
