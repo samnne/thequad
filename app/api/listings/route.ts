@@ -11,22 +11,24 @@ import { listingSchema, parseBody } from "@/lib/sanatize.lib";
 
 export async function GET(req: NextRequest) {
   const userId = await getUserId(req);
-
   try {
     if (userId) {
+
+      const res = await getListings({userId: userId})
+   
       return NextResponse.json({
-        listings: await getOthersListings(userId),
+        listings: res.listings,
         success: true,
       });
     }
-    const listings = await getListings({});
+    const res = await getListings({});
 
     return NextResponse.json({
-      listings,
+      listings: res.listings,
       success: true,
     });
   } catch (error) {
-    console.log(error);
+   
     return NextResponse.json({
       message: "Failed to Fetch Listings",
       status: 500,

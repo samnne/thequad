@@ -10,37 +10,31 @@ export async function PATCH(req: NextRequest) {
   const result = await parseBody(req, onBoardingSchema);
   if ("error" in result) return result.error;
   const body = result.data;
-  if (!body.username) {
+  if (!body.accepted_eula) {
     return NextResponse.json({
-      message: "Did not provide a username",
+      message: "No acceptance provided",
       success: false,
     });
   }
-  const dataObj = {...(body?.bio && {bio: body.bio}), username: body.username
-    , ...(body.name && {name: body.name}),
-    ...(body?.profileURL && {profileURL: body.profileURL}),
-    ...(body?.onboarding_completed && {onboarding_completed: body?.onboarding_completed})
-
-  }
- 
   try {
     const updatedUser = await prisma.user.update({
       where: {
         uid: uid,
       },
-      data: {...dataObj}
+      data: {
+        accepted_eula: body.accepted_eula,
+      },
     });
     return NextResponse.json({
-      message: "Updated Profile",
+      message: "Updated EULA Acceptance",
       success: true,
       user: updatedUser,
     });
   } catch (err) {
-    console.log(err)
-     return NextResponse.json({
-      message: "Failed to update",
+    return NextResponse.json({
+      message: "Failed to update eula acceptance",
       success: false,
-      err
+      err,
     });
   }
 }

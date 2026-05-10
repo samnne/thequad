@@ -11,7 +11,7 @@ export async function GET(
     return auth.response;
   }
   const authUser = auth.user.uid;
-  const {uid }= await params
+  const { uid } = await params;
   if (!authUser) {
     return NextResponse.json({
       message: "Failed to Fetch User, no UID",
@@ -29,17 +29,81 @@ export async function GET(
         listings: {
           where: {
             archived: false,
+            hidden: false,
           },
           include: {
-            likes: true
-          }
+            likes: true,
+          },
         },
         reviewsReceived: true,
       },
     });
-    console.log("hey")
+
     return NextResponse.json({
       data: user,
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json({
+      message: "Failed to Fetch User",
+      status: 500,
+      data: null,
+      success: false,
+    });
+  }
+}
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: Promise<{ uid: string }> },
+) {
+  const auth = await requireAuth(req);
+  if (!auth.ok) {
+    return auth.response;
+  }
+  const authUser = auth.user.uid;
+  const { uid: blockedUser } = await params;
+
+  if (!authUser) {
+    return NextResponse.json({
+      message: "Failed to Fetch User, no UID",
+      status: 500,
+      data: null,
+      success: false,
+    });
+  }
+  try {
+    // LOGIC FOR BLOCKING USER
+    const body = await req.json();
+    if (body?.type && body?.blockId) {
+      const unblocked = await prisma.blockedUser.delete({
+        where: {
+          id: body?.blockId,
+          blockerId: authUser,
+          blockedId: blockedUser,
+        },
+        include: {
+          blocked: true
+        }
+      });
+      return NextResponse.json({
+        data: unblocked,
+        message: `Successfuly unblocked ${unblocked?.blocked?.name}`,
+        success: true,
+      });
+    }
+    const block = await prisma.blockedUser.create({
+      data: {
+        blockedId: blockedUser,
+        blockerId: authUser,
+      },
+      include: {
+        blocked: true,
+      },
+    });
+    return NextResponse.json({
+      data: block,
+      message: `Successfuly blocked ${block?.blocked?.name}`,
       success: true,
     });
   } catch (error) {

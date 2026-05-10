@@ -5,7 +5,7 @@ import { Resend } from "resend";
 import { requireAuth } from "@/lib/auth";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const AUTO_HIDE_THRESHOLD = 3; 
+const AUTO_HIDE_THRESHOLD = 3;
 
 export async function POST(req: NextRequest) {
   const auth = await requireAuth(req);
@@ -13,7 +13,11 @@ export async function POST(req: NextRequest) {
     return auth.response;
   }
 
-  const { targetUserId, reason, description } = await req.json();
+  const body = await req.json();
+  const targetUserId = body.targetUserId;
+  const description = body.description;
+  const reason = body.reason;
+  const itemReported = body?.itemReported;
 
   if (auth.user.uid === targetUserId) {
     return NextResponse.json(
@@ -24,17 +28,31 @@ export async function POST(req: NextRequest) {
 
   // Prevent duplicate pending reports
   const existing = await prisma.report.findFirst({
-    where: { reporterId: auth.user.uid, targetUserId, status: "PENDING" },
+    where: {
+      reporterId: auth.user.uid,
+      targetUserId,
+      status: "PENDING",
+      ...(itemReported && { itemReportedId: itemReported?.id }),
+    },
   });
   if (existing) {
     return NextResponse.json(
-      { error: "You already have a pending report for this user" },
+      { error: "You already have a pending report for this problem" },
       { status: 409 },
     );
   }
 
   const report = await prisma.report.create({
-    data: { reporterId: auth.user.uid, targetUserId, reason, description },
+    data: {
+      reporterId: auth.user.uid,
+      targetUserId,
+      reason,
+      description,
+      ...(itemReported && {
+        itemReported: itemReported?.item,
+        itemReportedId: itemReported?.id,
+      }),
+    },
   });
 
   // Auto-hide logic: check total pending/under-review reports for this user
@@ -42,6 +60,17 @@ export async function POST(req: NextRequest) {
     where: { targetUserId, status: { in: ["PENDING", "UNDER_REVIEW"] } },
   });
 
+  if (itemReported && itemReported?.item === "LISTING") {
+    await prisma.listing.update({
+      where: {
+        lid: itemReported.id,
+      },
+      data: {
+        hidden: true,
+      },
+      
+    });
+  }
   if (reportCount >= AUTO_HIDE_THRESHOLD) {
     await prisma.$transaction([
       prisma.user.update({
@@ -77,7 +106,7 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
   const auth = await requireAuth(req);
   if (!auth.ok) {
-    return auth.response
+    return auth.response;
   }
 
   const reports = await prisma.report.findMany({
@@ -95,5 +124,3 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({ reports });
 }
-
- 

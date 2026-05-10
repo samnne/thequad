@@ -73,6 +73,7 @@ export const onBoardingSchema = z.object({
   name: z.string().optional(),
   onboarding_completed: z.boolean().optional(),
   profileURL: z.string().optional(),
+  accepted_eula: z.boolean().optional()
 });
 
 export const reviewSchema = z.object({

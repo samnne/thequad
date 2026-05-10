@@ -125,6 +125,7 @@ exports.Prisma.ListingScalarFieldEnum = {
   title: 'title',
   description: 'description',
   price: 'price',
+  hidden: 'hidden',
   imageUrls: 'imageUrls',
   sellerId: 'sellerId',
   createdAt: 'createdAt',
@@ -182,8 +183,17 @@ exports.Prisma.UserScalarFieldEnum = {
   bio: 'bio',
   category_interests: 'category_interests',
   campus_area: 'campus_area',
+  reports_made: 'reports_made',
   enabled_notifications: 'enabled_notifications',
-  onboarding_completed: 'onboarding_completed'
+  onboarding_completed: 'onboarding_completed',
+  accepted_eula: 'accepted_eula'
+};
+
+exports.Prisma.BlockedUserScalarFieldEnum = {
+  id: 'id',
+  blockerId: 'blockerId',
+  blockedId: 'blockedId',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.ConversationScalarFieldEnum = {
@@ -234,6 +244,8 @@ exports.Prisma.ReportScalarFieldEnum = {
   adminNote: 'adminNote',
   autoHidden: 'autoHidden',
   resolvedAt: 'resolvedAt',
+  itemReported: 'itemReported',
+  itemReportedId: 'itemReportedId',
   resolvedById: 'resolvedById',
   reporterId: 'reporterId',
   targetUserId: 'targetUserId'
@@ -280,6 +292,7 @@ exports.Prisma.ModelName = {
   UserPreferences: 'UserPreferences',
   Review: 'Review',
   User: 'User',
+  BlockedUser: 'BlockedUser',
   Conversation: 'Conversation',
   Message: 'Message',
   WaitlistTable: 'WaitlistTable',

@@ -12,7 +12,7 @@ export async function PATCH(req: NextRequest) {
   const body = result.data;
   if (!body.categories) {
     return NextResponse.json({
-      message: "no categories",
+      message: "No categories provided",
       success: false,
     });
   }
@@ -32,7 +32,7 @@ export async function PATCH(req: NextRequest) {
     });
   } catch (err) {
     return NextResponse.json({
-      message: "failed to update",
+      message: "Failed to update user categories",
       success: false,
       err,
     });

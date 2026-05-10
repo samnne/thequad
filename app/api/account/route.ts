@@ -25,6 +25,12 @@ export async function GET(req: NextRequest) {
       include: {
         likes: true,
         preferences: true,
+        Blocker: {
+          include: {
+            blocked: true
+          }
+        },
+
       },
 
     });

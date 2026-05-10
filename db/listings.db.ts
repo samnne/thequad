@@ -3,7 +3,6 @@ import { prisma } from "./db";
 
 import { ListingWithIncludes } from "@/app/types";
 
-
 function scoreListings(listings: ListingWithIncludes[], userId?: string) {
   const now = Date.now();
 
@@ -14,12 +13,8 @@ function scoreListings(listings: ListingWithIncludes[], userId?: string) {
       const messageCount = l._count?.conversations ?? 0;
       const hasImage = (l.imageUrls?.length ?? 0) > 0 ? 1 : 0;
 
-  
       const score =
-        likeCount * 3 +
-        messageCount * 2 +
-        hasImage * 5 -
-        ageHours * 0.5; 
+        likeCount * 3 + messageCount * 2 + hasImage * 5 - ageHours * 0.5;
 
       return { ...l, _score: score };
     })
@@ -44,17 +39,34 @@ export async function getListings({
     where: {
       archived: false,
       sold: false,
+
+      sellerId: { not: userId },
+      hidden: false,
+      seller: {
+        Blocked: {
+          none: {
+            blockerId: userId,
+          },
+        },
+      },
+
       ...(userId && { sellerId: { not: userId } }),
       ...(seenIds.length && { lid: { notIn: seenIds } }),
     },
-    orderBy: [
-      
-      { likes: { _count: "desc" } },
-      { createdAt: "desc" },
-    ],
-    include: { seller: true, conversations: true, _count: true, likes: true },
+    orderBy: [{ likes: { _count: "desc" } }, { createdAt: "desc" }],
+    include: {
+      seller: {
+        include: {
+          reportsFiled: true,
+          Blocked: true
+        },
+      },
+      conversations: true,
+      _count: true,
+      likes: true,
+    },
   });
-
+  
   const hasMore = raw.length > take;
   const page = scoreListings(hasMore ? raw.slice(0, take) : raw, userId);
   const nextCursor = hasMore ? page[page.length - 1].lid : null;
@@ -68,7 +80,28 @@ export async function getOthersListings(
   return prisma.listing.findMany({
     orderBy: { createdAt: "asc" },
     take: 50,
-    where: { sellerId: { not: uid }, archived: false },
+    where: {
+      AND: [
+        { sellerId: { not: uid } },
+        {
+          seller: {
+            Blocked: {
+              none: {
+                blockerId: uid,
+              },
+            },
+          },
+        },
+        {
+          reports: {
+            none: {
+              reporterId: uid,
+            },
+          },
+        },
+      ],
+      archived: false,
+    },
     include: { seller: true, conversations: true, _count: true, likes: true },
   });
 }

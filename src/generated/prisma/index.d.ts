@@ -39,6 +39,11 @@ export type Review = $Result.DefaultSelection<Prisma.$ReviewPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model BlockedUser
+ * 
+ */
+export type BlockedUser = $Result.DefaultSelection<Prisma.$BlockedUserPayload>
+/**
  * Model Conversation
  * 
  */
@@ -277,6 +282,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.blockedUser`: Exposes CRUD operations for the **BlockedUser** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BlockedUsers
+    * const blockedUsers = await prisma.blockedUser.findMany()
+    * ```
+    */
+  get blockedUser(): Prisma.BlockedUserDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.conversation`: Exposes CRUD operations for the **Conversation** model.
@@ -766,6 +781,7 @@ export namespace Prisma {
     UserPreferences: 'UserPreferences',
     Review: 'Review',
     User: 'User',
+    BlockedUser: 'BlockedUser',
     Conversation: 'Conversation',
     Message: 'Message',
     WaitlistTable: 'WaitlistTable',
@@ -786,7 +802,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "listing" | "like" | "userPreferences" | "review" | "user" | "conversation" | "message" | "waitlistTable" | "pushToken" | "report"
+      modelProps: "listing" | "like" | "userPreferences" | "review" | "user" | "blockedUser" | "conversation" | "message" | "waitlistTable" | "pushToken" | "report"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1157,6 +1173,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      BlockedUser: {
+        payload: Prisma.$BlockedUserPayload<ExtArgs>
+        fields: Prisma.BlockedUserFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BlockedUserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlockedUserPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BlockedUserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlockedUserPayload>
+          }
+          findFirst: {
+            args: Prisma.BlockedUserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlockedUserPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BlockedUserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlockedUserPayload>
+          }
+          findMany: {
+            args: Prisma.BlockedUserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlockedUserPayload>[]
+          }
+          create: {
+            args: Prisma.BlockedUserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlockedUserPayload>
+          }
+          createMany: {
+            args: Prisma.BlockedUserCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BlockedUserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlockedUserPayload>[]
+          }
+          delete: {
+            args: Prisma.BlockedUserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlockedUserPayload>
+          }
+          update: {
+            args: Prisma.BlockedUserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlockedUserPayload>
+          }
+          deleteMany: {
+            args: Prisma.BlockedUserDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BlockedUserUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BlockedUserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlockedUserPayload>[]
+          }
+          upsert: {
+            args: Prisma.BlockedUserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlockedUserPayload>
+          }
+          aggregate: {
+            args: Prisma.BlockedUserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBlockedUser>
+          }
+          groupBy: {
+            args: Prisma.BlockedUserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BlockedUserGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BlockedUserCountArgs<ExtArgs>
+            result: $Utils.Optional<BlockedUserCountAggregateOutputType> | number
           }
         }
       }
@@ -1643,6 +1733,7 @@ export namespace Prisma {
     userPreferences?: UserPreferencesOmit
     review?: ReviewOmit
     user?: UserOmit
+    blockedUser?: BlockedUserOmit
     conversation?: ConversationOmit
     message?: MessageOmit
     waitlistTable?: WaitlistTableOmit
@@ -1777,6 +1868,8 @@ export namespace Prisma {
     reportsReceived: number
     reviewsReceived: number
     reviewsGiven: number
+    Blocker: number
+    Blocked: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1789,6 +1882,8 @@ export namespace Prisma {
     reportsReceived?: boolean | UserCountOutputTypeCountReportsReceivedArgs
     reviewsReceived?: boolean | UserCountOutputTypeCountReviewsReceivedArgs
     reviewsGiven?: boolean | UserCountOutputTypeCountReviewsGivenArgs
+    Blocker?: boolean | UserCountOutputTypeCountBlockerArgs
+    Blocked?: boolean | UserCountOutputTypeCountBlockedArgs
   }
 
   // Custom InputTypes
@@ -1865,6 +1960,20 @@ export namespace Prisma {
     where?: ReviewWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBlockerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BlockedUserWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBlockedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BlockedUserWhereInput
+  }
+
 
   /**
    * Count Type ConversationCountOutputType
@@ -1932,6 +2041,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     price: number | null
+    hidden: boolean | null
     sellerId: string | null
     createdAt: Date | null
     archived: boolean | null
@@ -1948,6 +2058,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     price: number | null
+    hidden: boolean | null
     sellerId: string | null
     createdAt: Date | null
     archived: boolean | null
@@ -1964,6 +2075,7 @@ export namespace Prisma {
     title: number
     description: number
     price: number
+    hidden: number
     imageUrls: number
     sellerId: number
     createdAt: number
@@ -1997,6 +2109,7 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
+    hidden?: true
     sellerId?: true
     createdAt?: true
     archived?: true
@@ -2013,6 +2126,7 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
+    hidden?: true
     sellerId?: true
     createdAt?: true
     archived?: true
@@ -2029,6 +2143,7 @@ export namespace Prisma {
     title?: true
     description?: true
     price?: true
+    hidden?: true
     imageUrls?: true
     sellerId?: true
     createdAt?: true
@@ -2133,6 +2248,7 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    hidden: boolean
     imageUrls: string[]
     sellerId: string | null
     createdAt: Date
@@ -2169,6 +2285,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    hidden?: boolean
     imageUrls?: boolean
     sellerId?: boolean
     createdAt?: boolean
@@ -2190,6 +2307,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    hidden?: boolean
     imageUrls?: boolean
     sellerId?: boolean
     createdAt?: boolean
@@ -2208,6 +2326,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    hidden?: boolean
     imageUrls?: boolean
     sellerId?: boolean
     createdAt?: boolean
@@ -2226,6 +2345,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     price?: boolean
+    hidden?: boolean
     imageUrls?: boolean
     sellerId?: boolean
     createdAt?: boolean
@@ -2238,7 +2358,7 @@ export namespace Prisma {
     category?: boolean
   }
 
-  export type ListingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"lid" | "title" | "description" | "price" | "imageUrls" | "sellerId" | "createdAt" | "archived" | "sold" | "latitude" | "longitude" | "views" | "condition" | "category", ExtArgs["result"]["listing"]>
+  export type ListingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"lid" | "title" | "description" | "price" | "hidden" | "imageUrls" | "sellerId" | "createdAt" | "archived" | "sold" | "latitude" | "longitude" | "views" | "condition" | "category", ExtArgs["result"]["listing"]>
   export type ListingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     likes?: boolean | Listing$likesArgs<ExtArgs>
     conversations?: boolean | Listing$conversationsArgs<ExtArgs>
@@ -2264,6 +2384,7 @@ export namespace Prisma {
       title: string
       description: string
       price: number
+      hidden: boolean
       imageUrls: string[]
       sellerId: string | null
       createdAt: Date
@@ -2704,6 +2825,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Listing", 'String'>
     readonly description: FieldRef<"Listing", 'String'>
     readonly price: FieldRef<"Listing", 'Int'>
+    readonly hidden: FieldRef<"Listing", 'Boolean'>
     readonly imageUrls: FieldRef<"Listing", 'String[]'>
     readonly sellerId: FieldRef<"Listing", 'String'>
     readonly createdAt: FieldRef<"Listing", 'DateTime'>
@@ -6637,6 +6759,7 @@ export namespace Prisma {
     campus_area: string | null
     enabled_notifications: boolean | null
     onboarding_completed: boolean | null
+    accepted_eula: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -6656,6 +6779,7 @@ export namespace Prisma {
     campus_area: string | null
     enabled_notifications: boolean | null
     onboarding_completed: boolean | null
+    accepted_eula: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -6674,8 +6798,10 @@ export namespace Prisma {
     bio: number
     category_interests: number
     campus_area: number
+    reports_made: number
     enabled_notifications: number
     onboarding_completed: number
+    accepted_eula: number
     _all: number
   }
 
@@ -6707,6 +6833,7 @@ export namespace Prisma {
     campus_area?: true
     enabled_notifications?: true
     onboarding_completed?: true
+    accepted_eula?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -6726,6 +6853,7 @@ export namespace Prisma {
     campus_area?: true
     enabled_notifications?: true
     onboarding_completed?: true
+    accepted_eula?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -6744,8 +6872,10 @@ export namespace Prisma {
     bio?: true
     category_interests?: true
     campus_area?: true
+    reports_made?: true
     enabled_notifications?: true
     onboarding_completed?: true
+    accepted_eula?: true
     _all?: true
   }
 
@@ -6851,8 +6981,10 @@ export namespace Prisma {
     bio: string | null
     category_interests: string[]
     campus_area: string | null
+    reports_made: string[]
     enabled_notifications: boolean
     onboarding_completed: boolean
+    accepted_eula: boolean
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -6890,8 +7022,10 @@ export namespace Prisma {
     bio?: boolean
     category_interests?: boolean
     campus_area?: boolean
+    reports_made?: boolean
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: boolean | User$buyerConversationsArgs<ExtArgs>
     sellerConversations?: boolean | User$sellerConversationsArgs<ExtArgs>
     listings?: boolean | User$listingsArgs<ExtArgs>
@@ -6903,6 +7037,8 @@ export namespace Prisma {
     reviewsGiven?: boolean | User$reviewsGivenArgs<ExtArgs>
     preferences?: boolean | User$preferencesArgs<ExtArgs>
     pushToken?: boolean | User$pushTokenArgs<ExtArgs>
+    Blocker?: boolean | User$BlockerArgs<ExtArgs>
+    Blocked?: boolean | User$BlockedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -6922,8 +7058,10 @@ export namespace Prisma {
     bio?: boolean
     category_interests?: boolean
     campus_area?: boolean
+    reports_made?: boolean
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6942,8 +7080,10 @@ export namespace Prisma {
     bio?: boolean
     category_interests?: boolean
     campus_area?: boolean
+    reports_made?: boolean
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -6962,11 +7102,13 @@ export namespace Prisma {
     bio?: boolean
     category_interests?: boolean
     campus_area?: boolean
+    reports_made?: boolean
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uid" | "email" | "name" | "username" | "profileURL" | "isVerified" | "createdAt" | "rating" | "hidden" | "faculty" | "year" | "intent" | "bio" | "category_interests" | "campus_area" | "enabled_notifications" | "onboarding_completed", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"uid" | "email" | "name" | "username" | "profileURL" | "isVerified" | "createdAt" | "rating" | "hidden" | "faculty" | "year" | "intent" | "bio" | "category_interests" | "campus_area" | "reports_made" | "enabled_notifications" | "onboarding_completed" | "accepted_eula", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyerConversations?: boolean | User$buyerConversationsArgs<ExtArgs>
     sellerConversations?: boolean | User$sellerConversationsArgs<ExtArgs>
@@ -6979,6 +7121,8 @@ export namespace Prisma {
     reviewsGiven?: boolean | User$reviewsGivenArgs<ExtArgs>
     preferences?: boolean | User$preferencesArgs<ExtArgs>
     pushToken?: boolean | User$pushTokenArgs<ExtArgs>
+    Blocker?: boolean | User$BlockerArgs<ExtArgs>
+    Blocked?: boolean | User$BlockedArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -6998,6 +7142,8 @@ export namespace Prisma {
       reviewsGiven: Prisma.$ReviewPayload<ExtArgs>[]
       preferences: Prisma.$UserPreferencesPayload<ExtArgs> | null
       pushToken: Prisma.$PushTokenPayload<ExtArgs> | null
+      Blocker: Prisma.$BlockedUserPayload<ExtArgs>[]
+      Blocked: Prisma.$BlockedUserPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       uid: string
@@ -7015,8 +7161,10 @@ export namespace Prisma {
       bio: string | null
       category_interests: string[]
       campus_area: string | null
+      reports_made: string[]
       enabled_notifications: boolean
       onboarding_completed: boolean
+      accepted_eula: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -7422,6 +7570,8 @@ export namespace Prisma {
     reviewsGiven<T extends User$reviewsGivenArgs<ExtArgs> = {}>(args?: Subset<T, User$reviewsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReviewPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     preferences<T extends User$preferencesArgs<ExtArgs> = {}>(args?: Subset<T, User$preferencesArgs<ExtArgs>>): Prisma__UserPreferencesClient<$Result.GetResult<Prisma.$UserPreferencesPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     pushToken<T extends User$pushTokenArgs<ExtArgs> = {}>(args?: Subset<T, User$pushTokenArgs<ExtArgs>>): Prisma__PushTokenClient<$Result.GetResult<Prisma.$PushTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    Blocker<T extends User$BlockerArgs<ExtArgs> = {}>(args?: Subset<T, User$BlockerArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Blocked<T extends User$BlockedArgs<ExtArgs> = {}>(args?: Subset<T, User$BlockedArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7466,8 +7616,10 @@ export namespace Prisma {
     readonly bio: FieldRef<"User", 'String'>
     readonly category_interests: FieldRef<"User", 'String[]'>
     readonly campus_area: FieldRef<"User", 'String'>
+    readonly reports_made: FieldRef<"User", 'String[]'>
     readonly enabled_notifications: FieldRef<"User", 'Boolean'>
     readonly onboarding_completed: FieldRef<"User", 'Boolean'>
+    readonly accepted_eula: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -8110,6 +8262,54 @@ export namespace Prisma {
   }
 
   /**
+   * User.Blocker
+   */
+  export type User$BlockerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
+    where?: BlockedUserWhereInput
+    orderBy?: BlockedUserOrderByWithRelationInput | BlockedUserOrderByWithRelationInput[]
+    cursor?: BlockedUserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BlockedUserScalarFieldEnum | BlockedUserScalarFieldEnum[]
+  }
+
+  /**
+   * User.Blocked
+   */
+  export type User$BlockedArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
+    where?: BlockedUserWhereInput
+    orderBy?: BlockedUserOrderByWithRelationInput | BlockedUserOrderByWithRelationInput[]
+    cursor?: BlockedUserWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BlockedUserScalarFieldEnum | BlockedUserScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -8125,6 +8325,1059 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BlockedUser
+   */
+
+  export type AggregateBlockedUser = {
+    _count: BlockedUserCountAggregateOutputType | null
+    _min: BlockedUserMinAggregateOutputType | null
+    _max: BlockedUserMaxAggregateOutputType | null
+  }
+
+  export type BlockedUserMinAggregateOutputType = {
+    id: string | null
+    blockerId: string | null
+    blockedId: string | null
+    createdAt: Date | null
+  }
+
+  export type BlockedUserMaxAggregateOutputType = {
+    id: string | null
+    blockerId: string | null
+    blockedId: string | null
+    createdAt: Date | null
+  }
+
+  export type BlockedUserCountAggregateOutputType = {
+    id: number
+    blockerId: number
+    blockedId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type BlockedUserMinAggregateInputType = {
+    id?: true
+    blockerId?: true
+    blockedId?: true
+    createdAt?: true
+  }
+
+  export type BlockedUserMaxAggregateInputType = {
+    id?: true
+    blockerId?: true
+    blockedId?: true
+    createdAt?: true
+  }
+
+  export type BlockedUserCountAggregateInputType = {
+    id?: true
+    blockerId?: true
+    blockedId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type BlockedUserAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BlockedUser to aggregate.
+     */
+    where?: BlockedUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlockedUsers to fetch.
+     */
+    orderBy?: BlockedUserOrderByWithRelationInput | BlockedUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BlockedUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlockedUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlockedUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BlockedUsers
+    **/
+    _count?: true | BlockedUserCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BlockedUserMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BlockedUserMaxAggregateInputType
+  }
+
+  export type GetBlockedUserAggregateType<T extends BlockedUserAggregateArgs> = {
+        [P in keyof T & keyof AggregateBlockedUser]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBlockedUser[P]>
+      : GetScalarType<T[P], AggregateBlockedUser[P]>
+  }
+
+
+
+
+  export type BlockedUserGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BlockedUserWhereInput
+    orderBy?: BlockedUserOrderByWithAggregationInput | BlockedUserOrderByWithAggregationInput[]
+    by: BlockedUserScalarFieldEnum[] | BlockedUserScalarFieldEnum
+    having?: BlockedUserScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BlockedUserCountAggregateInputType | true
+    _min?: BlockedUserMinAggregateInputType
+    _max?: BlockedUserMaxAggregateInputType
+  }
+
+  export type BlockedUserGroupByOutputType = {
+    id: string
+    blockerId: string
+    blockedId: string
+    createdAt: Date
+    _count: BlockedUserCountAggregateOutputType | null
+    _min: BlockedUserMinAggregateOutputType | null
+    _max: BlockedUserMaxAggregateOutputType | null
+  }
+
+  type GetBlockedUserGroupByPayload<T extends BlockedUserGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BlockedUserGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BlockedUserGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BlockedUserGroupByOutputType[P]>
+            : GetScalarType<T[P], BlockedUserGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BlockedUserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    blockerId?: boolean
+    blockedId?: boolean
+    createdAt?: boolean
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
+    blocked?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["blockedUser"]>
+
+  export type BlockedUserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    blockerId?: boolean
+    blockedId?: boolean
+    createdAt?: boolean
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
+    blocked?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["blockedUser"]>
+
+  export type BlockedUserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    blockerId?: boolean
+    blockedId?: boolean
+    createdAt?: boolean
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
+    blocked?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["blockedUser"]>
+
+  export type BlockedUserSelectScalar = {
+    id?: boolean
+    blockerId?: boolean
+    blockedId?: boolean
+    createdAt?: boolean
+  }
+
+  export type BlockedUserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "blockerId" | "blockedId" | "createdAt", ExtArgs["result"]["blockedUser"]>
+  export type BlockedUserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
+    blocked?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BlockedUserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
+    blocked?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BlockedUserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    blocker?: boolean | UserDefaultArgs<ExtArgs>
+    blocked?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $BlockedUserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BlockedUser"
+    objects: {
+      blocker: Prisma.$UserPayload<ExtArgs>
+      blocked: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      blockerId: string
+      blockedId: string
+      createdAt: Date
+    }, ExtArgs["result"]["blockedUser"]>
+    composites: {}
+  }
+
+  type BlockedUserGetPayload<S extends boolean | null | undefined | BlockedUserDefaultArgs> = $Result.GetResult<Prisma.$BlockedUserPayload, S>
+
+  type BlockedUserCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BlockedUserFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BlockedUserCountAggregateInputType | true
+    }
+
+  export interface BlockedUserDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BlockedUser'], meta: { name: 'BlockedUser' } }
+    /**
+     * Find zero or one BlockedUser that matches the filter.
+     * @param {BlockedUserFindUniqueArgs} args - Arguments to find a BlockedUser
+     * @example
+     * // Get one BlockedUser
+     * const blockedUser = await prisma.blockedUser.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BlockedUserFindUniqueArgs>(args: SelectSubset<T, BlockedUserFindUniqueArgs<ExtArgs>>): Prisma__BlockedUserClient<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BlockedUser that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BlockedUserFindUniqueOrThrowArgs} args - Arguments to find a BlockedUser
+     * @example
+     * // Get one BlockedUser
+     * const blockedUser = await prisma.blockedUser.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BlockedUserFindUniqueOrThrowArgs>(args: SelectSubset<T, BlockedUserFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BlockedUserClient<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BlockedUser that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlockedUserFindFirstArgs} args - Arguments to find a BlockedUser
+     * @example
+     * // Get one BlockedUser
+     * const blockedUser = await prisma.blockedUser.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BlockedUserFindFirstArgs>(args?: SelectSubset<T, BlockedUserFindFirstArgs<ExtArgs>>): Prisma__BlockedUserClient<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BlockedUser that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlockedUserFindFirstOrThrowArgs} args - Arguments to find a BlockedUser
+     * @example
+     * // Get one BlockedUser
+     * const blockedUser = await prisma.blockedUser.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BlockedUserFindFirstOrThrowArgs>(args?: SelectSubset<T, BlockedUserFindFirstOrThrowArgs<ExtArgs>>): Prisma__BlockedUserClient<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BlockedUsers that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlockedUserFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BlockedUsers
+     * const blockedUsers = await prisma.blockedUser.findMany()
+     * 
+     * // Get first 10 BlockedUsers
+     * const blockedUsers = await prisma.blockedUser.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const blockedUserWithIdOnly = await prisma.blockedUser.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BlockedUserFindManyArgs>(args?: SelectSubset<T, BlockedUserFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BlockedUser.
+     * @param {BlockedUserCreateArgs} args - Arguments to create a BlockedUser.
+     * @example
+     * // Create one BlockedUser
+     * const BlockedUser = await prisma.blockedUser.create({
+     *   data: {
+     *     // ... data to create a BlockedUser
+     *   }
+     * })
+     * 
+     */
+    create<T extends BlockedUserCreateArgs>(args: SelectSubset<T, BlockedUserCreateArgs<ExtArgs>>): Prisma__BlockedUserClient<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BlockedUsers.
+     * @param {BlockedUserCreateManyArgs} args - Arguments to create many BlockedUsers.
+     * @example
+     * // Create many BlockedUsers
+     * const blockedUser = await prisma.blockedUser.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BlockedUserCreateManyArgs>(args?: SelectSubset<T, BlockedUserCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BlockedUsers and returns the data saved in the database.
+     * @param {BlockedUserCreateManyAndReturnArgs} args - Arguments to create many BlockedUsers.
+     * @example
+     * // Create many BlockedUsers
+     * const blockedUser = await prisma.blockedUser.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BlockedUsers and only return the `id`
+     * const blockedUserWithIdOnly = await prisma.blockedUser.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BlockedUserCreateManyAndReturnArgs>(args?: SelectSubset<T, BlockedUserCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BlockedUser.
+     * @param {BlockedUserDeleteArgs} args - Arguments to delete one BlockedUser.
+     * @example
+     * // Delete one BlockedUser
+     * const BlockedUser = await prisma.blockedUser.delete({
+     *   where: {
+     *     // ... filter to delete one BlockedUser
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BlockedUserDeleteArgs>(args: SelectSubset<T, BlockedUserDeleteArgs<ExtArgs>>): Prisma__BlockedUserClient<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BlockedUser.
+     * @param {BlockedUserUpdateArgs} args - Arguments to update one BlockedUser.
+     * @example
+     * // Update one BlockedUser
+     * const blockedUser = await prisma.blockedUser.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BlockedUserUpdateArgs>(args: SelectSubset<T, BlockedUserUpdateArgs<ExtArgs>>): Prisma__BlockedUserClient<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BlockedUsers.
+     * @param {BlockedUserDeleteManyArgs} args - Arguments to filter BlockedUsers to delete.
+     * @example
+     * // Delete a few BlockedUsers
+     * const { count } = await prisma.blockedUser.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BlockedUserDeleteManyArgs>(args?: SelectSubset<T, BlockedUserDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BlockedUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlockedUserUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BlockedUsers
+     * const blockedUser = await prisma.blockedUser.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BlockedUserUpdateManyArgs>(args: SelectSubset<T, BlockedUserUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BlockedUsers and returns the data updated in the database.
+     * @param {BlockedUserUpdateManyAndReturnArgs} args - Arguments to update many BlockedUsers.
+     * @example
+     * // Update many BlockedUsers
+     * const blockedUser = await prisma.blockedUser.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BlockedUsers and only return the `id`
+     * const blockedUserWithIdOnly = await prisma.blockedUser.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BlockedUserUpdateManyAndReturnArgs>(args: SelectSubset<T, BlockedUserUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BlockedUser.
+     * @param {BlockedUserUpsertArgs} args - Arguments to update or create a BlockedUser.
+     * @example
+     * // Update or create a BlockedUser
+     * const blockedUser = await prisma.blockedUser.upsert({
+     *   create: {
+     *     // ... data to create a BlockedUser
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BlockedUser we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BlockedUserUpsertArgs>(args: SelectSubset<T, BlockedUserUpsertArgs<ExtArgs>>): Prisma__BlockedUserClient<$Result.GetResult<Prisma.$BlockedUserPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BlockedUsers.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlockedUserCountArgs} args - Arguments to filter BlockedUsers to count.
+     * @example
+     * // Count the number of BlockedUsers
+     * const count = await prisma.blockedUser.count({
+     *   where: {
+     *     // ... the filter for the BlockedUsers we want to count
+     *   }
+     * })
+    **/
+    count<T extends BlockedUserCountArgs>(
+      args?: Subset<T, BlockedUserCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BlockedUserCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BlockedUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlockedUserAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BlockedUserAggregateArgs>(args: Subset<T, BlockedUserAggregateArgs>): Prisma.PrismaPromise<GetBlockedUserAggregateType<T>>
+
+    /**
+     * Group by BlockedUser.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlockedUserGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BlockedUserGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BlockedUserGroupByArgs['orderBy'] }
+        : { orderBy?: BlockedUserGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BlockedUserGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBlockedUserGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BlockedUser model
+   */
+  readonly fields: BlockedUserFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BlockedUser.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BlockedUserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    blocker<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    blocked<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BlockedUser model
+   */
+  interface BlockedUserFieldRefs {
+    readonly id: FieldRef<"BlockedUser", 'String'>
+    readonly blockerId: FieldRef<"BlockedUser", 'String'>
+    readonly blockedId: FieldRef<"BlockedUser", 'String'>
+    readonly createdAt: FieldRef<"BlockedUser", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BlockedUser findUnique
+   */
+  export type BlockedUserFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
+    /**
+     * Filter, which BlockedUser to fetch.
+     */
+    where: BlockedUserWhereUniqueInput
+  }
+
+  /**
+   * BlockedUser findUniqueOrThrow
+   */
+  export type BlockedUserFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
+    /**
+     * Filter, which BlockedUser to fetch.
+     */
+    where: BlockedUserWhereUniqueInput
+  }
+
+  /**
+   * BlockedUser findFirst
+   */
+  export type BlockedUserFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
+    /**
+     * Filter, which BlockedUser to fetch.
+     */
+    where?: BlockedUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlockedUsers to fetch.
+     */
+    orderBy?: BlockedUserOrderByWithRelationInput | BlockedUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BlockedUsers.
+     */
+    cursor?: BlockedUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlockedUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlockedUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BlockedUsers.
+     */
+    distinct?: BlockedUserScalarFieldEnum | BlockedUserScalarFieldEnum[]
+  }
+
+  /**
+   * BlockedUser findFirstOrThrow
+   */
+  export type BlockedUserFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
+    /**
+     * Filter, which BlockedUser to fetch.
+     */
+    where?: BlockedUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlockedUsers to fetch.
+     */
+    orderBy?: BlockedUserOrderByWithRelationInput | BlockedUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BlockedUsers.
+     */
+    cursor?: BlockedUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlockedUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlockedUsers.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BlockedUsers.
+     */
+    distinct?: BlockedUserScalarFieldEnum | BlockedUserScalarFieldEnum[]
+  }
+
+  /**
+   * BlockedUser findMany
+   */
+  export type BlockedUserFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
+    /**
+     * Filter, which BlockedUsers to fetch.
+     */
+    where?: BlockedUserWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BlockedUsers to fetch.
+     */
+    orderBy?: BlockedUserOrderByWithRelationInput | BlockedUserOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BlockedUsers.
+     */
+    cursor?: BlockedUserWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BlockedUsers from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BlockedUsers.
+     */
+    skip?: number
+    distinct?: BlockedUserScalarFieldEnum | BlockedUserScalarFieldEnum[]
+  }
+
+  /**
+   * BlockedUser create
+   */
+  export type BlockedUserCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BlockedUser.
+     */
+    data: XOR<BlockedUserCreateInput, BlockedUserUncheckedCreateInput>
+  }
+
+  /**
+   * BlockedUser createMany
+   */
+  export type BlockedUserCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BlockedUsers.
+     */
+    data: BlockedUserCreateManyInput | BlockedUserCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BlockedUser createManyAndReturn
+   */
+  export type BlockedUserCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * The data used to create many BlockedUsers.
+     */
+    data: BlockedUserCreateManyInput | BlockedUserCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BlockedUser update
+   */
+  export type BlockedUserUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BlockedUser.
+     */
+    data: XOR<BlockedUserUpdateInput, BlockedUserUncheckedUpdateInput>
+    /**
+     * Choose, which BlockedUser to update.
+     */
+    where: BlockedUserWhereUniqueInput
+  }
+
+  /**
+   * BlockedUser updateMany
+   */
+  export type BlockedUserUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BlockedUsers.
+     */
+    data: XOR<BlockedUserUpdateManyMutationInput, BlockedUserUncheckedUpdateManyInput>
+    /**
+     * Filter which BlockedUsers to update
+     */
+    where?: BlockedUserWhereInput
+    /**
+     * Limit how many BlockedUsers to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BlockedUser updateManyAndReturn
+   */
+  export type BlockedUserUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * The data used to update BlockedUsers.
+     */
+    data: XOR<BlockedUserUpdateManyMutationInput, BlockedUserUncheckedUpdateManyInput>
+    /**
+     * Filter which BlockedUsers to update
+     */
+    where?: BlockedUserWhereInput
+    /**
+     * Limit how many BlockedUsers to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BlockedUser upsert
+   */
+  export type BlockedUserUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BlockedUser to update in case it exists.
+     */
+    where: BlockedUserWhereUniqueInput
+    /**
+     * In case the BlockedUser found by the `where` argument doesn't exist, create a new BlockedUser with this data.
+     */
+    create: XOR<BlockedUserCreateInput, BlockedUserUncheckedCreateInput>
+    /**
+     * In case the BlockedUser was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BlockedUserUpdateInput, BlockedUserUncheckedUpdateInput>
+  }
+
+  /**
+   * BlockedUser delete
+   */
+  export type BlockedUserDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
+    /**
+     * Filter which BlockedUser to delete.
+     */
+    where: BlockedUserWhereUniqueInput
+  }
+
+  /**
+   * BlockedUser deleteMany
+   */
+  export type BlockedUserDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BlockedUsers to delete
+     */
+    where?: BlockedUserWhereInput
+    /**
+     * Limit how many BlockedUsers to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BlockedUser without action
+   */
+  export type BlockedUserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BlockedUser
+     */
+    select?: BlockedUserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BlockedUser
+     */
+    omit?: BlockedUserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlockedUserInclude<ExtArgs> | null
   }
 
 
@@ -12559,6 +13812,8 @@ export namespace Prisma {
     adminNote: string | null
     autoHidden: boolean | null
     resolvedAt: Date | null
+    itemReported: string | null
+    itemReportedId: string | null
     resolvedById: string | null
     reporterId: string | null
     targetUserId: string | null
@@ -12574,6 +13829,8 @@ export namespace Prisma {
     adminNote: string | null
     autoHidden: boolean | null
     resolvedAt: Date | null
+    itemReported: string | null
+    itemReportedId: string | null
     resolvedById: string | null
     reporterId: string | null
     targetUserId: string | null
@@ -12589,6 +13846,8 @@ export namespace Prisma {
     adminNote: number
     autoHidden: number
     resolvedAt: number
+    itemReported: number
+    itemReportedId: number
     resolvedById: number
     reporterId: number
     targetUserId: number
@@ -12606,6 +13865,8 @@ export namespace Prisma {
     adminNote?: true
     autoHidden?: true
     resolvedAt?: true
+    itemReported?: true
+    itemReportedId?: true
     resolvedById?: true
     reporterId?: true
     targetUserId?: true
@@ -12621,6 +13882,8 @@ export namespace Prisma {
     adminNote?: true
     autoHidden?: true
     resolvedAt?: true
+    itemReported?: true
+    itemReportedId?: true
     resolvedById?: true
     reporterId?: true
     targetUserId?: true
@@ -12636,6 +13899,8 @@ export namespace Prisma {
     adminNote?: true
     autoHidden?: true
     resolvedAt?: true
+    itemReported?: true
+    itemReportedId?: true
     resolvedById?: true
     reporterId?: true
     targetUserId?: true
@@ -12724,6 +13989,8 @@ export namespace Prisma {
     adminNote: string | null
     autoHidden: boolean
     resolvedAt: Date | null
+    itemReported: string | null
+    itemReportedId: string | null
     resolvedById: string | null
     reporterId: string | null
     targetUserId: string | null
@@ -12756,6 +14023,8 @@ export namespace Prisma {
     adminNote?: boolean
     autoHidden?: boolean
     resolvedAt?: boolean
+    itemReported?: boolean
+    itemReportedId?: boolean
     resolvedById?: boolean
     reporterId?: boolean
     targetUserId?: boolean
@@ -12773,6 +14042,8 @@ export namespace Prisma {
     adminNote?: boolean
     autoHidden?: boolean
     resolvedAt?: boolean
+    itemReported?: boolean
+    itemReportedId?: boolean
     resolvedById?: boolean
     reporterId?: boolean
     targetUserId?: boolean
@@ -12790,6 +14061,8 @@ export namespace Prisma {
     adminNote?: boolean
     autoHidden?: boolean
     resolvedAt?: boolean
+    itemReported?: boolean
+    itemReportedId?: boolean
     resolvedById?: boolean
     reporterId?: boolean
     targetUserId?: boolean
@@ -12807,12 +14080,14 @@ export namespace Prisma {
     adminNote?: boolean
     autoHidden?: boolean
     resolvedAt?: boolean
+    itemReported?: boolean
+    itemReportedId?: boolean
     resolvedById?: boolean
     reporterId?: boolean
     targetUserId?: boolean
   }
 
-  export type ReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "reason" | "description" | "status" | "adminNote" | "autoHidden" | "resolvedAt" | "resolvedById" | "reporterId" | "targetUserId", ExtArgs["result"]["report"]>
+  export type ReportOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "reason" | "description" | "status" | "adminNote" | "autoHidden" | "resolvedAt" | "itemReported" | "itemReportedId" | "resolvedById" | "reporterId" | "targetUserId", ExtArgs["result"]["report"]>
   export type ReportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reporter?: boolean | Report$reporterArgs<ExtArgs>
     targetUser?: boolean | Report$targetUserArgs<ExtArgs>
@@ -12842,6 +14117,8 @@ export namespace Prisma {
       adminNote: string | null
       autoHidden: boolean
       resolvedAt: Date | null
+      itemReported: string | null
+      itemReportedId: string | null
       resolvedById: string | null
       reporterId: string | null
       targetUserId: string | null
@@ -13279,6 +14556,8 @@ export namespace Prisma {
     readonly adminNote: FieldRef<"Report", 'String'>
     readonly autoHidden: FieldRef<"Report", 'Boolean'>
     readonly resolvedAt: FieldRef<"Report", 'DateTime'>
+    readonly itemReported: FieldRef<"Report", 'String'>
+    readonly itemReportedId: FieldRef<"Report", 'String'>
     readonly resolvedById: FieldRef<"Report", 'String'>
     readonly reporterId: FieldRef<"Report", 'String'>
     readonly targetUserId: FieldRef<"Report", 'String'>
@@ -13753,6 +15032,7 @@ export namespace Prisma {
     title: 'title',
     description: 'description',
     price: 'price',
+    hidden: 'hidden',
     imageUrls: 'imageUrls',
     sellerId: 'sellerId',
     createdAt: 'createdAt',
@@ -13822,11 +15102,23 @@ export namespace Prisma {
     bio: 'bio',
     category_interests: 'category_interests',
     campus_area: 'campus_area',
+    reports_made: 'reports_made',
     enabled_notifications: 'enabled_notifications',
-    onboarding_completed: 'onboarding_completed'
+    onboarding_completed: 'onboarding_completed',
+    accepted_eula: 'accepted_eula'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const BlockedUserScalarFieldEnum: {
+    id: 'id',
+    blockerId: 'blockerId',
+    blockedId: 'blockedId',
+    createdAt: 'createdAt'
+  };
+
+  export type BlockedUserScalarFieldEnum = (typeof BlockedUserScalarFieldEnum)[keyof typeof BlockedUserScalarFieldEnum]
 
 
   export const ConversationScalarFieldEnum: {
@@ -13889,6 +15181,8 @@ export namespace Prisma {
     adminNote: 'adminNote',
     autoHidden: 'autoHidden',
     resolvedAt: 'resolvedAt',
+    itemReported: 'itemReported',
+    itemReportedId: 'itemReportedId',
     resolvedById: 'resolvedById',
     reporterId: 'reporterId',
     targetUserId: 'targetUserId'
@@ -13955,6 +15249,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -13965,13 +15266,6 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -14056,6 +15350,7 @@ export namespace Prisma {
     title?: StringFilter<"Listing"> | string
     description?: StringFilter<"Listing"> | string
     price?: IntFilter<"Listing"> | number
+    hidden?: BoolFilter<"Listing"> | boolean
     imageUrls?: StringNullableListFilter<"Listing">
     sellerId?: UuidNullableFilter<"Listing"> | string | null
     createdAt?: DateTimeFilter<"Listing"> | Date | string
@@ -14076,6 +15371,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    hidden?: SortOrder
     imageUrls?: SortOrder
     sellerId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -14099,6 +15395,7 @@ export namespace Prisma {
     title?: StringFilter<"Listing"> | string
     description?: StringFilter<"Listing"> | string
     price?: IntFilter<"Listing"> | number
+    hidden?: BoolFilter<"Listing"> | boolean
     imageUrls?: StringNullableListFilter<"Listing">
     sellerId?: UuidNullableFilter<"Listing"> | string | null
     createdAt?: DateTimeFilter<"Listing"> | Date | string
@@ -14119,6 +15416,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    hidden?: SortOrder
     imageUrls?: SortOrder
     sellerId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -14144,6 +15442,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Listing"> | string
     description?: StringWithAggregatesFilter<"Listing"> | string
     price?: IntWithAggregatesFilter<"Listing"> | number
+    hidden?: BoolWithAggregatesFilter<"Listing"> | boolean
     imageUrls?: StringNullableListFilter<"Listing">
     sellerId?: UuidNullableWithAggregatesFilter<"Listing"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Listing"> | Date | string
@@ -14377,8 +15676,10 @@ export namespace Prisma {
     bio?: StringNullableFilter<"User"> | string | null
     category_interests?: StringNullableListFilter<"User">
     campus_area?: StringNullableFilter<"User"> | string | null
+    reports_made?: StringNullableListFilter<"User">
     enabled_notifications?: BoolFilter<"User"> | boolean
     onboarding_completed?: BoolFilter<"User"> | boolean
+    accepted_eula?: BoolFilter<"User"> | boolean
     buyerConversations?: ConversationListRelationFilter
     sellerConversations?: ConversationListRelationFilter
     listings?: ListingListRelationFilter
@@ -14390,6 +15691,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewListRelationFilter
     preferences?: XOR<UserPreferencesNullableScalarRelationFilter, UserPreferencesWhereInput> | null
     pushToken?: XOR<PushTokenNullableScalarRelationFilter, PushTokenWhereInput> | null
+    Blocker?: BlockedUserListRelationFilter
+    Blocked?: BlockedUserListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -14408,8 +15711,10 @@ export namespace Prisma {
     bio?: SortOrderInput | SortOrder
     category_interests?: SortOrder
     campus_area?: SortOrderInput | SortOrder
+    reports_made?: SortOrder
     enabled_notifications?: SortOrder
     onboarding_completed?: SortOrder
+    accepted_eula?: SortOrder
     buyerConversations?: ConversationOrderByRelationAggregateInput
     sellerConversations?: ConversationOrderByRelationAggregateInput
     listings?: ListingOrderByRelationAggregateInput
@@ -14421,6 +15726,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewOrderByRelationAggregateInput
     preferences?: UserPreferencesOrderByWithRelationInput
     pushToken?: PushTokenOrderByWithRelationInput
+    Blocker?: BlockedUserOrderByRelationAggregateInput
+    Blocked?: BlockedUserOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -14442,8 +15749,10 @@ export namespace Prisma {
     bio?: StringNullableFilter<"User"> | string | null
     category_interests?: StringNullableListFilter<"User">
     campus_area?: StringNullableFilter<"User"> | string | null
+    reports_made?: StringNullableListFilter<"User">
     enabled_notifications?: BoolFilter<"User"> | boolean
     onboarding_completed?: BoolFilter<"User"> | boolean
+    accepted_eula?: BoolFilter<"User"> | boolean
     buyerConversations?: ConversationListRelationFilter
     sellerConversations?: ConversationListRelationFilter
     listings?: ListingListRelationFilter
@@ -14455,6 +15764,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewListRelationFilter
     preferences?: XOR<UserPreferencesNullableScalarRelationFilter, UserPreferencesWhereInput> | null
     pushToken?: XOR<PushTokenNullableScalarRelationFilter, PushTokenWhereInput> | null
+    Blocker?: BlockedUserListRelationFilter
+    Blocked?: BlockedUserListRelationFilter
   }, "uid" | "email" | "username">
 
   export type UserOrderByWithAggregationInput = {
@@ -14473,8 +15784,10 @@ export namespace Prisma {
     bio?: SortOrderInput | SortOrder
     category_interests?: SortOrder
     campus_area?: SortOrderInput | SortOrder
+    reports_made?: SortOrder
     enabled_notifications?: SortOrder
     onboarding_completed?: SortOrder
+    accepted_eula?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -14501,8 +15814,64 @@ export namespace Prisma {
     bio?: StringNullableWithAggregatesFilter<"User"> | string | null
     category_interests?: StringNullableListFilter<"User">
     campus_area?: StringNullableWithAggregatesFilter<"User"> | string | null
+    reports_made?: StringNullableListFilter<"User">
     enabled_notifications?: BoolWithAggregatesFilter<"User"> | boolean
     onboarding_completed?: BoolWithAggregatesFilter<"User"> | boolean
+    accepted_eula?: BoolWithAggregatesFilter<"User"> | boolean
+  }
+
+  export type BlockedUserWhereInput = {
+    AND?: BlockedUserWhereInput | BlockedUserWhereInput[]
+    OR?: BlockedUserWhereInput[]
+    NOT?: BlockedUserWhereInput | BlockedUserWhereInput[]
+    id?: UuidFilter<"BlockedUser"> | string
+    blockerId?: UuidFilter<"BlockedUser"> | string
+    blockedId?: UuidFilter<"BlockedUser"> | string
+    createdAt?: DateTimeFilter<"BlockedUser"> | Date | string
+    blocker?: XOR<UserScalarRelationFilter, UserWhereInput>
+    blocked?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type BlockedUserOrderByWithRelationInput = {
+    id?: SortOrder
+    blockerId?: SortOrder
+    blockedId?: SortOrder
+    createdAt?: SortOrder
+    blocker?: UserOrderByWithRelationInput
+    blocked?: UserOrderByWithRelationInput
+  }
+
+  export type BlockedUserWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    blockerId_blockedId?: BlockedUserBlockerIdBlockedIdCompoundUniqueInput
+    AND?: BlockedUserWhereInput | BlockedUserWhereInput[]
+    OR?: BlockedUserWhereInput[]
+    NOT?: BlockedUserWhereInput | BlockedUserWhereInput[]
+    blockerId?: UuidFilter<"BlockedUser"> | string
+    blockedId?: UuidFilter<"BlockedUser"> | string
+    createdAt?: DateTimeFilter<"BlockedUser"> | Date | string
+    blocker?: XOR<UserScalarRelationFilter, UserWhereInput>
+    blocked?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "blockerId_blockedId">
+
+  export type BlockedUserOrderByWithAggregationInput = {
+    id?: SortOrder
+    blockerId?: SortOrder
+    blockedId?: SortOrder
+    createdAt?: SortOrder
+    _count?: BlockedUserCountOrderByAggregateInput
+    _max?: BlockedUserMaxOrderByAggregateInput
+    _min?: BlockedUserMinOrderByAggregateInput
+  }
+
+  export type BlockedUserScalarWhereWithAggregatesInput = {
+    AND?: BlockedUserScalarWhereWithAggregatesInput | BlockedUserScalarWhereWithAggregatesInput[]
+    OR?: BlockedUserScalarWhereWithAggregatesInput[]
+    NOT?: BlockedUserScalarWhereWithAggregatesInput | BlockedUserScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"BlockedUser"> | string
+    blockerId?: UuidWithAggregatesFilter<"BlockedUser"> | string
+    blockedId?: UuidWithAggregatesFilter<"BlockedUser"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"BlockedUser"> | Date | string
   }
 
   export type ConversationWhereInput = {
@@ -14780,6 +16149,8 @@ export namespace Prisma {
     adminNote?: StringNullableFilter<"Report"> | string | null
     autoHidden?: BoolFilter<"Report"> | boolean
     resolvedAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+    itemReported?: StringNullableFilter<"Report"> | string | null
+    itemReportedId?: UuidNullableFilter<"Report"> | string | null
     resolvedById?: UuidNullableFilter<"Report"> | string | null
     reporterId?: UuidNullableFilter<"Report"> | string | null
     targetUserId?: UuidNullableFilter<"Report"> | string | null
@@ -14797,6 +16168,8 @@ export namespace Prisma {
     adminNote?: SortOrderInput | SortOrder
     autoHidden?: SortOrder
     resolvedAt?: SortOrderInput | SortOrder
+    itemReported?: SortOrderInput | SortOrder
+    itemReportedId?: SortOrderInput | SortOrder
     resolvedById?: SortOrderInput | SortOrder
     reporterId?: SortOrderInput | SortOrder
     targetUserId?: SortOrderInput | SortOrder
@@ -14817,6 +16190,8 @@ export namespace Prisma {
     adminNote?: StringNullableFilter<"Report"> | string | null
     autoHidden?: BoolFilter<"Report"> | boolean
     resolvedAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+    itemReported?: StringNullableFilter<"Report"> | string | null
+    itemReportedId?: UuidNullableFilter<"Report"> | string | null
     resolvedById?: UuidNullableFilter<"Report"> | string | null
     reporterId?: UuidNullableFilter<"Report"> | string | null
     targetUserId?: UuidNullableFilter<"Report"> | string | null
@@ -14834,6 +16209,8 @@ export namespace Prisma {
     adminNote?: SortOrderInput | SortOrder
     autoHidden?: SortOrder
     resolvedAt?: SortOrderInput | SortOrder
+    itemReported?: SortOrderInput | SortOrder
+    itemReportedId?: SortOrderInput | SortOrder
     resolvedById?: SortOrderInput | SortOrder
     reporterId?: SortOrderInput | SortOrder
     targetUserId?: SortOrderInput | SortOrder
@@ -14855,6 +16232,8 @@ export namespace Prisma {
     adminNote?: StringNullableWithAggregatesFilter<"Report"> | string | null
     autoHidden?: BoolWithAggregatesFilter<"Report"> | boolean
     resolvedAt?: DateTimeNullableWithAggregatesFilter<"Report"> | Date | string | null
+    itemReported?: StringNullableWithAggregatesFilter<"Report"> | string | null
+    itemReportedId?: UuidNullableWithAggregatesFilter<"Report"> | string | null
     resolvedById?: UuidNullableWithAggregatesFilter<"Report"> | string | null
     reporterId?: UuidNullableWithAggregatesFilter<"Report"> | string | null
     targetUserId?: UuidNullableWithAggregatesFilter<"Report"> | string | null
@@ -14865,6 +16244,7 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    hidden?: boolean
     imageUrls?: ListingCreateimageUrlsInput | string[]
     createdAt?: Date | string
     archived?: boolean
@@ -14884,6 +16264,7 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    hidden?: boolean
     imageUrls?: ListingCreateimageUrlsInput | string[]
     sellerId?: string | null
     createdAt?: Date | string
@@ -14903,6 +16284,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     archived?: BoolFieldUpdateOperationsInput | boolean
@@ -14922,6 +16304,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14941,6 +16324,7 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    hidden?: boolean
     imageUrls?: ListingCreateimageUrlsInput | string[]
     sellerId?: string | null
     createdAt?: Date | string
@@ -14958,6 +16342,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     archived?: BoolFieldUpdateOperationsInput | boolean
@@ -14974,6 +16359,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15200,8 +16586,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
     listings?: ListingCreateNestedManyWithoutSellerInput
@@ -15213,6 +16601,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
     pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -15231,8 +16621,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
@@ -15244,6 +16636,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUpdateInput = {
@@ -15262,8 +16656,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
     listings?: ListingUpdateManyWithoutSellerNestedInput
@@ -15275,6 +16671,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -15293,8 +16691,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
@@ -15306,6 +16706,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -15324,8 +16726,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -15344,8 +16748,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -15364,8 +16770,57 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type BlockedUserCreateInput = {
+    id?: string
+    createdAt?: Date | string
+    blocker: UserCreateNestedOneWithoutBlockerInput
+    blocked: UserCreateNestedOneWithoutBlockedInput
+  }
+
+  export type BlockedUserUncheckedCreateInput = {
+    id?: string
+    blockerId: string
+    blockedId: string
+    createdAt?: Date | string
+  }
+
+  export type BlockedUserUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocker?: UserUpdateOneRequiredWithoutBlockerNestedInput
+    blocked?: UserUpdateOneRequiredWithoutBlockedNestedInput
+  }
+
+  export type BlockedUserUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    blockerId?: StringFieldUpdateOperationsInput | string
+    blockedId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlockedUserCreateManyInput = {
+    id?: string
+    blockerId: string
+    blockedId: string
+    createdAt?: Date | string
+  }
+
+  export type BlockedUserUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlockedUserUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    blockerId?: StringFieldUpdateOperationsInput | string
+    blockedId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ConversationCreateInput = {
@@ -15642,6 +17097,8 @@ export namespace Prisma {
     adminNote?: string | null
     autoHidden?: boolean
     resolvedAt?: Date | string | null
+    itemReported?: string | null
+    itemReportedId?: string | null
     resolvedById?: string | null
     reporter?: UserCreateNestedOneWithoutReportsFiledInput
     targetUser?: UserCreateNestedOneWithoutReportsReceivedInput
@@ -15657,6 +17114,8 @@ export namespace Prisma {
     adminNote?: string | null
     autoHidden?: boolean
     resolvedAt?: Date | string | null
+    itemReported?: string | null
+    itemReportedId?: string | null
     resolvedById?: string | null
     reporterId?: string | null
     targetUserId?: string | null
@@ -15672,6 +17131,8 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     autoHidden?: BoolFieldUpdateOperationsInput | boolean
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    itemReported?: NullableStringFieldUpdateOperationsInput | string | null
+    itemReportedId?: NullableStringFieldUpdateOperationsInput | string | null
     resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
     reporter?: UserUpdateOneWithoutReportsFiledNestedInput
     targetUser?: UserUpdateOneWithoutReportsReceivedNestedInput
@@ -15687,6 +17148,8 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     autoHidden?: BoolFieldUpdateOperationsInput | boolean
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    itemReported?: NullableStringFieldUpdateOperationsInput | string | null
+    itemReportedId?: NullableStringFieldUpdateOperationsInput | string | null
     resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
     reporterId?: NullableStringFieldUpdateOperationsInput | string | null
     targetUserId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15702,6 +17165,8 @@ export namespace Prisma {
     adminNote?: string | null
     autoHidden?: boolean
     resolvedAt?: Date | string | null
+    itemReported?: string | null
+    itemReportedId?: string | null
     resolvedById?: string | null
     reporterId?: string | null
     targetUserId?: string | null
@@ -15717,6 +17182,8 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     autoHidden?: BoolFieldUpdateOperationsInput | boolean
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    itemReported?: NullableStringFieldUpdateOperationsInput | string | null
+    itemReportedId?: NullableStringFieldUpdateOperationsInput | string | null
     resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -15730,6 +17197,8 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     autoHidden?: BoolFieldUpdateOperationsInput | boolean
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    itemReported?: NullableStringFieldUpdateOperationsInput | string | null
+    itemReportedId?: NullableStringFieldUpdateOperationsInput | string | null
     resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
     reporterId?: NullableStringFieldUpdateOperationsInput | string | null
     targetUserId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -15773,6 +17242,11 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
@@ -15802,11 +17276,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type FloatNullableFilter<$PrismaModel = never> = {
@@ -15870,6 +17339,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    hidden?: SortOrder
     imageUrls?: SortOrder
     sellerId?: SortOrder
     createdAt?: SortOrder
@@ -15894,6 +17364,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    hidden?: SortOrder
     sellerId?: SortOrder
     createdAt?: SortOrder
     archived?: SortOrder
@@ -15910,6 +17381,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     price?: SortOrder
+    hidden?: SortOrder
     sellerId?: SortOrder
     createdAt?: SortOrder
     archived?: SortOrder
@@ -15977,6 +17449,14 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -16004,14 +17484,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -16247,6 +17719,12 @@ export namespace Prisma {
     isNot?: PushTokenWhereInput | null
   }
 
+  export type BlockedUserListRelationFilter = {
+    every?: BlockedUserWhereInput
+    some?: BlockedUserWhereInput
+    none?: BlockedUserWhereInput
+  }
+
   export type ListingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -16260,6 +17738,10 @@ export namespace Prisma {
   }
 
   export type ReviewOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BlockedUserOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -16279,8 +17761,10 @@ export namespace Prisma {
     bio?: SortOrder
     category_interests?: SortOrder
     campus_area?: SortOrder
+    reports_made?: SortOrder
     enabled_notifications?: SortOrder
     onboarding_completed?: SortOrder
+    accepted_eula?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -16305,6 +17789,7 @@ export namespace Prisma {
     campus_area?: SortOrder
     enabled_notifications?: SortOrder
     onboarding_completed?: SortOrder
+    accepted_eula?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -16324,6 +17809,7 @@ export namespace Prisma {
     campus_area?: SortOrder
     enabled_notifications?: SortOrder
     onboarding_completed?: SortOrder
+    accepted_eula?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -16361,6 +17847,32 @@ export namespace Prisma {
     _sum?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedIntNullableFilter<$PrismaModel>
     _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type BlockedUserBlockerIdBlockedIdCompoundUniqueInput = {
+    blockerId: string
+    blockedId: string
+  }
+
+  export type BlockedUserCountOrderByAggregateInput = {
+    id?: SortOrder
+    blockerId?: SortOrder
+    blockedId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BlockedUserMaxOrderByAggregateInput = {
+    id?: SortOrder
+    blockerId?: SortOrder
+    blockedId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BlockedUserMinOrderByAggregateInput = {
+    id?: SortOrder
+    blockerId?: SortOrder
+    blockedId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type ConversationListingIdBuyerIdCompoundUniqueInput = {
@@ -16571,6 +18083,8 @@ export namespace Prisma {
     adminNote?: SortOrder
     autoHidden?: SortOrder
     resolvedAt?: SortOrder
+    itemReported?: SortOrder
+    itemReportedId?: SortOrder
     resolvedById?: SortOrder
     reporterId?: SortOrder
     targetUserId?: SortOrder
@@ -16586,6 +18100,8 @@ export namespace Prisma {
     adminNote?: SortOrder
     autoHidden?: SortOrder
     resolvedAt?: SortOrder
+    itemReported?: SortOrder
+    itemReportedId?: SortOrder
     resolvedById?: SortOrder
     reporterId?: SortOrder
     targetUserId?: SortOrder
@@ -16601,6 +18117,8 @@ export namespace Prisma {
     adminNote?: SortOrder
     autoHidden?: SortOrder
     resolvedAt?: SortOrder
+    itemReported?: SortOrder
+    itemReportedId?: SortOrder
     resolvedById?: SortOrder
     reporterId?: SortOrder
     targetUserId?: SortOrder
@@ -16676,6 +18194,10 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type ListingUpdateimageUrlsInput = {
     set?: string[]
     push?: string | string[]
@@ -16683,10 +18205,6 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -16853,6 +18371,10 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type UserCreatereports_madeInput = {
+    set: string[]
+  }
+
   export type ConversationCreateNestedManyWithoutBuyerInput = {
     create?: XOR<ConversationCreateWithoutBuyerInput, ConversationUncheckedCreateWithoutBuyerInput> | ConversationCreateWithoutBuyerInput[] | ConversationUncheckedCreateWithoutBuyerInput[]
     connectOrCreate?: ConversationCreateOrConnectWithoutBuyerInput | ConversationCreateOrConnectWithoutBuyerInput[]
@@ -16926,6 +18448,20 @@ export namespace Prisma {
     create?: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput>
     connectOrCreate?: PushTokenCreateOrConnectWithoutUserInput
     connect?: PushTokenWhereUniqueInput
+  }
+
+  export type BlockedUserCreateNestedManyWithoutBlockerInput = {
+    create?: XOR<BlockedUserCreateWithoutBlockerInput, BlockedUserUncheckedCreateWithoutBlockerInput> | BlockedUserCreateWithoutBlockerInput[] | BlockedUserUncheckedCreateWithoutBlockerInput[]
+    connectOrCreate?: BlockedUserCreateOrConnectWithoutBlockerInput | BlockedUserCreateOrConnectWithoutBlockerInput[]
+    createMany?: BlockedUserCreateManyBlockerInputEnvelope
+    connect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+  }
+
+  export type BlockedUserCreateNestedManyWithoutBlockedInput = {
+    create?: XOR<BlockedUserCreateWithoutBlockedInput, BlockedUserUncheckedCreateWithoutBlockedInput> | BlockedUserCreateWithoutBlockedInput[] | BlockedUserUncheckedCreateWithoutBlockedInput[]
+    connectOrCreate?: BlockedUserCreateOrConnectWithoutBlockedInput | BlockedUserCreateOrConnectWithoutBlockedInput[]
+    createMany?: BlockedUserCreateManyBlockedInputEnvelope
+    connect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
   }
 
   export type ConversationUncheckedCreateNestedManyWithoutBuyerInput = {
@@ -17003,6 +18539,20 @@ export namespace Prisma {
     connect?: PushTokenWhereUniqueInput
   }
 
+  export type BlockedUserUncheckedCreateNestedManyWithoutBlockerInput = {
+    create?: XOR<BlockedUserCreateWithoutBlockerInput, BlockedUserUncheckedCreateWithoutBlockerInput> | BlockedUserCreateWithoutBlockerInput[] | BlockedUserUncheckedCreateWithoutBlockerInput[]
+    connectOrCreate?: BlockedUserCreateOrConnectWithoutBlockerInput | BlockedUserCreateOrConnectWithoutBlockerInput[]
+    createMany?: BlockedUserCreateManyBlockerInputEnvelope
+    connect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+  }
+
+  export type BlockedUserUncheckedCreateNestedManyWithoutBlockedInput = {
+    create?: XOR<BlockedUserCreateWithoutBlockedInput, BlockedUserUncheckedCreateWithoutBlockedInput> | BlockedUserCreateWithoutBlockedInput[] | BlockedUserUncheckedCreateWithoutBlockedInput[]
+    connectOrCreate?: BlockedUserCreateOrConnectWithoutBlockedInput | BlockedUserCreateOrConnectWithoutBlockedInput[]
+    createMany?: BlockedUserCreateManyBlockedInputEnvelope
+    connect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+  }
+
   export type FloatFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -17020,6 +18570,11 @@ export namespace Prisma {
   }
 
   export type UserUpdatecategory_interestsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdatereports_madeInput = {
     set?: string[]
     push?: string | string[]
   }
@@ -17170,6 +18725,34 @@ export namespace Prisma {
     update?: XOR<XOR<PushTokenUpdateToOneWithWhereWithoutUserInput, PushTokenUpdateWithoutUserInput>, PushTokenUncheckedUpdateWithoutUserInput>
   }
 
+  export type BlockedUserUpdateManyWithoutBlockerNestedInput = {
+    create?: XOR<BlockedUserCreateWithoutBlockerInput, BlockedUserUncheckedCreateWithoutBlockerInput> | BlockedUserCreateWithoutBlockerInput[] | BlockedUserUncheckedCreateWithoutBlockerInput[]
+    connectOrCreate?: BlockedUserCreateOrConnectWithoutBlockerInput | BlockedUserCreateOrConnectWithoutBlockerInput[]
+    upsert?: BlockedUserUpsertWithWhereUniqueWithoutBlockerInput | BlockedUserUpsertWithWhereUniqueWithoutBlockerInput[]
+    createMany?: BlockedUserCreateManyBlockerInputEnvelope
+    set?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    disconnect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    delete?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    connect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    update?: BlockedUserUpdateWithWhereUniqueWithoutBlockerInput | BlockedUserUpdateWithWhereUniqueWithoutBlockerInput[]
+    updateMany?: BlockedUserUpdateManyWithWhereWithoutBlockerInput | BlockedUserUpdateManyWithWhereWithoutBlockerInput[]
+    deleteMany?: BlockedUserScalarWhereInput | BlockedUserScalarWhereInput[]
+  }
+
+  export type BlockedUserUpdateManyWithoutBlockedNestedInput = {
+    create?: XOR<BlockedUserCreateWithoutBlockedInput, BlockedUserUncheckedCreateWithoutBlockedInput> | BlockedUserCreateWithoutBlockedInput[] | BlockedUserUncheckedCreateWithoutBlockedInput[]
+    connectOrCreate?: BlockedUserCreateOrConnectWithoutBlockedInput | BlockedUserCreateOrConnectWithoutBlockedInput[]
+    upsert?: BlockedUserUpsertWithWhereUniqueWithoutBlockedInput | BlockedUserUpsertWithWhereUniqueWithoutBlockedInput[]
+    createMany?: BlockedUserCreateManyBlockedInputEnvelope
+    set?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    disconnect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    delete?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    connect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    update?: BlockedUserUpdateWithWhereUniqueWithoutBlockedInput | BlockedUserUpdateWithWhereUniqueWithoutBlockedInput[]
+    updateMany?: BlockedUserUpdateManyWithWhereWithoutBlockedInput | BlockedUserUpdateManyWithWhereWithoutBlockedInput[]
+    deleteMany?: BlockedUserScalarWhereInput | BlockedUserScalarWhereInput[]
+  }
+
   export type ConversationUncheckedUpdateManyWithoutBuyerNestedInput = {
     create?: XOR<ConversationCreateWithoutBuyerInput, ConversationUncheckedCreateWithoutBuyerInput> | ConversationCreateWithoutBuyerInput[] | ConversationUncheckedCreateWithoutBuyerInput[]
     connectOrCreate?: ConversationCreateOrConnectWithoutBuyerInput | ConversationCreateOrConnectWithoutBuyerInput[]
@@ -17314,6 +18897,62 @@ export namespace Prisma {
     delete?: PushTokenWhereInput | boolean
     connect?: PushTokenWhereUniqueInput
     update?: XOR<XOR<PushTokenUpdateToOneWithWhereWithoutUserInput, PushTokenUpdateWithoutUserInput>, PushTokenUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput = {
+    create?: XOR<BlockedUserCreateWithoutBlockerInput, BlockedUserUncheckedCreateWithoutBlockerInput> | BlockedUserCreateWithoutBlockerInput[] | BlockedUserUncheckedCreateWithoutBlockerInput[]
+    connectOrCreate?: BlockedUserCreateOrConnectWithoutBlockerInput | BlockedUserCreateOrConnectWithoutBlockerInput[]
+    upsert?: BlockedUserUpsertWithWhereUniqueWithoutBlockerInput | BlockedUserUpsertWithWhereUniqueWithoutBlockerInput[]
+    createMany?: BlockedUserCreateManyBlockerInputEnvelope
+    set?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    disconnect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    delete?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    connect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    update?: BlockedUserUpdateWithWhereUniqueWithoutBlockerInput | BlockedUserUpdateWithWhereUniqueWithoutBlockerInput[]
+    updateMany?: BlockedUserUpdateManyWithWhereWithoutBlockerInput | BlockedUserUpdateManyWithWhereWithoutBlockerInput[]
+    deleteMany?: BlockedUserScalarWhereInput | BlockedUserScalarWhereInput[]
+  }
+
+  export type BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput = {
+    create?: XOR<BlockedUserCreateWithoutBlockedInput, BlockedUserUncheckedCreateWithoutBlockedInput> | BlockedUserCreateWithoutBlockedInput[] | BlockedUserUncheckedCreateWithoutBlockedInput[]
+    connectOrCreate?: BlockedUserCreateOrConnectWithoutBlockedInput | BlockedUserCreateOrConnectWithoutBlockedInput[]
+    upsert?: BlockedUserUpsertWithWhereUniqueWithoutBlockedInput | BlockedUserUpsertWithWhereUniqueWithoutBlockedInput[]
+    createMany?: BlockedUserCreateManyBlockedInputEnvelope
+    set?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    disconnect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    delete?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    connect?: BlockedUserWhereUniqueInput | BlockedUserWhereUniqueInput[]
+    update?: BlockedUserUpdateWithWhereUniqueWithoutBlockedInput | BlockedUserUpdateWithWhereUniqueWithoutBlockedInput[]
+    updateMany?: BlockedUserUpdateManyWithWhereWithoutBlockedInput | BlockedUserUpdateManyWithWhereWithoutBlockedInput[]
+    deleteMany?: BlockedUserScalarWhereInput | BlockedUserScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutBlockerInput = {
+    create?: XOR<UserCreateWithoutBlockerInput, UserUncheckedCreateWithoutBlockerInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBlockerInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutBlockedInput = {
+    create?: XOR<UserCreateWithoutBlockedInput, UserUncheckedCreateWithoutBlockedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBlockedInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutBlockerNestedInput = {
+    create?: XOR<UserCreateWithoutBlockerInput, UserUncheckedCreateWithoutBlockerInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBlockerInput
+    upsert?: UserUpsertWithoutBlockerInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBlockerInput, UserUpdateWithoutBlockerInput>, UserUncheckedUpdateWithoutBlockerInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutBlockedNestedInput = {
+    create?: XOR<UserCreateWithoutBlockedInput, UserUncheckedCreateWithoutBlockedInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBlockedInput
+    upsert?: UserUpsertWithoutBlockedInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBlockedInput, UserUpdateWithoutBlockedInput>, UserUncheckedUpdateWithoutBlockedInput>
   }
 
   export type UserCreateNestedOneWithoutBuyerConversationsInput = {
@@ -17538,6 +19177,11 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedUuidNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -17558,11 +19202,6 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedFloatNullableFilter<$PrismaModel = never> = {
@@ -17648,6 +19287,14 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -17685,14 +19332,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedDateTimeFilter<$PrismaModel>
     _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -17929,8 +19568,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
     messages?: MessageCreateNestedManyWithoutSenderInput
@@ -17941,6 +19582,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
     pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutListingsInput = {
@@ -17959,8 +19602,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -17971,6 +19616,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutListingsInput = {
@@ -18059,8 +19706,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
     messages?: MessageUpdateManyWithoutSenderNestedInput
@@ -18071,6 +19720,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutListingsInput = {
@@ -18089,8 +19740,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -18101,6 +19754,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserCreateWithoutLikesInput = {
@@ -18119,8 +19774,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
     listings?: ListingCreateNestedManyWithoutSellerInput
@@ -18131,6 +19788,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
     pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutLikesInput = {
@@ -18149,8 +19808,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
@@ -18161,6 +19822,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutLikesInput = {
@@ -18173,6 +19836,7 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    hidden?: boolean
     imageUrls?: ListingCreateimageUrlsInput | string[]
     createdAt?: Date | string
     archived?: boolean
@@ -18191,6 +19855,7 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    hidden?: boolean
     imageUrls?: ListingCreateimageUrlsInput | string[]
     sellerId?: string | null
     createdAt?: Date | string
@@ -18236,8 +19901,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
     listings?: ListingUpdateManyWithoutSellerNestedInput
@@ -18248,6 +19915,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutLikesInput = {
@@ -18266,8 +19935,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
@@ -18278,6 +19949,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type ListingUpsertWithoutLikesInput = {
@@ -18296,6 +19969,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     archived?: BoolFieldUpdateOperationsInput | boolean
@@ -18314,6 +19988,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -18343,8 +20018,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
     listings?: ListingCreateNestedManyWithoutSellerInput
@@ -18355,6 +20032,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutPreferencesInput = {
@@ -18373,8 +20052,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
@@ -18385,6 +20066,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutPreferencesInput = {
@@ -18419,8 +20102,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
     listings?: ListingUpdateManyWithoutSellerNestedInput
@@ -18431,6 +20116,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPreferencesInput = {
@@ -18449,8 +20136,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
@@ -18461,6 +20150,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserCreateWithoutReviewsReceivedInput = {
@@ -18479,8 +20170,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
     listings?: ListingCreateNestedManyWithoutSellerInput
@@ -18491,6 +20184,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
     pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutReviewsReceivedInput = {
@@ -18509,8 +20204,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
@@ -18521,6 +20218,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutReviewsReceivedInput = {
@@ -18544,8 +20243,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
     listings?: ListingCreateNestedManyWithoutSellerInput
@@ -18556,6 +20257,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
     pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutReviewsGivenInput = {
@@ -18574,8 +20277,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
@@ -18586,6 +20291,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutReviewsGivenInput = {
@@ -18620,8 +20327,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
     listings?: ListingUpdateManyWithoutSellerNestedInput
@@ -18632,6 +20341,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsReceivedInput = {
@@ -18650,8 +20361,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
@@ -18662,6 +20375,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUpsertWithoutReviewsGivenInput = {
@@ -18691,8 +20406,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
     listings?: ListingUpdateManyWithoutSellerNestedInput
@@ -18703,6 +20420,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReviewsGivenInput = {
@@ -18721,8 +20440,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
@@ -18733,6 +20454,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type ConversationCreateWithoutBuyerInput = {
@@ -18796,6 +20519,7 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    hidden?: boolean
     imageUrls?: ListingCreateimageUrlsInput | string[]
     createdAt?: Date | string
     archived?: boolean
@@ -18814,6 +20538,7 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    hidden?: boolean
     imageUrls?: ListingCreateimageUrlsInput | string[]
     createdAt?: Date | string
     archived?: boolean
@@ -18899,6 +20624,8 @@ export namespace Prisma {
     adminNote?: string | null
     autoHidden?: boolean
     resolvedAt?: Date | string | null
+    itemReported?: string | null
+    itemReportedId?: string | null
     resolvedById?: string | null
     targetUser?: UserCreateNestedOneWithoutReportsReceivedInput
   }
@@ -18913,6 +20640,8 @@ export namespace Prisma {
     adminNote?: string | null
     autoHidden?: boolean
     resolvedAt?: Date | string | null
+    itemReported?: string | null
+    itemReportedId?: string | null
     resolvedById?: string | null
     targetUserId?: string | null
   }
@@ -18937,6 +20666,8 @@ export namespace Prisma {
     adminNote?: string | null
     autoHidden?: boolean
     resolvedAt?: Date | string | null
+    itemReported?: string | null
+    itemReportedId?: string | null
     resolvedById?: string | null
     reporter?: UserCreateNestedOneWithoutReportsFiledInput
   }
@@ -18951,6 +20682,8 @@ export namespace Prisma {
     adminNote?: string | null
     autoHidden?: boolean
     resolvedAt?: Date | string | null
+    itemReported?: string | null
+    itemReportedId?: string | null
     resolvedById?: string | null
     reporterId?: string | null
   }
@@ -19067,6 +20800,50 @@ export namespace Prisma {
     create: XOR<PushTokenCreateWithoutUserInput, PushTokenUncheckedCreateWithoutUserInput>
   }
 
+  export type BlockedUserCreateWithoutBlockerInput = {
+    id?: string
+    createdAt?: Date | string
+    blocked: UserCreateNestedOneWithoutBlockedInput
+  }
+
+  export type BlockedUserUncheckedCreateWithoutBlockerInput = {
+    id?: string
+    blockedId: string
+    createdAt?: Date | string
+  }
+
+  export type BlockedUserCreateOrConnectWithoutBlockerInput = {
+    where: BlockedUserWhereUniqueInput
+    create: XOR<BlockedUserCreateWithoutBlockerInput, BlockedUserUncheckedCreateWithoutBlockerInput>
+  }
+
+  export type BlockedUserCreateManyBlockerInputEnvelope = {
+    data: BlockedUserCreateManyBlockerInput | BlockedUserCreateManyBlockerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BlockedUserCreateWithoutBlockedInput = {
+    id?: string
+    createdAt?: Date | string
+    blocker: UserCreateNestedOneWithoutBlockerInput
+  }
+
+  export type BlockedUserUncheckedCreateWithoutBlockedInput = {
+    id?: string
+    blockerId: string
+    createdAt?: Date | string
+  }
+
+  export type BlockedUserCreateOrConnectWithoutBlockedInput = {
+    where: BlockedUserWhereUniqueInput
+    create: XOR<BlockedUserCreateWithoutBlockedInput, BlockedUserUncheckedCreateWithoutBlockedInput>
+  }
+
+  export type BlockedUserCreateManyBlockedInputEnvelope = {
+    data: BlockedUserCreateManyBlockedInput | BlockedUserCreateManyBlockedInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ConversationUpsertWithWhereUniqueWithoutBuyerInput = {
     where: ConversationWhereUniqueInput
     update: XOR<ConversationUpdateWithoutBuyerInput, ConversationUncheckedUpdateWithoutBuyerInput>
@@ -19123,6 +20900,7 @@ export namespace Prisma {
     title?: StringFilter<"Listing"> | string
     description?: StringFilter<"Listing"> | string
     price?: IntFilter<"Listing"> | number
+    hidden?: BoolFilter<"Listing"> | boolean
     imageUrls?: StringNullableListFilter<"Listing">
     sellerId?: UuidNullableFilter<"Listing"> | string | null
     createdAt?: DateTimeFilter<"Listing"> | Date | string
@@ -19210,6 +20988,8 @@ export namespace Prisma {
     adminNote?: StringNullableFilter<"Report"> | string | null
     autoHidden?: BoolFilter<"Report"> | boolean
     resolvedAt?: DateTimeNullableFilter<"Report"> | Date | string | null
+    itemReported?: StringNullableFilter<"Report"> | string | null
+    itemReportedId?: UuidNullableFilter<"Report"> | string | null
     resolvedById?: UuidNullableFilter<"Report"> | string | null
     reporterId?: UuidNullableFilter<"Report"> | string | null
     targetUserId?: UuidNullableFilter<"Report"> | string | null
@@ -19334,6 +21114,352 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BlockedUserUpsertWithWhereUniqueWithoutBlockerInput = {
+    where: BlockedUserWhereUniqueInput
+    update: XOR<BlockedUserUpdateWithoutBlockerInput, BlockedUserUncheckedUpdateWithoutBlockerInput>
+    create: XOR<BlockedUserCreateWithoutBlockerInput, BlockedUserUncheckedCreateWithoutBlockerInput>
+  }
+
+  export type BlockedUserUpdateWithWhereUniqueWithoutBlockerInput = {
+    where: BlockedUserWhereUniqueInput
+    data: XOR<BlockedUserUpdateWithoutBlockerInput, BlockedUserUncheckedUpdateWithoutBlockerInput>
+  }
+
+  export type BlockedUserUpdateManyWithWhereWithoutBlockerInput = {
+    where: BlockedUserScalarWhereInput
+    data: XOR<BlockedUserUpdateManyMutationInput, BlockedUserUncheckedUpdateManyWithoutBlockerInput>
+  }
+
+  export type BlockedUserScalarWhereInput = {
+    AND?: BlockedUserScalarWhereInput | BlockedUserScalarWhereInput[]
+    OR?: BlockedUserScalarWhereInput[]
+    NOT?: BlockedUserScalarWhereInput | BlockedUserScalarWhereInput[]
+    id?: UuidFilter<"BlockedUser"> | string
+    blockerId?: UuidFilter<"BlockedUser"> | string
+    blockedId?: UuidFilter<"BlockedUser"> | string
+    createdAt?: DateTimeFilter<"BlockedUser"> | Date | string
+  }
+
+  export type BlockedUserUpsertWithWhereUniqueWithoutBlockedInput = {
+    where: BlockedUserWhereUniqueInput
+    update: XOR<BlockedUserUpdateWithoutBlockedInput, BlockedUserUncheckedUpdateWithoutBlockedInput>
+    create: XOR<BlockedUserCreateWithoutBlockedInput, BlockedUserUncheckedCreateWithoutBlockedInput>
+  }
+
+  export type BlockedUserUpdateWithWhereUniqueWithoutBlockedInput = {
+    where: BlockedUserWhereUniqueInput
+    data: XOR<BlockedUserUpdateWithoutBlockedInput, BlockedUserUncheckedUpdateWithoutBlockedInput>
+  }
+
+  export type BlockedUserUpdateManyWithWhereWithoutBlockedInput = {
+    where: BlockedUserScalarWhereInput
+    data: XOR<BlockedUserUpdateManyMutationInput, BlockedUserUncheckedUpdateManyWithoutBlockedInput>
+  }
+
+  export type UserCreateWithoutBlockerInput = {
+    uid: string
+    email: string
+    name: string
+    username?: string | null
+    profileURL: string
+    isVerified?: boolean
+    createdAt?: Date | string
+    rating?: number
+    hidden?: boolean
+    faculty?: string | null
+    year?: number | null
+    intent?: string | null
+    bio?: string | null
+    category_interests?: UserCreatecategory_interestsInput | string[]
+    campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
+    enabled_notifications?: boolean
+    onboarding_completed?: boolean
+    accepted_eula?: boolean
+    buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
+    sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
+    listings?: ListingCreateNestedManyWithoutSellerInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    reportsFiled?: ReportCreateNestedManyWithoutReporterInput
+    reportsReceived?: ReportCreateNestedManyWithoutTargetUserInput
+    reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
+  }
+
+  export type UserUncheckedCreateWithoutBlockerInput = {
+    uid: string
+    email: string
+    name: string
+    username?: string | null
+    profileURL: string
+    isVerified?: boolean
+    createdAt?: Date | string
+    rating?: number
+    hidden?: boolean
+    faculty?: string | null
+    year?: number | null
+    intent?: string | null
+    bio?: string | null
+    category_interests?: UserCreatecategory_interestsInput | string[]
+    campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
+    enabled_notifications?: boolean
+    onboarding_completed?: boolean
+    accepted_eula?: boolean
+    buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
+    sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
+    listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    reportsFiled?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reportsReceived?: ReportUncheckedCreateNestedManyWithoutTargetUserInput
+    reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
+  }
+
+  export type UserCreateOrConnectWithoutBlockerInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBlockerInput, UserUncheckedCreateWithoutBlockerInput>
+  }
+
+  export type UserCreateWithoutBlockedInput = {
+    uid: string
+    email: string
+    name: string
+    username?: string | null
+    profileURL: string
+    isVerified?: boolean
+    createdAt?: Date | string
+    rating?: number
+    hidden?: boolean
+    faculty?: string | null
+    year?: number | null
+    intent?: string | null
+    bio?: string | null
+    category_interests?: UserCreatecategory_interestsInput | string[]
+    campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
+    enabled_notifications?: boolean
+    onboarding_completed?: boolean
+    accepted_eula?: boolean
+    buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
+    sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
+    listings?: ListingCreateNestedManyWithoutSellerInput
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    likes?: LikeCreateNestedManyWithoutUserInput
+    reportsFiled?: ReportCreateNestedManyWithoutReporterInput
+    reportsReceived?: ReportCreateNestedManyWithoutTargetUserInput
+    reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
+    preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+  }
+
+  export type UserUncheckedCreateWithoutBlockedInput = {
+    uid: string
+    email: string
+    name: string
+    username?: string | null
+    profileURL: string
+    isVerified?: boolean
+    createdAt?: Date | string
+    rating?: number
+    hidden?: boolean
+    faculty?: string | null
+    year?: number | null
+    intent?: string | null
+    bio?: string | null
+    category_interests?: UserCreatecategory_interestsInput | string[]
+    campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
+    enabled_notifications?: boolean
+    onboarding_completed?: boolean
+    accepted_eula?: boolean
+    buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
+    sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
+    listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    likes?: LikeUncheckedCreateNestedManyWithoutUserInput
+    reportsFiled?: ReportUncheckedCreateNestedManyWithoutReporterInput
+    reportsReceived?: ReportUncheckedCreateNestedManyWithoutTargetUserInput
+    reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
+    reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
+    preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+  }
+
+  export type UserCreateOrConnectWithoutBlockedInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBlockedInput, UserUncheckedCreateWithoutBlockedInput>
+  }
+
+  export type UserUpsertWithoutBlockerInput = {
+    update: XOR<UserUpdateWithoutBlockerInput, UserUncheckedUpdateWithoutBlockerInput>
+    create: XOR<UserCreateWithoutBlockerInput, UserUncheckedCreateWithoutBlockerInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBlockerInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBlockerInput, UserUncheckedUpdateWithoutBlockerInput>
+  }
+
+  export type UserUpdateWithoutBlockerInput = {
+    uid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    profileURL?: StringFieldUpdateOperationsInput | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
+    faculty?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    intent?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    category_interests?: UserUpdatecategory_interestsInput | string[]
+    campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
+    enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
+    onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
+    buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
+    sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
+    listings?: ListingUpdateManyWithoutSellerNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    reportsFiled?: ReportUpdateManyWithoutReporterNestedInput
+    reportsReceived?: ReportUpdateManyWithoutTargetUserNestedInput
+    reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBlockerInput = {
+    uid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    profileURL?: StringFieldUpdateOperationsInput | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
+    faculty?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    intent?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    category_interests?: UserUpdatecategory_interestsInput | string[]
+    campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
+    enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
+    onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
+    buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    reportsFiled?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reportsReceived?: ReportUncheckedUpdateManyWithoutTargetUserNestedInput
+    reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
+  }
+
+  export type UserUpsertWithoutBlockedInput = {
+    update: XOR<UserUpdateWithoutBlockedInput, UserUncheckedUpdateWithoutBlockedInput>
+    create: XOR<UserCreateWithoutBlockedInput, UserUncheckedCreateWithoutBlockedInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBlockedInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBlockedInput, UserUncheckedUpdateWithoutBlockedInput>
+  }
+
+  export type UserUpdateWithoutBlockedInput = {
+    uid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    profileURL?: StringFieldUpdateOperationsInput | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
+    faculty?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    intent?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    category_interests?: UserUpdatecategory_interestsInput | string[]
+    campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
+    enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
+    onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
+    buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
+    sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
+    listings?: ListingUpdateManyWithoutSellerNestedInput
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    likes?: LikeUpdateManyWithoutUserNestedInput
+    reportsFiled?: ReportUpdateManyWithoutReporterNestedInput
+    reportsReceived?: ReportUpdateManyWithoutTargetUserNestedInput
+    reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
+    preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBlockedInput = {
+    uid?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    profileURL?: StringFieldUpdateOperationsInput | string
+    isVerified?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    rating?: FloatFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
+    faculty?: NullableStringFieldUpdateOperationsInput | string | null
+    year?: NullableIntFieldUpdateOperationsInput | number | null
+    intent?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    category_interests?: UserUpdatecategory_interestsInput | string[]
+    campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
+    enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
+    onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
+    buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
+    listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    likes?: LikeUncheckedUpdateManyWithoutUserNestedInput
+    reportsFiled?: ReportUncheckedUpdateManyWithoutReporterNestedInput
+    reportsReceived?: ReportUncheckedUpdateManyWithoutTargetUserNestedInput
+    reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
+    reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
+    preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+  }
+
   export type UserCreateWithoutBuyerConversationsInput = {
     uid: string
     email: string
@@ -19350,8 +21476,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
     listings?: ListingCreateNestedManyWithoutSellerInput
     messages?: MessageCreateNestedManyWithoutSenderInput
@@ -19362,6 +21490,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
     pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutBuyerConversationsInput = {
@@ -19380,8 +21510,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -19392,6 +21524,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutBuyerConversationsInput = {
@@ -19404,6 +21538,7 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    hidden?: boolean
     imageUrls?: ListingCreateimageUrlsInput | string[]
     createdAt?: Date | string
     archived?: boolean
@@ -19422,6 +21557,7 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    hidden?: boolean
     imageUrls?: ListingCreateimageUrlsInput | string[]
     sellerId?: string | null
     createdAt?: Date | string
@@ -19456,8 +21592,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
     listings?: ListingCreateNestedManyWithoutSellerInput
     messages?: MessageCreateNestedManyWithoutSenderInput
@@ -19468,6 +21606,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
     pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutSellerConversationsInput = {
@@ -19486,8 +21626,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
@@ -19498,6 +21640,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutSellerConversationsInput = {
@@ -19562,8 +21706,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
     listings?: ListingUpdateManyWithoutSellerNestedInput
     messages?: MessageUpdateManyWithoutSenderNestedInput
@@ -19574,6 +21720,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBuyerConversationsInput = {
@@ -19592,8 +21740,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -19604,6 +21754,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type ListingUpsertWithoutConversationsInput = {
@@ -19622,6 +21774,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     archived?: BoolFieldUpdateOperationsInput | boolean
@@ -19640,6 +21793,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     sellerId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -19680,8 +21834,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
     listings?: ListingUpdateManyWithoutSellerNestedInput
     messages?: MessageUpdateManyWithoutSenderNestedInput
@@ -19692,6 +21848,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSellerConversationsInput = {
@@ -19710,8 +21868,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
@@ -19722,6 +21882,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type MessageUpsertWithWhereUniqueWithoutConversationInput = {
@@ -19779,8 +21941,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
     listings?: ListingCreateNestedManyWithoutSellerInput
@@ -19791,6 +21955,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
     pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutMessagesInput = {
@@ -19809,8 +21975,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
@@ -19821,6 +21989,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutMessagesInput = {
@@ -19884,8 +22054,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
     listings?: ListingUpdateManyWithoutSellerNestedInput
@@ -19896,6 +22068,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMessagesInput = {
@@ -19914,8 +22088,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
@@ -19926,6 +22102,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserCreateWithoutPushTokenInput = {
@@ -19944,8 +22122,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
     listings?: ListingCreateNestedManyWithoutSellerInput
@@ -19956,6 +22136,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutPushTokenInput = {
@@ -19974,8 +22156,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
@@ -19986,6 +22170,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedCreateNestedManyWithoutRevieweeInput
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutPushTokenInput = {
@@ -20020,8 +22206,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
     listings?: ListingUpdateManyWithoutSellerNestedInput
@@ -20032,6 +22220,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPushTokenInput = {
@@ -20050,8 +22240,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
@@ -20062,6 +22254,8 @@ export namespace Prisma {
     reviewsReceived?: ReviewUncheckedUpdateManyWithoutRevieweeNestedInput
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserCreateWithoutReportsFiledInput = {
@@ -20080,8 +22274,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
     listings?: ListingCreateNestedManyWithoutSellerInput
@@ -20092,6 +22288,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
     pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutReportsFiledInput = {
@@ -20110,8 +22308,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
@@ -20122,6 +22322,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutReportsFiledInput = {
@@ -20145,8 +22347,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationCreateNestedManyWithoutSellerInput
     listings?: ListingCreateNestedManyWithoutSellerInput
@@ -20157,6 +22361,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesCreateNestedOneWithoutUserInput
     pushToken?: PushTokenCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserCreateNestedManyWithoutBlockedInput
   }
 
   export type UserUncheckedCreateWithoutReportsReceivedInput = {
@@ -20175,8 +22381,10 @@ export namespace Prisma {
     bio?: string | null
     category_interests?: UserCreatecategory_interestsInput | string[]
     campus_area?: string | null
+    reports_made?: UserCreatereports_madeInput | string[]
     enabled_notifications?: boolean
     onboarding_completed?: boolean
+    accepted_eula?: boolean
     buyerConversations?: ConversationUncheckedCreateNestedManyWithoutBuyerInput
     sellerConversations?: ConversationUncheckedCreateNestedManyWithoutSellerInput
     listings?: ListingUncheckedCreateNestedManyWithoutSellerInput
@@ -20187,6 +22395,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedCreateNestedManyWithoutReviewerInput
     preferences?: UserPreferencesUncheckedCreateNestedOneWithoutUserInput
     pushToken?: PushTokenUncheckedCreateNestedOneWithoutUserInput
+    Blocker?: BlockedUserUncheckedCreateNestedManyWithoutBlockerInput
+    Blocked?: BlockedUserUncheckedCreateNestedManyWithoutBlockedInput
   }
 
   export type UserCreateOrConnectWithoutReportsReceivedInput = {
@@ -20221,8 +22431,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
     listings?: ListingUpdateManyWithoutSellerNestedInput
@@ -20233,6 +22445,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReportsFiledInput = {
@@ -20251,8 +22465,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
@@ -20263,6 +22479,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUpsertWithoutReportsReceivedInput = {
@@ -20292,8 +22510,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUpdateManyWithoutSellerNestedInput
     listings?: ListingUpdateManyWithoutSellerNestedInput
@@ -20304,6 +22524,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUpdateManyWithoutBlockedNestedInput
   }
 
   export type UserUncheckedUpdateWithoutReportsReceivedInput = {
@@ -20322,8 +22544,10 @@ export namespace Prisma {
     bio?: NullableStringFieldUpdateOperationsInput | string | null
     category_interests?: UserUpdatecategory_interestsInput | string[]
     campus_area?: NullableStringFieldUpdateOperationsInput | string | null
+    reports_made?: UserUpdatereports_madeInput | string[]
     enabled_notifications?: BoolFieldUpdateOperationsInput | boolean
     onboarding_completed?: BoolFieldUpdateOperationsInput | boolean
+    accepted_eula?: BoolFieldUpdateOperationsInput | boolean
     buyerConversations?: ConversationUncheckedUpdateManyWithoutBuyerNestedInput
     sellerConversations?: ConversationUncheckedUpdateManyWithoutSellerNestedInput
     listings?: ListingUncheckedUpdateManyWithoutSellerNestedInput
@@ -20334,6 +22558,8 @@ export namespace Prisma {
     reviewsGiven?: ReviewUncheckedUpdateManyWithoutReviewerNestedInput
     preferences?: UserPreferencesUncheckedUpdateOneWithoutUserNestedInput
     pushToken?: PushTokenUncheckedUpdateOneWithoutUserNestedInput
+    Blocker?: BlockedUserUncheckedUpdateManyWithoutBlockerNestedInput
+    Blocked?: BlockedUserUncheckedUpdateManyWithoutBlockedNestedInput
   }
 
   export type LikeCreateManyListingInput = {
@@ -20415,6 +22641,7 @@ export namespace Prisma {
     title: string
     description: string
     price: number
+    hidden?: boolean
     imageUrls?: ListingCreateimageUrlsInput | string[]
     createdAt?: Date | string
     archived?: boolean
@@ -20452,6 +22679,8 @@ export namespace Prisma {
     adminNote?: string | null
     autoHidden?: boolean
     resolvedAt?: Date | string | null
+    itemReported?: string | null
+    itemReportedId?: string | null
     resolvedById?: string | null
     targetUserId?: string | null
   }
@@ -20466,6 +22695,8 @@ export namespace Prisma {
     adminNote?: string | null
     autoHidden?: boolean
     resolvedAt?: Date | string | null
+    itemReported?: string | null
+    itemReportedId?: string | null
     resolvedById?: string | null
     reporterId?: string | null
   }
@@ -20485,6 +22716,18 @@ export namespace Prisma {
     comment?: string | null
     role: $Enums.ReviewRole
     revieweeId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type BlockedUserCreateManyBlockerInput = {
+    id?: string
+    blockedId: string
+    createdAt?: Date | string
+  }
+
+  export type BlockedUserCreateManyBlockedInput = {
+    id?: string
+    blockerId: string
     createdAt?: Date | string
   }
 
@@ -20545,6 +22788,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     archived?: BoolFieldUpdateOperationsInput | boolean
@@ -20563,6 +22807,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     archived?: BoolFieldUpdateOperationsInput | boolean
@@ -20581,6 +22826,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     price?: IntFieldUpdateOperationsInput | number
+    hidden?: BoolFieldUpdateOperationsInput | boolean
     imageUrls?: ListingUpdateimageUrlsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     archived?: BoolFieldUpdateOperationsInput | boolean
@@ -20650,6 +22896,8 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     autoHidden?: BoolFieldUpdateOperationsInput | boolean
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    itemReported?: NullableStringFieldUpdateOperationsInput | string | null
+    itemReportedId?: NullableStringFieldUpdateOperationsInput | string | null
     resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
     targetUser?: UserUpdateOneWithoutReportsReceivedNestedInput
   }
@@ -20664,6 +22912,8 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     autoHidden?: BoolFieldUpdateOperationsInput | boolean
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    itemReported?: NullableStringFieldUpdateOperationsInput | string | null
+    itemReportedId?: NullableStringFieldUpdateOperationsInput | string | null
     resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
     targetUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -20678,6 +22928,8 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     autoHidden?: BoolFieldUpdateOperationsInput | boolean
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    itemReported?: NullableStringFieldUpdateOperationsInput | string | null
+    itemReportedId?: NullableStringFieldUpdateOperationsInput | string | null
     resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
     targetUserId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -20692,6 +22944,8 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     autoHidden?: BoolFieldUpdateOperationsInput | boolean
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    itemReported?: NullableStringFieldUpdateOperationsInput | string | null
+    itemReportedId?: NullableStringFieldUpdateOperationsInput | string | null
     resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
     reporter?: UserUpdateOneWithoutReportsFiledNestedInput
   }
@@ -20706,6 +22960,8 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     autoHidden?: BoolFieldUpdateOperationsInput | boolean
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    itemReported?: NullableStringFieldUpdateOperationsInput | string | null
+    itemReportedId?: NullableStringFieldUpdateOperationsInput | string | null
     resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
     reporterId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -20720,6 +22976,8 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     autoHidden?: BoolFieldUpdateOperationsInput | boolean
     resolvedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    itemReported?: NullableStringFieldUpdateOperationsInput | string | null
+    itemReportedId?: NullableStringFieldUpdateOperationsInput | string | null
     resolvedById?: NullableStringFieldUpdateOperationsInput | string | null
     reporterId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -20775,6 +23033,42 @@ export namespace Prisma {
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumReviewRoleFieldUpdateOperationsInput | $Enums.ReviewRole
     revieweeId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlockedUserUpdateWithoutBlockerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocked?: UserUpdateOneRequiredWithoutBlockedNestedInput
+  }
+
+  export type BlockedUserUncheckedUpdateWithoutBlockerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    blockedId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlockedUserUncheckedUpdateManyWithoutBlockerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    blockedId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlockedUserUpdateWithoutBlockedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    blocker?: UserUpdateOneRequiredWithoutBlockerNestedInput
+  }
+
+  export type BlockedUserUncheckedUpdateWithoutBlockedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    blockerId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlockedUserUncheckedUpdateManyWithoutBlockedInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    blockerId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

@@ -35,10 +35,30 @@ export async function createConvo({
 }
 
 export async function getConvos(uid: string) {
-    
   const convos = await prisma.conversation.findMany({
     where: {
-      OR: [{ buyerId: uid }, { sellerId: uid }],
+      OR: [
+        {
+          buyerId: uid,
+          buyer: {
+            reportsFiled: {
+              none: {
+                reporterId: uid,
+              },
+            },
+          },
+        },
+        {
+          sellerId: uid,
+          seller: {
+            reportsFiled: {
+              none: {
+                reporterId: uid,
+              },
+            },
+          },
+        },
+      ],
     },
     include: {
       listing: true,

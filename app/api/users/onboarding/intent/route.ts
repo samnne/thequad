@@ -12,7 +12,7 @@ export async function PATCH(req: NextRequest) {
   const body = result.data;
   if (!body.intent) {
     return NextResponse.json({
-      message: "no intent",
+      message: "No intent provided",
       success: false,
     });
   }

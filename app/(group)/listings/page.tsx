@@ -1,4 +1,4 @@
-// app/listings/page.tsx
+
 import ListingPage from "@/components/Listings/ListingsPage";
 import { Suspense } from "react";
 

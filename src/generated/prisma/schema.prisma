@@ -9,20 +9,22 @@ datasource db {
 }
 
 model Listing {
-  lid           String         @id @default(uuid()) @db.Uuid
-  title         String
-  description   String
-  price         Int
-  imageUrls     String[]
-  sellerId      String?        @db.Uuid
-  createdAt     DateTime       @default(now())
-  archived      Boolean        @default(false)
-  sold          Boolean        @default(false)
-  latitude      Float?
-  longitude     Float?
-  views         Int            @default(0)
-  condition     String?
-  category      String?
+  lid         String   @id @default(uuid()) @db.Uuid
+  title       String
+  description String
+  price       Int
+  hidden      Boolean  @default(false)
+  imageUrls   String[]
+  sellerId    String?  @db.Uuid
+  createdAt   DateTime @default(now())
+  archived    Boolean  @default(false)
+  sold        Boolean  @default(false)
+  latitude    Float?
+  longitude   Float?
+  views       Int      @default(0)
+  condition   String?
+  category    String?
+
   likes         Like[]
   conversations Conversation[]
   seller        User?          @relation(fields: [sellerId], references: [uid], onDelete: SetNull)
@@ -94,8 +96,25 @@ model User {
   bio                   String?
   category_interests    String[]
   campus_area           String?
+  reports_made          String[]         @db.Uuid // Carry the unique ID of whatever a user reported (e.g., listing ID, user ID, etc.)
   enabled_notifications Boolean          @default(false)
   onboarding_completed  Boolean          @default(false)
+
+  accepted_eula Boolean       @default(false)
+  Blocker       BlockedUser[] @relation("Blocker")
+  Blocked       BlockedUser[] @relation("Blocked")
+}
+
+model BlockedUser {
+  id        String   @id @default(uuid()) @db.Uuid
+  blockerId String   @db.Uuid
+  blockedId String   @db.Uuid
+  createdAt DateTime @default(now())
+
+  blocker User @relation("Blocker", fields: [blockerId], references: [uid], onDelete: Cascade)
+  blocked User @relation("Blocked", fields: [blockedId], references: [uid], onDelete: Cascade)
+
+  @@unique([blockerId, blockedId])
 }
 
 model Conversation {
@@ -149,15 +168,17 @@ model PushToken {
 }
 
 model Report {
-  id          String       @id @default(cuid())
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  reason      ReportReason
-  description String?
-  status      ReportStatus @default(PENDING)
-  adminNote   String?
-  autoHidden  Boolean      @default(false)
-  resolvedAt  DateTime?
+  id             String       @id @default(cuid())
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  reason         ReportReason
+  description    String?
+  status         ReportStatus @default(PENDING)
+  adminNote      String?
+  autoHidden     Boolean      @default(false)
+  resolvedAt     DateTime?
+  itemReported   String?
+  itemReportedId String?      @db.Uuid
 
   resolvedById String? @db.Uuid
 
