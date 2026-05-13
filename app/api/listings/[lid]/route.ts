@@ -23,7 +23,7 @@ export async function GET(
     let listing = await getListingByID(lid);
 
     if (!listing) {
-      console.log(listing);
+    
       return NextResponse.json(ErrorMessage("Failed to Fetch Listing", 500), {
         status: 500,
       });

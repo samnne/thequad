@@ -3,31 +3,34 @@ import { loginSchema, parseBody } from "@/lib/sanatize.lib";
 
 import { NextRequest, NextResponse } from "next/server";
 
-
 export async function PUT(req: NextRequest) {
-  const body = await parseBody(req, loginSchema)
+  const body = await parseBody(req, loginSchema);
 
-  if ("error" in body){
-    return body.error
+  if ("error" in body) {
+    
+    return body.error;
   }
 
-  const uid = body?.data.uid
-  const email = body?.data.email
-  const name = body?.data.name
+  const uid = body?.data.uid;
+  const email = body?.data.email;
+  const name = body?.data.name;
 
   if (!uid) {
     return NextResponse.json({
       message: "User does not exist",
       status: 400,
+      success: false,
+      app_user: null,
     });
   }
-
 
   const { user } = await setVerifiedUser(uid, email, name);
   if (!user) {
     return NextResponse.json({
       message: "User does not exist",
       status: 307,
+      success: false,
+      app_user: null,
     });
   }
 
